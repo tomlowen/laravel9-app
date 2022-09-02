@@ -2,13 +2,11 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
-use App\Models\Recipe;
 use App\Models\Ingredient;
 use App\Models\IngredientAmount;
+use Illuminate\Database\Seeder;
 
-class RecipeSeeder extends Seeder
+class IngredientSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -17,9 +15,7 @@ class RecipeSeeder extends Seeder
      */
     public function run()
     {
-        Recipe::factory(10)->hasCategories(1)->hasIngredients(5)->create();
-
-        $ingredients = Ingredient::whereHas('recipes');
+        $ingredients = Ingredient::factory(10)->hasCategories(1)->create();
 
         foreach ($ingredients as $ingredient) {
             IngredientAmount::factory()->for($ingredient)->create();
