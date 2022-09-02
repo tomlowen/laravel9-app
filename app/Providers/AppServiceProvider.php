@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use App\Models\Ingredient;
 use App\Models\Recipe;
+use App\Models\Category;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -29,6 +30,7 @@ class AppServiceProvider extends ServiceProvider
         Relation::morphMap([
             Ingredient::MORPH_KEY => Ingredient::class,
             Recipe::MORPH_KEY => Recipe::class,
+            Category::MORPH_KEY => Category::class,
         ]);
     }
 }

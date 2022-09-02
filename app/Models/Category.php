@@ -4,14 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use App\Models\Image;
+use App\Models\Recipe;
 
-class Ingredient extends Model
+class Category extends Model
 {
     use HasFactory;
 
-    const MORPH_KEY = 'ingredient';
+    const MORPH_KEY = 'category';
 
     /**
      * The attributes that are mass assignable.
@@ -20,22 +21,10 @@ class Ingredient extends Model
      */
     protected $fillable = [
         'name',
-        'default_measure',
-        'notes',
-        'optional'
     ];
 
     /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'optional' => 'bool',
-    ];
-
-    /**
-     * Get all of the recipes for the ingredient.
+     * Get all of the recipes for the category.
      *
      * @return Illuminate\Database\Eloquent\Relations\MorphToMany
      */
@@ -45,22 +34,12 @@ class Ingredient extends Model
     }
 
     /**
-     * Get the ingredient categories.
-     *
-     * @return Illuminate\Database\Eloquent\Relations\MorphToMany
-     */
-    public function categories(): MorphToMany
-    {
-        return $this->morphToMany(Category::class, 'categorizable');
-    }
-
-    /**
      * Get all of the category's images.
      *
      * @return Illuminate\Database\Eloquent\Relations\MorphToMany
      */
     public function images(): MorphToMany
     {
-        return $this->morphToMany(Image::class, 'imageable');
+        return $this->morphedByMany(Image::class, 'imageable');
     }
 }

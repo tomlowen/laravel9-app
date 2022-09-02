@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use App\Models\Image;
 
 class Recipe extends Model
 {
@@ -45,8 +47,28 @@ class Recipe extends Model
      *
      * @return Illuminate\Database\Eloquent\Relations\MorphMany
      */
-    public function ingredients()
+    public function ingredients(): MorphToMany
     {
         return $this->morphToMany(Ingredient::class, 'ingredientable');
+    }
+
+    /**
+     * Get the recipe categories.
+     *
+     * @return Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function categories(): MorphToMany
+    {
+        return $this->morphToMany(Category::class, 'categorizable');
+    }
+
+    /**
+     * Get all of the category's images.
+     *
+     * @return Illuminate\Database\Eloquent\Relations\MorphToMany
+     */
+    public function images(): MorphToMany
+    {
+        return $this->morphToMany(Image::class, 'imageable');
     }
 }
