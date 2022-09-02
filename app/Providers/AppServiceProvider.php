@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 use App\Models\Ingredient;
 use App\Models\Recipe;
 use App\Models\Category;
+use App\Models\Image;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -31,6 +32,7 @@ class AppServiceProvider extends ServiceProvider
             Ingredient::MORPH_KEY => Ingredient::class,
             Recipe::MORPH_KEY => Recipe::class,
             Category::MORPH_KEY => Category::class,
+            Image::MORPH_KEY => Image::class,
         ]);
     }
 }

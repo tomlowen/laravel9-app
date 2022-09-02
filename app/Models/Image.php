@@ -10,6 +10,8 @@ class Image extends Model
 {
     use HasFactory;
 
+    const MORPH_KEY = 'image';
+
     /**
      * The attributes that are mass assignable.
      *
