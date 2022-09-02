@@ -18,8 +18,8 @@ class RecipeFactory extends Factory
     {
         return [
             'name' => fake()->word(),
-            'description' => fake()->paragraphs(),
-            'steps' => fake()->text(),
+            'description' => fake()->paragraph(),
+            'steps' => fake()->paragraph(),
             'serves' => fake()->numberBetween(2,8),
             'preparation_time' => fake()->numberBetween(5,45),
             'cooking_time' => fake()->numberBetween(0,150),

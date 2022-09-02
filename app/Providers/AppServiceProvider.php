@@ -3,6 +3,9 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Database\Eloquent\Relations\Relation;
+use App\Models\Ingredient;
+use App\Models\Recipe;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,6 +26,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Relation::morphMap([
+            Ingredient::MORPH_KEY => Ingredient::class,
+            Recipe::MORPH_KEY => Recipe::class,
+        ]);
     }
 }

@@ -18,7 +18,14 @@ return new class extends Migration
             $table->string('name', 100);
             $table->string('default_measure')->nullable();
             $table->text('notes')->nullable();
+            $table->boolean('optional')->nullable();
             $table->timestamps();
+        });
+
+        Schema::create('ingredientables', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedSmallInteger('ingredient_id');
+            $table->morphs('ingredientable');
         });
     }
 
@@ -29,6 +36,7 @@ return new class extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('ingredientables');
         Schema::dropIfExists('ingredients');
     }
 };
