@@ -16,12 +16,14 @@ return new class extends Migration
         Schema::create('recipes', function (Blueprint $table) {
             $table->id();
             $table->string('name', 100);
+            $table->string('author', 100);
+            $table->string('source', 100);
             $table->text('description')->nullable();
             $table->text('steps');
-            $table->tinyInteger('serves');
-            $table->smallInteger('preparation_time')->default(0);
-            $table->smallInteger('cooking_time')->default(0);
-            $table->tinyInteger('rating')->nullable();
+            $table->tinyInteger('yield');
+            $table->tinyText('preparation_time')->nullable();
+            $table->tinyText('cooking_time')->nullable();
+            $table->float('rating')->nullable();
             $table->smallInteger('calories')->nullable();
             $table->timestamps();
         });

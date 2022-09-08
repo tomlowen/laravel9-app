@@ -20,9 +20,11 @@ class Recipe extends Model
      */
     protected $fillable = [
         'name',
+        'author',
+        'source',
         'description',
         'steps',
-        'serves',
+        'yield',
         'preparation_time',
         'cooking_time',
         'rating',
@@ -35,10 +37,8 @@ class Recipe extends Model
      * @var array<string, string>
      */
     protected $casts = [
-        'serves' => 'integer',
-        'preparation_time' => 'integer',
-        'cooking_time' => 'integer',
-        'rating' => 'integer',
+        'yield' => 'integer',
+        'rating' => 'float',
         'calories' => 'integer',
     ];
 

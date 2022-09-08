@@ -1,0 +1,53 @@
+{
+    "@context": "https://schema.org",
+    "@type": "Recipe",
+    "aggregateRating": {
+        "ratingCount": 97,
+        "ratingValue": 4.77319587628866
+    },
+    "author": {
+        "@type": "Person",
+        "name": "Hala El-Shafie"
+    },
+    "cookTime": "PT1H",
+    "description": "This is a great one-pan family meal that’s tasty and healthy too. If you like more spice, add some ginger and chilli to the vegetables at the start. You can also add boiled eggs at the end too bulk it out.\r\n\r\nEach serving provides 430 kcal, 18g protein, 56g carbohydrates (of which 3g sugars), 14g fat (of which 3g saturates), 4g fibre and 1g salt.",
+    "image": [
+        "https://food-images.files.bbci.co.uk/food/recipes/smoked_mackerel_pilau_66783_16x9.jpg"
+    ],
+    "keywords": "8 dinners with 8 ingredients , perfectly portioned dinners, easy rice, eat well for less, healthy fats, healthy fish, healthy on a budget, healthy rice, one-pot rice, quick and easy oily fish, recipes for iftar, surprisingly cheap dishes, using up leftover rice and pasta, easy family dinners, healthy summer, recipes for kids, student food, pilaf, smoked mackerel, dairy free, egg free, nut free, pregnancy friendly, Eat Well for Less?",
+    "name": "Smoked mackerel pilau rice",
+    "nutrition": {
+        "calories": "430kcal",
+        "carbohydrateContent": "56g",
+        "fatContent": "14g",
+        "fiberContent": "4g",
+        "proteinContent": "18g",
+        "saturatedFatContent": "3g",
+        "sugarContent": "3g"
+    },
+    "prepTime": "PT30M",
+    "recipeCategory": "Main course",
+    "recipeIngredient": [
+        "1 tsp rapeseed oil",
+        "1 onion, roughly chopped",
+        "1 garlic clove, finely chopped",
+        "1 tbsp medium curry powder",
+        "250g/9oz basmati rice",
+        "500ml/18fl oz vegetable or chicken stock",
+        "200g/7oz smoked mackerel or smoked peppered mackerel, skin removed and flaked into large pieces",
+        "80g/3oz frozen peas",
+        "1 lemon, juice only, plus wedges to serve",
+        "2 tbsp roughly chopped flatleaf parsley (optional)",
+        "sea salt and freshly ground black pepper"
+    ],
+    "recipeInstructions": [
+        "Heat a large saucepan until medium hot, add the oil and onion and stir well. Cover with a lid and leave to cook gently for 10 minutes, until softened.",
+        "Add the garlic and curry powder and stir fry for 1 minute. Add the rice and stir, then add the stock. Stir well and cover with a lid.",
+        "Bring to the boil, then turn the heat down and simmer gently with the lid on for about 15 minutes, checking that it doesn’t dry out. When the rice has absorbed all the stock it should be tender. If not, add a splash of boiling water then cook for a further 5 minutes and check again.",
+        "Stir in the flaked mackerel, peas, lemon juice and parsley and mix carefully, as you don’t want the mackerel to break up too much. Season to taste with salt and pepper and cook for 1 more minute to make sure it’s hot through, then serve."
+    ],
+    "recipeYield": "Serves 4",
+    "suitableForDiet": [
+        "http://schema.org/LowLactoseDiet"
+    ]
+}
