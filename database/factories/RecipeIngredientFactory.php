@@ -1,0 +1,38 @@
+<?php
+
+namespace Database\Factories;
+
+use App\Models\Recipe;
+use App\Services\IngredientService;
+use Exception;
+use Illuminate\Database\Eloquent\Factories\Factory;
+
+/**
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\RecipeIngredient>
+ */
+class RecipeIngredientFactory extends Factory
+{
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
+    public function definition()
+    {
+        $recipeCount = Recipe::count();
+
+        if ($recipeCount === 0) {
+            throw new Exception("There are no recipes to add the ingredients to");
+            return;
+        }
+
+        return [
+            'name' => fake()->word(),
+            'quantity' => fake()->numberBetween(1,800),
+            'unit' => fake()->randomElement(IngredientService::INGREDIENT_UNITS),
+            'recipe_id' => fake()->numberBetween(1,$recipeCount),
+            'notes' => fake()->optional()->sentence(),
+            'optional' => fake()->boolean()
+        ];
+    }
+}

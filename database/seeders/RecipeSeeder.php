@@ -17,12 +17,6 @@ class RecipeSeeder extends Seeder
      */
     public function run()
     {
-        Recipe::factory(10)->hasCategories(1)->hasIngredients(5)->create();
-
-        $ingredients = Ingredient::whereHas('recipes');
-
-        foreach ($ingredients as $ingredient) {
-            IngredientAmount::factory()->for($ingredient)->create();
-        }
+        Recipe::factory(10)->hasCategories(1)->hasRecipeIngredients(5)->create();
     }
 }

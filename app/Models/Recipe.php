@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use App\Models\Image;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Recipe extends Model
 {
@@ -45,11 +46,11 @@ class Recipe extends Model
     /**
      * Get all of the ingredients for the recipe.
      *
-     * @return Illuminate\Database\Eloquent\Relations\MorphMany
+     * @return Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function ingredients(): MorphToMany
+    public function recipeIngredients(): HasMany
     {
-        return $this->morphToMany(Ingredient::class, 'ingredientable');
+        return $this->hasMany(RecipeIngredient::class);
     }
 
     /**
