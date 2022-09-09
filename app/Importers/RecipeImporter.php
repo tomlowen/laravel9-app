@@ -28,10 +28,13 @@ class RecipeImporter
             'description' => $recipe->description,
             'steps' => serialize($recipe->recipeInstructions),
             'yield' => filter_var($recipe->recipeYield, FILTER_SANITIZE_NUMBER_INT),
-            'preparation_time' => $recipe->prepTime, 
+            'preparation_time' => $recipe->prepTime,
             'cooking_time' => $recipe->cookTime,
             'rating' => $recipe->aggregateRating->ratingValue,
             'calories' => filter_var($recipe->nutrition->calories, FILTER_SANITIZE_NUMBER_INT),
         ]);
+
+        $importer = new IngredientImporter;
+        $importer->importIngredients($recipe->recipeIngredient, $dbRecipe);
     }
 }

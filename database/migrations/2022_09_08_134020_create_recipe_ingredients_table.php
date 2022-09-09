@@ -17,8 +17,8 @@ return new class extends Migration
         Schema::create('recipe_ingredients', function (Blueprint $table) {
             $table->id();
             $table->string('name', 100);
-            $table->smallInteger('quantity');
-            $table->tinyText('unit');
+            $table->smallInteger('quantity')->nullable();
+            $table->tinyText('unit')->nullable();
             $table->foreignIdFor(Recipe::class)->cascadeOnDelete();
             $table->text('notes')->nullable();
             $table->boolean('optional')->default(false);

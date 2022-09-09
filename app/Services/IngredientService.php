@@ -8,6 +8,7 @@ class IngredientService
         "teaspoon",
         "t",
         "tsp.",
+        "tsp",
         "ounce",
         "oz",
         "oz.",
@@ -58,7 +59,13 @@ class IngredientService
      * @return array
      */
     public function parseIngredient($ingredientString){
-        $ingredientData = array();
+        $ingredientData = array(
+            'unit' => null,
+            'quantity' => null,
+            'name' => null,
+            'info' => null
+        );
+
         if (preg_match("/[0-9][\/][0-9]|[0-9]/", $ingredientString)) { //Check To See If The Ingredient contains a certain amount.
             preg_match('/[0-9][\/][0-9]|[0-9]/', $ingredientString, $matches);
             $ingredientData['quantity'] = trim($matches[0]);
@@ -78,8 +85,8 @@ class IngredientService
             //Find The Name of The Item
             //Remove The Unit and Amount
             $FixedString = $ingredientString;
-            $FixedString = str_replace($ingredientData['unit'], "", $FixedString);
-            $FixedString = str_replace($ingredientData['quantity'], "", $FixedString);
+            $FixedString = $ingredientData['unit'] ? str_replace($ingredientData['unit'], "", $FixedString) : $FixedString;
+            $FixedString = $ingredientData['quantity'] ? str_replace($ingredientData['quantity'], "", $FixedString)  : $FixedString;
 
 
             $ArrayString = explode(",", $FixedString);
