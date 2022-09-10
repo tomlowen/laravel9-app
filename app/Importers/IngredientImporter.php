@@ -29,8 +29,8 @@ class IngredientImporter
                         'unit' => $parsedIngredient['unit'],
                         'quantity' => $parsedIngredient['quantity'],
                         'recipe_id' => $ingredientable->id,
-                        'notes',
-                        'optional'
+                        'notes' => $parsedIngredient['info'],
+                        'optional' => false
                     ]);
             }
         }

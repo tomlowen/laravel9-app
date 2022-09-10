@@ -44,16 +44,6 @@ class Recipe extends Model
     ];
 
     /**
-     * Get all of the ingredients for the recipe.
-     *
-     * @return Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function recipeIngredients(): HasMany
-    {
-        return $this->hasMany(RecipeIngredient::class);
-    }
-
-    /**
      * Get the recipe categories.
      *
      * @return Illuminate\Database\Eloquent\Relations\MorphMany
@@ -71,5 +61,26 @@ class Recipe extends Model
     public function images(): MorphToMany
     {
         return $this->morphToMany(Image::class, 'imageable');
+    }
+
+
+    /**
+     * Get all of the ingredients for the recipe.
+     *
+     * @return Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function recipeIngredients(): HasMany
+    {
+        return $this->hasMany(RecipeIngredient::class);
+    }
+
+    /**
+     * Get the recipe tags.
+     *
+     * @return Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function tags(): MorphToMany
+    {
+        return $this->morphToMany(Tag::class, 'taggable');
     }
 }
