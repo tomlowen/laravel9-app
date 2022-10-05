@@ -4,7 +4,7 @@
 </script>
 
 <template>
-    <Head title="Dashboard" />
+    <Head title="Recipes" />
 
     <BreezeAuthenticatedLayout>
         <template #header>

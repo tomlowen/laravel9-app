@@ -31,4 +31,9 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'spoonacular' => [
+        'url' => env('SPOONACULAR_API_URL'),
+        'key' => env('SPOONACULAR_API_KEY'),
+    ]
+
 ];

@@ -2,6 +2,7 @@
 
 namespace App\Importers;
 
+use App\Libraries\Spoonacular\Requests\SpoonacularParseIngredientsRequest;
 use App\Models\Ingredient;
 use App\Models\RecipeIngredient;
 use App\Services\IngredientService;
@@ -17,19 +18,18 @@ class IngredientImporter
      * @return int
      */
     public function importIngredients($ingredientsList, $ingredientable){
-        $ingredientService = new IngredientService;
+        $spoonacularRequest = new SpoonacularParseIngredientsRequest($ingredientsList);
+        $responseBody = $spoonacularRequest->parse();
 
-        foreach($ingredientsList as $ingredient) {
-            $parsedIngredient = $ingredientService->parseIngredient($ingredient);
-
+        foreach($responseBody as $ingredient) {
             switch ($ingredientable::class) {
                 case \App\Models\Recipe::class:
                     RecipeIngredient::create([
-                        'name' => $parsedIngredient['name'],
-                        'unit' => $parsedIngredient['unit'],
-                        'quantity' => $parsedIngredient['quantity'],
+                        'name' => $ingredient['name'],
+                        'unit' => $ingredient['unit'],
+                        'quantity' => $ingredient['amount'],
                         'recipe_id' => $ingredientable->id,
-                        'notes' => $parsedIngredient['info'],
+                        'notes' => $ingredient['meta'],
                         'optional' => false
                     ]);
             }

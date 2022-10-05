@@ -1,0 +1,455 @@
+{
+    "props": {
+        "pageProps": {
+            "recommendedPost": {
+                "heading": "More like this",
+                "getItemsUrl": "/api/recipes-frontend/search/recommended-items?limit=1\u0026clientId=238598\u0026search=Slow-cooker%20beef%20stew\u0026useV5=false\u0026category=recipes"
+            },
+            "authorBioShow": false,
+            "authors": [
+                {
+                    "name": "Lulu Grimes",
+                    "url": "/author/lulugrimes",
+                    "suffix": null,
+                    "jobTitle": "Managing editor",
+                    "avatar": {
+                        "@id": "/v1/images/5846719",
+                        "@type": "Image",
+                        "aspectRatio": 1,
+                        "height": 400,
+                        "title": "lulu-grimes400x400_0",
+                        "url": "https://images.immediate.co.uk/production/volatile/sites/30/2020/05/lulu-grimes400x400_0-be0d7a7.jpg",
+                        "width": 400
+                    },
+                    "bio": null,
+                    "facebook": null,
+                    "twitter": "lulugrimes"
+                }
+            ],
+            "client": "bbcgoodfood",
+            "description": "\u003cp\u003eCook beef stew in a slow cooker for really tender meat. Add button mushrooms or smoked paprika for extra flavour – it will be an instant family favourite\u003c/p\u003e",
+            "endSummary": [
+                {
+                    "@id": "/v1/contents/26108187",
+                    "@type": "Content",
+                    "type": "html",
+                    "data": {
+                        "value": "\u003ch6\u003eRECIPE TIPS\u003c/h6\u003e"
+                    }
+                },
+                {
+                    "@id": "/v1/contents/26108188",
+                    "@type": "Content",
+                    "type": "highlight-box",
+                    "data": {
+                        "content": "\u003cp\u003e\u003ch6\u003eQUICK HACK\u003c/h6\u003e\r\nIf you are running short of time, you can put everything except the cornflour and parsley in a slow cooker without frying it first and simply switch it on. It won’t have quite the same depth of flavour, but you will still have a delicious beef stew.\u003c/p\u003e",
+                        "hasBackdrop": false,
+                        "useCommercialTheme": false
+                    }
+                },
+                {
+                    "@id": "/v1/contents/26108189",
+                    "@type": "Content",
+                    "type": "html",
+                    "data": {
+                        "value": "\u003cp\u003eTry more slow-cooker recipe inspiration from our sister title \u003ca class=\"waffle-rich-text-link\" href=\"https://www.olivemagazine.com/recipes/family/best-slow-cooker-recipes/\" target=\"_blank\" rel=\"noopener\"\u003eolivemagazine.com/slow-cooker-recipes\u003c/a\u003e.\u003c/p\u003e"
+                    }
+                }
+            ],
+            "introduction": [
+                [
+                    {
+                        "@id": "/v1/contents/26108193",
+                        "@type": "Content",
+                        "type": "brightcove",
+                        "data": {
+                            "videoId": "6307043239112",
+                            "accountId": "1786863135",
+                            "playerId": "777b296f-1c59-4fff-a252-cd121cdebe7d"
+                        }
+                    }
+                ]
+            ],
+            "promo": {
+                "label": "Magazine subscription – your first 5 issues for only £5!",
+                "url": "https://www.buysubscriptions.com/print/bbc-good-food-magazine-subscription?promo=GFBS922B\u0026utm_medium=brandsite\u0026utm_source=bbcgoodfood.com\u0026utm_campaign=article-banner-fixed_GFBS922B\u0026utm_content=editorial-link\u0026style=brand",
+                "type": "promotional-link"
+            },
+            "postId": "238598",
+            "postType": "recipe",
+            "published": null,
+            "userRatings": {
+                "avg": 4.8,
+                "total": 381,
+                "isHalfStar": false
+            },
+            "isSaveable": true,
+            "slug": "slow-cooker-beef-stew",
+            "sponsor": null,
+            "title": "Slow-cooker beef stew",
+            "status": "published",
+            "relatedItems": null,
+            "callout": null,
+            "isPrivate": false,
+            "plantOverview": null,
+            "ingredients": [
+                {
+                    "@id": "/v1/ingredient_groups/357113",
+                    "ingredients": [
+                        {
+                            "@id": "/v1/ingredients/2746252",
+                            "@type": "Ingredient",
+                            "ingredientText": "onion,",
+                            "note": "chopped",
+                            "quantityText": "1",
+                            "term": {
+                                "@id": "/v1/terms/42606285",
+                                "@type": "Term",
+                                "slug": "onion",
+                                "display": "onion",
+                                "taxonomy": "ingredient"
+                            }
+                        },
+                        {
+                            "@id": "/v1/ingredients/2746253",
+                            "@type": "Ingredient",
+                            "ingredientText": "celery sticks,",
+                            "note": "finely chopped",
+                            "quantityText": "2",
+                            "term": {
+                                "@id": "/v1/terms/42606286",
+                                "@type": "Term",
+                                "slug": "celery-sticks",
+                                "display": "celery sticks",
+                                "taxonomy": "ingredient"
+                            }
+                        },
+                        {
+                            "@id": "/v1/ingredients/2746254",
+                            "@type": "Ingredient",
+                            "ingredientText": "rapeseed oil",
+                            "quantityText": "2 tbsp",
+                            "term": {
+                                "@id": "/v1/terms/42606287",
+                                "@type": "Term",
+                                "slug": "rapeseed-oil",
+                                "display": "rapeseed oil",
+                                "taxonomy": "ingredient"
+                            }
+                        },
+                        {
+                            "@id": "/v1/ingredients/2746255",
+                            "@type": "Ingredient",
+                            "ingredientText": "carrots,",
+                            "note": "halved and cut into chunks",
+                            "quantityText": "3",
+                            "term": {
+                                "@id": "/v1/terms/42606288",
+                                "@type": "Term",
+                                "slug": "carrots",
+                                "display": "carrots",
+                                "taxonomy": "ingredient"
+                            }
+                        },
+                        {
+                            "@id": "/v1/ingredients/2746256",
+                            "@type": "Ingredient",
+                            "ingredientText": "bay leaves",
+                            "quantityText": "2",
+                            "term": {
+                                "@id": "/v1/terms/42606289",
+                                "@type": "Term",
+                                "slug": "bay-leaves",
+                                "display": "bay leaves",
+                                "taxonomy": "ingredient"
+                            }
+                        },
+                        {
+                            "@id": "/v1/ingredients/2746257",
+                            "@type": "Ingredient",
+                            "ingredientText": "thyme",
+                            "quantityText": "½ pack",
+                            "term": {
+                                "@id": "/v1/terms/42606290",
+                                "@type": "Term",
+                                "slug": "thyme",
+                                "display": "thyme",
+                                "taxonomy": "ingredient"
+                            }
+                        },
+                        {
+                            "@id": "/v1/ingredients/2746258",
+                            "@type": "Ingredient",
+                            "ingredientText": "tomato purée",
+                            "quantityText": "2 tbsp",
+                            "term": {
+                                "@id": "/v1/terms/42606291",
+                                "@type": "Term",
+                                "slug": "tomato-puree",
+                                "display": "tomato purée",
+                                "taxonomy": "ingredient"
+                            }
+                        },
+                        {
+                            "@id": "/v1/ingredients/2746259",
+                            "@type": "Ingredient",
+                            "ingredientText": "Worcestershire sauce",
+                            "quantityText": "2 tbsp",
+                            "term": {
+                                "@id": "/v1/terms/42606292",
+                                "@type": "Term",
+                                "slug": "worcestershire-sauce",
+                                "display": "Worcestershire sauce",
+                                "taxonomy": "ingredient"
+                            }
+                        },
+                        {
+                            "@id": "/v1/ingredients/2746260",
+                            "@type": "Ingredient",
+                            "ingredientText": "beef stock cubes",
+                            "note": "or stock pots",
+                            "quantityText": "2",
+                            "term": {
+                                "@id": "/v1/terms/42606293",
+                                "@type": "Term",
+                                "slug": "beef-stock-cubes",
+                                "display": "beef stock cubes",
+                                "taxonomy": "ingredient"
+                            }
+                        },
+                        {
+                            "@id": "/v1/ingredients/2746261",
+                            "@type": "Ingredient",
+                            "ingredientText": "beef",
+                            "note": "for braising such as skirt, buy a whole piece and cut it yourself for bigger chunks or buy ready-diced",
+                            "quantityText": "900g",
+                            "term": {
+                                "@id": "/v1/terms/42606294",
+                                "@type": "Term",
+                                "slug": "beef",
+                                "display": "beef",
+                                "taxonomy": "ingredient"
+                            }
+                        },
+                        {
+                            "@id": "/v1/ingredients/2746262",
+                            "@type": "Ingredient",
+                            "ingredientText": "cornflour",
+                            "note": "(optional)",
+                            "quantityText": "2 tsp",
+                            "term": {
+                                "@id": "/v1/terms/42606295",
+                                "@type": "Term",
+                                "slug": "cornflour",
+                                "display": "cornflour",
+                                "taxonomy": "ingredient"
+                            }
+                        },
+                        {
+                            "@id": "/v1/ingredients/2746263",
+                            "@type": "Ingredient",
+                            "ingredientText": "parsley,",
+                            "note": "chopped",
+                            "quantityText": "½ small bunch",
+                            "term": {
+                                "@id": "/v1/terms/42606296",
+                                "@type": "Term",
+                                "slug": "parsley",
+                                "display": "parsley",
+                                "taxonomy": "ingredient"
+                            }
+                        },
+                        {
+                            "@id": "/v1/ingredients/2746264",
+                            "@type": "Ingredient",
+                            "ingredientText": "buttery mash,",
+                            "note": "to serve (optional)",
+                            "term": {
+                                "@id": "/v1/terms/42606297",
+                                "@type": "Term",
+                                "slug": "mash",
+                                "display": "mash",
+                                "taxonomy": "ingredient"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "nutritionalInfo": [
+                {
+                    "label": "kcal",
+                    "value": 474,
+                    "prefix": "",
+                    "suffix": ""
+                },
+                {
+                    "label": "fat",
+                    "value": 25,
+                    "prefix": "",
+                    "suffix": "g"
+                },
+                {
+                    "label": "saturates",
+                    "value": 9,
+                    "prefix": "",
+                    "suffix": "g"
+                },
+                {
+                    "label": "carbs",
+                    "value": 10,
+                    "prefix": "",
+                    "suffix": "g"
+                },
+                {
+                    "label": "sugars",
+                    "value": 9,
+                    "prefix": "",
+                    "suffix": "g"
+                },
+                {
+                    "label": "fibre",
+                    "value": 4,
+                    "prefix": "",
+                    "suffix": "g"
+                },
+                {
+                    "label": "protein",
+                    "value": 48,
+                    "prefix": "",
+                    "suffix": "g"
+                },
+                {
+                    "label": "salt",
+                    "value": 0.2,
+                    "prefix": "",
+                    "suffix": "g"
+                }
+            ],
+            "nutritionalInfoCaption": "Nutrition: per serving",
+            "planning": [
+                {
+                    "display": "Freezable",
+                    "slug": "freezable"
+                }
+            ],
+            "skillLevel": "Easy",
+            "cookAndPrepTime": {
+                "preparationMin": 0,
+                "preparationMax": 1200,
+                "cookingMin": 0,
+                "cookingMax": 14400,
+                "total": 15600,
+                "note": "4 hrs on high or 8 hrs on low"
+            },
+            "methodSteps": [
+                {
+                    "@id": "/v1/methods/896479",
+                    "@type": "Method",
+                    "type": "step",
+                    "content": [
+                        {
+                            "@id": "/v1/contents/26108190",
+                            "@type": "Content",
+                            "type": "html",
+                            "data": {
+                                "value": "\u003cp\u003eFry the onion and celery in 1 tbsp oil over a low heat until they start to soften – about 5 mins. Add the carrots, bay and thyme, fry for 2 mins, stir in the purée and Worcestershire sauce, add 600ml boiling water, stir and tip everything into a \u003ca href=\"https://www.bbcgoodfood.com/howto/guide/slow-cookers-and-how-use-them\"\u003eslow cooker\u003c/a\u003e. Crumble over the stock cubes or add the stock pots and stir, then season with pepper (don’t add salt as the stock may be salty).\u003c/p\u003e"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "@id": "/v1/methods/896480",
+                    "@type": "Method",
+                    "type": "step",
+                    "content": [
+                        {
+                            "@id": "/v1/contents/26108191",
+                            "@type": "Content",
+                            "type": "html",
+                            "data": {
+                                "value": "\u003cp\u003eClean out the frying pan and fry the beef in the remaining oil in batches until it is well browned, then tip each batch into the slow cooker. Cook on low for 8-10 hrs, or on high for 4 hrs.\u003c/p\u003e"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "@id": "/v1/methods/896481",
+                    "@type": "Method",
+                    "type": "step",
+                    "content": [
+                        {
+                            "@id": "/v1/contents/26108192",
+                            "@type": "Content",
+                            "type": "html",
+                            "data": {
+                                "value": "\u003cp\u003eIf you want to thicken the gravy, mix the cornflour with a splash of cold water to make a paste, then stir in 2 tbsp of the liquid from the slow cooker. Tip back into the slow cooker, stir and cook for a further 30 mins on high. Stir in the parsley and season again to taste. Serve with mash, if you like. Leave to cool before freezing.\u003c/p\u003e"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "servings": "Serves 4",
+            "diet": [],
+            "recommended": {
+                "heading": "Goes well with",
+                "getItemsUrl": "/api/recipes-frontend/lists/card/recipe?id[]=11026"
+            },
+            "recommendedLink": {
+                "heading": "Our Most Popular Alternative",
+                "getItemsUrl": "/api/recipes-frontend/search/recommended-items?limit=1\u0026clientId=238598\u0026search=Slow-cooker%20beef%20stew\u0026postType=sxs-recipe\u0026useV5=false\u0026category=recipes"
+            },
+            "publication": {
+                "message": "Recipe from Good Food magazine, ",
+                "src": "/search?publication=march-2018-good-food-magazine",
+                "srcText": "March 2018"
+            },
+            "breadcrumbs": [
+                {
+                    "label": "Home",
+                    "url": "https://www.bbcgoodfood.com:443"
+                },
+                {
+                    "label": "Recipes",
+                    "url": "https://www.bbcgoodfood.com/recipes"
+                },
+                {
+                    "label": "Slow-cooker beef stew"
+                }
+            ],
+            "seoMetadata": {
+                "title": "Slow-cooker beef stew",
+                "description": "Cook beef stew in a slow cooker for really tender meat. Add button mushrooms or smoked paprika for extra flavour – it will be an instant family favourite",
+                "metaTitle": "Slow cooker beef stew recipe",
+                "metaDescription": "",
+                "image": {
+                    "@id": "/v1/images/5846720",
+                    "@type": "Image",
+                    "alt": "Beef stew with vegetables on mashed potato on plate with fork",
+                    "aspectRatio": 0.9083333333333333,
+                    "height": 872,
+                    "title": "Slow cooker beef stew",
+                    "url": "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/slow-cooker-beef-stew-8ade07f.jpg?resize=960,872",
+                    "width": 960,
+                    "sourceName": null
+                },
+                "type": "article",
+                "robots": "",
+                "canonicalUrl": "https://www.bbcgoodfood.com/recipes/slow-cooker-beef-stew",
+                "ampUrl": null
+            },
+            "speedCurveLux": {
+                "label": "recipe",
+                "data": {
+                    "layout-variant": "masthead"
+                }
+            },
+            "pageUrl": "https://www.bbcgoodfood.com/recipes/slow-cooker-beef-stew",
+            "canonicalUrl": "https://www.bbcgoodfood.com/recipes/slow-cooker-beef-stew",
+            "permutiveModel": {
+                "category": [
+                    "family-kids"
+                ]
+            }
+        }
+    }
+}
