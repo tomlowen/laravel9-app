@@ -29,7 +29,7 @@ class RecipeIngredientFactory extends Factory
         return [
             'name' => fake()->word(),
             'quantity' => fake()->numberBetween(1,800),
-            'unit' => fake()->randomElement(IngredientService::INGREDIENT_UNITS),
+            'unit' => substr(fake()->word(), 0, 2),
             'recipe_id' => fake()->numberBetween(1,$recipeCount),
             'notes' => fake()->optional()->sentence(),
             'optional' => fake()->boolean()

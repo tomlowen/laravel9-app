@@ -68,14 +68,4 @@ class Ingredient extends Model
     {
         return $this->morphToMany(Image::class, 'imageable');
     }
-
-    /**
-     * Get the ingredient amount.
-     *
-     * @return Illuminate\Database\Eloquent\Relations\HasOne
-     */
-    public function amount(): HasOne
-    {
-        return $this->hasOne(IngredientAmount::class);
-    }
 }
