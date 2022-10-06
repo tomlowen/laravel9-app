@@ -1,14 +1,11 @@
 <?php
 
-namespace App\Importers;
+namespace App\Services;
 
 use App\Libraries\Spoonacular\Requests\SpoonacularParseIngredientsRequest;
-use App\Models\Ingredient;
 use App\Models\RecipeIngredient;
-use App\Services\IngredientService;
-use Exception;
 
-class IngredientImporter
+class ImportIngredientService
 {
     /**
      * Import ingredients list

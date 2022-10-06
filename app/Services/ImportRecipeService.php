@@ -2,9 +2,11 @@
 
 namespace App\Services;
 
-use App\Importers\RecipeImporter;
+use App\Models\Recipe;
 use DOMDocument;
 use DOMXPath;
+use Exception;
+use Illuminate\Support\Facades\DB;
 
 class ImportRecipeService
 {
@@ -15,6 +17,44 @@ class ImportRecipeService
      * @return Exception|Recipe
      */
     public function import(string $url)
+    {
+        $recipe = self::getJsonLdScriptFromHtml($url);
+
+        try {
+            DB::beginTransaction();
+
+            $dbRecipe = Recipe::create([
+                'name' => $recipe->name,
+                'author' => $recipe->author->name,
+                'source' => $url,
+                'description' => $recipe->description,
+                'steps' => serialize($recipe->recipeInstructions),
+                'yield' => $recipe->recipeYield ? filter_var($recipe->recipeYield, FILTER_SANITIZE_NUMBER_INT) : 0,
+                'preparation_time' => $recipe->prepTime ?? null,
+                'cooking_time' => $recipe->cookTime ?? null,
+                'rating' => isset($recipe->aggregateRating) ? $recipe->aggregateRating->ratingValue : null,
+                'calories' => isset($recipe->nutrition) ? filter_var($recipe->nutrition->calories, FILTER_SANITIZE_NUMBER_INT) : null,
+            ]);
+
+            app(ImportIngredientService::class)->importIngredients($recipe->recipeIngredient, $dbRecipe);
+
+            DB::commit();
+
+            return $dbRecipe;
+        } catch (Exception $e) {
+            DB::rollback();
+
+            return $e;
+        }
+    }
+
+    /**
+     * Parse the html for the json+ld schema
+     *
+     * @param string $url
+     * @return object
+     */
+    public function getJsonLdScriptFromHtml(string $url)
     {
         $recipePage = file_get_contents($url);
 
@@ -27,6 +67,6 @@ class ImportRecipeService
         $jsonScripts = $xp->query('//script[@type="application/ld+json"]');
         $json = trim($jsonScripts->item(0)->nodeValue); // get the first script only (it should be unique anyway)
 
-        return app(RecipeImporter::class)->importRecipe($json);
+        return json_decode($json);
     }
 }
