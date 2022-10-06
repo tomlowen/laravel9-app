@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\RecipeController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -28,8 +29,10 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/recipes', function () {
-    return Inertia::render('Recipes');
-})->middleware(['auth', 'verified'])->name('recipes');
+Route::prefix('recipes')->name('recipes')->middleware(['auth', 'verified'])->group(function () {
+    Route::get('/', [RecipeController::class, 'index'])->name('index');
+    Route::post('/store', [RecipeController::class, 'store'])->name('store');
+    Route::post('/import', [RecipeController::class, 'import'])->name('import');
+});
 
 require __DIR__.'/auth.php';

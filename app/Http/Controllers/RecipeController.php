@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ImportRecipeRequest;
 use App\Http\Requests\StoreRecipeRequest;
 use App\Http\Requests\UpdateRecipeRequest;
 use App\Models\Recipe;
+use Inertia\Inertia;
 
 class RecipeController extends Controller
 {
@@ -15,7 +17,7 @@ class RecipeController extends Controller
      */
     public function index()
     {
-        //
+        return Inertia::render('Recipes');
     }
 
     /**
@@ -31,12 +33,25 @@ class RecipeController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreRecipeRequest  $request
+     * @param  \App\Http\Requests\StoreRecipeRequest $request
      * @return \Illuminate\Http\Response
      */
     public function store(StoreRecipeRequest $request)
     {
         //
+    }
+
+    /**
+     * Import a recipe from a URL.
+     *
+     * @param  \App\Http\Requests\ImportRecipeRequest $request
+     * @return \Illuminate\Http\Response
+     */
+    public function import(ImportRecipeRequest $request)
+    {
+        $validated = $request->safe()->only(['user', 'recipeUrl']);
+        \Log::info($validated['recipeUrl']);
+        \Log::info($validated['user']);
     }
 
     /**
