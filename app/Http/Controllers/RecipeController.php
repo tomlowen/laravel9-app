@@ -6,6 +6,7 @@ use App\Http\Requests\ImportRecipeRequest;
 use App\Http\Requests\StoreRecipeRequest;
 use App\Http\Requests\UpdateRecipeRequest;
 use App\Models\Recipe;
+use App\Services\ImportRecipeService;
 use Inertia\Inertia;
 
 class RecipeController extends Controller
@@ -49,9 +50,9 @@ class RecipeController extends Controller
      */
     public function import(ImportRecipeRequest $request)
     {
-        $validated = $request->safe()->only(['user', 'recipeUrl']);
-        \Log::info($validated['recipeUrl']);
-        \Log::info($validated['user']);
+        app(ImportRecipeService::class)->import($request['recipeUrl']);
+
+        return Inertia::render('Recipes');
     }
 
     /**

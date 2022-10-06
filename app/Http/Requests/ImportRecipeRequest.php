@@ -14,7 +14,7 @@ class ImportRecipeRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -28,7 +28,7 @@ class ImportRecipeRequest extends FormRequest
             'recipeUrl' => [
                 'required',
                 'url',
-                new RecipeUrl(),
+                new RecipeUrl($this->input('recipeUrl')),
             ]
         ];
     }

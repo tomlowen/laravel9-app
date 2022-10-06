@@ -21,15 +21,15 @@ class IngredientImporter
         $spoonacularRequest = new SpoonacularParseIngredientsRequest($ingredientsList);
         $responseBody = $spoonacularRequest->parse();
 
-        foreach($responseBody as $ingredient) {
+        foreach($responseBody->body as $ingredient) {
             switch ($ingredientable::class) {
                 case \App\Models\Recipe::class:
                     RecipeIngredient::create([
-                        'name' => $ingredient['name'],
-                        'unit' => $ingredient['unit'],
-                        'quantity' => $ingredient['amount'],
+                        'name' => $ingredient->name,
+                        'unit' => $ingredient->unit,
+                        'quantity' => $ingredient->amount,
                         'recipe_id' => $ingredientable->id,
-                        'notes' => $ingredient['meta'],
+                        'notes' => implode(',', $ingredient->meta),
                         'optional' => false
                     ]);
             }

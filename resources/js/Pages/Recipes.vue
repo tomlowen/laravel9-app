@@ -1,5 +1,5 @@
 <template>
-    <Head title="Recipes" />
+    <Head title="Import a recipe" />
 
     <BreezeAuthenticatedLayout>
         <template #header>
@@ -25,20 +25,27 @@
 </template>
 
 <script>
-import { reactive } from 'vue'
-import { Inertia } from '@inertiajs/inertia'
+    import BreezeAuthenticatedLayout from '@/Layouts/Authenticated.vue';
+    import { Head } from '@inertiajs/inertia-vue3';
+    import { reactive } from 'vue'
+    import { Inertia } from '@inertiajs/inertia'
 
-export default {
-    setup () {
-        const form = reactive({
-            recipeUrl: '',
-        })
+    export default {
+        setup () {
+            const form = reactive({
+                recipeUrl: '',
+            })
 
-        function submit() {
-            Inertia.post('/import', form)
+            function submit() {
+                Inertia.post('/recipes/import', form)
+            }
+
+            return { form, submit }
+        },
+
+        components: {
+            BreezeAuthenticatedLayout,
+            Head,
         }
-
-        return { form, submit }
-    },
-}
+    }
 </script>
