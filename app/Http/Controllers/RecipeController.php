@@ -18,7 +18,7 @@ class RecipeController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Recipes');
+        return Inertia::render('Recipes/Recipes');
     }
 
     /**
@@ -28,7 +28,7 @@ class RecipeController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Recipes/CreateRecipe');
     }
 
     /**
@@ -46,13 +46,13 @@ class RecipeController extends Controller
      * Import a recipe from a URL.
      *
      * @param  \App\Http\Requests\ImportRecipeRequest $request
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function import(ImportRecipeRequest $request)
     {
-        app(ImportRecipeService::class)->import($request['recipeUrl']);
-
-        return Inertia::render('Recipes');
+        $recipe = app(ImportRecipeService::class)->getRecipeFromUrl($request['recipeUrl']);
+        
+        return Inertia::render('Recipes/CreateRecipe', $recipe);
     }
 
     /**

@@ -31,6 +31,8 @@ Route::get('/dashboard', function () {
 
 Route::prefix('recipes')->name('recipes')->middleware(['auth', 'verified'])->group(function () {
     Route::get('/', [RecipeController::class, 'index'])->name('index');
+    Route::get('/create', [RecipeController::class, 'create'])->name('create');
+    Route::get('/edit', [RecipeController::class, 'edit'])->name('edit');
     Route::post('/store', [RecipeController::class, 'store'])->name('store');
     Route::post('/import', [RecipeController::class, 'import'])->name('import');
 });
