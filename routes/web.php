@@ -35,6 +35,7 @@ Route::prefix('recipes')->name('recipes')->middleware(['auth', 'verified'])->gro
     Route::get('/edit', [RecipeController::class, 'edit'])->name('edit');
     Route::post('/store', [RecipeController::class, 'store'])->name('store');
     Route::post('/import', [RecipeController::class, 'import'])->name('import');
+    Route::get('/import', [RecipeController::class, 'create'])->name('create');
 });
 
 require __DIR__.'/auth.php';

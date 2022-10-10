@@ -5,10 +5,9 @@
     import { Inertia } from '@inertiajs/inertia'
     import Label from '../../Components/Label.vue'
     import Input from '../../Components/Input.vue'
+    import Button from '../../Components/Button.vue'
 
     const attrs = useAttrs();
-
-    const loading = ref(false);
     const form = useForm({
         name: attrs.name,
         author: attrs.author,
@@ -24,9 +23,7 @@
     });
 
     function submit() {
-        loading.value = true;
-        form.post('/recipes/import', form)
-        loading.value = false;
+        form.post('/recipes/store', form)
     };
 </script>
 
@@ -44,7 +41,7 @@
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 bg-white border-b border-gray-200">
-                        <form @submit.prevent="form.post('/login')">
+                        <form @submit.prevent="submit" :disabled="form.processing">
 
                             <!-- name -->
                             <label
@@ -265,6 +262,7 @@
                             ></textarea>
                             </div>
 
+                            <Button>Save</Button>
                         </form>
                     </div>
                 </div>

@@ -6,6 +6,7 @@ use App\Http\Requests\ImportRecipeRequest;
 use App\Http\Requests\StoreRecipeRequest;
 use App\Http\Requests\UpdateRecipeRequest;
 use App\Models\Recipe;
+use App\Services\ImportIngredientService;
 use App\Services\ImportRecipeService;
 use Inertia\Inertia;
 
@@ -18,7 +19,7 @@ class RecipeController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Recipes/Recipes');
+        return Inertia::render('Recipes/RecipesDashboard');
     }
 
     /**
@@ -39,7 +40,23 @@ class RecipeController extends Controller
      */
     public function store(StoreRecipeRequest $request)
     {
-        //
+        $recipe = Recipe::create([
+            'name' => $request['name'],
+            'author' => $request['author'],
+            'source' => $request['source'],
+            'description' => $request['description'],
+            'steps' => $request['steps'],
+            'yield' => $request['yield'],
+            'preparation_time' => $request['preparation_time'],
+            'cooking_time' => $request['cooking_time'],
+            'rating' => $request['rating'],
+            'calories' => $request['calories'],
+        ]);
+
+        $importer = new ImportIngredientService;
+        $importer->importIngredients($request['ingredients'], $recipe);
+
+        return Inertia::render('Recipes/Recipe', $recipe);
     }
 
     /**
@@ -51,7 +68,7 @@ class RecipeController extends Controller
     public function import(ImportRecipeRequest $request)
     {
         $recipe = app(ImportRecipeService::class)->getRecipeFromUrl($request['recipeUrl']);
-        
+
         return Inertia::render('Recipes/CreateRecipe', $recipe);
     }
 
@@ -74,7 +91,7 @@ class RecipeController extends Controller
      */
     public function edit(Recipe $recipe)
     {
-        //
+        return Inertia::render('Recipes/CreateRecipe', $recipe);
     }
 
     /**
