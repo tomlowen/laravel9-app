@@ -14,7 +14,7 @@ class SpoonacularParseIngredientsRequest extends SpoonacularRequest
     /**
      * Constructor
      *
-     * @param array $ingredients
+     * @param  array  $ingredients
      */
     public function __construct(array $ingredients)
     {
@@ -29,15 +29,15 @@ class SpoonacularParseIngredientsRequest extends SpoonacularRequest
     public function parse()
     {
         $response = $this->getClient()->post(
-            config('services.spoonacular.url') . '/recipes/parseIngredients',
+            config('services.spoonacular.url').'/recipes/parseIngredients',
             [
                 'form_params' => [
                     'servings' => 1,
                     'includeNutrition' => false,
-                    'ingredientList' => implode("
-                        ", $this->ingredients
-                    )
-                ]
+                    'ingredientList' => implode('
+                        ', $this->ingredients
+                    ),
+                ],
             ]
         );
 

@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Recipe;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class RecipeIngredient extends Model
@@ -22,7 +21,7 @@ class RecipeIngredient extends Model
         'quantity',
         'recipe_id',
         'notes',
-        'optional'
+        'optional',
     ];
 
     /**

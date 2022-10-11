@@ -12,7 +12,7 @@ abstract class SpoonacularResponse
     /**
      * Constructor
      *
-     * @param array $body
+     * @param  array  $body
      */
     public function __construct(array $body)
     {

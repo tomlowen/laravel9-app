@@ -20,7 +20,7 @@ class IngredientFactory extends Factory
             'name' => fake()->word(),
             'default_measure' => fake()->optional()->word(),
             'notes' => fake()->optional()->sentence(),
-            'optional' => fake()->boolean()
+            'optional' => fake()->boolean(),
         ];
     }
 }

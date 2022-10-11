@@ -27,25 +27,25 @@ class StoreRecipeRequest extends FormRequest
             'name' => [
                 'required',
                 'string',
-                'max:255'
+                'max:255',
             ],
             'author' => [
                 'sometimes',
                 'nullable',
                 'string',
-                'max:255'
+                'max:255',
             ],
             'source' => [
                 'sometimes',
                 'nullable',
                 'url',
-                'max:255'
+                'max:255',
             ],
             'description' => [
                 'sometimes',
                 'nullable',
                 'string',
-                'max:2000'
+                'max:2000',
             ],
             'steps' => [
                 'required',
@@ -74,7 +74,7 @@ class StoreRecipeRequest extends FormRequest
                 'sometimes',
                 'nullable',
                 'string',
-                'max:255'
+                'max:255',
             ],
             'ingredients' => [
                 'required',

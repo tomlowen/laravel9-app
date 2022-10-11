@@ -10,8 +10,8 @@ class ImportRecipeService
     /**
      * Import a recipe from a URL
      *
-     * @param string $url
-     * @return Array
+     * @param  string  $url
+     * @return array
      */
     public function getRecipeFromUrl(string $url)
     {
@@ -38,14 +38,14 @@ class ImportRecipeService
             'cooking_time' => isset($recipe->cookTime) ? self::formatTime($recipe->cookTime) : null,
             'rating' => isset($recipe->aggregateRating) ? $recipe->aggregateRating->ratingValue : null,
             'calories' => isset($recipe->nutrition) ? $recipe->nutrition->calories : null,
-            'ingredients' => $recipe->recipeIngredient ?? null
+            'ingredients' => $recipe->recipeIngredient ?? null,
         ];
     }
 
     /**
      * Format the steps
      *
-     * @param array $steps
+     * @param  array  $steps
      * @return array
      */
     public function formatSteps(array $steps)
@@ -56,7 +56,7 @@ class ImportRecipeService
     /**
      * Format a time
      *
-     * @param string $time
+     * @param  string  $time
      * @return int
      */
     public function formatTime(string $time)

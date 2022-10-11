@@ -12,7 +12,7 @@ class SpoonacularParseIngredientsResponse extends SpoonacularResponse
     /**
      * Constructor
      *
-     * @param array $body the Spoonacular response body
+     * @param  array  $body the Spoonacular response body
      */
     public function __construct(array $body)
     {

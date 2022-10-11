@@ -34,6 +34,6 @@ return [
     'spoonacular' => [
         'url' => env('SPOONACULAR_API_URL'),
         'key' => env('SPOONACULAR_API_KEY'),
-    ]
+    ],
 
 ];

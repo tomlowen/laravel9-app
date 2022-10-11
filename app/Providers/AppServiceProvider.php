@@ -2,12 +2,12 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
-use Illuminate\Database\Eloquent\Relations\Relation;
-use App\Models\Ingredient;
-use App\Models\Recipe;
 use App\Models\Category;
 use App\Models\Image;
+use App\Models\Ingredient;
+use App\Models\Recipe;
+use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {

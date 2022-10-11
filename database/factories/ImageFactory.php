@@ -32,8 +32,8 @@ class ImageFactory extends Factory
             'name' => fake()->string(),
             'type' => fake()->fileExtension(),
             'filename' => fake()->uuid(),
-            'order' => fake()->numberBetween(1,10),
-            'imageable_id' => fake()->numberBetween(1,10),
+            'order' => fake()->numberBetween(1, 10),
+            'imageable_id' => fake()->numberBetween(1, 10),
             'imageable_type' => fake()->randomElement(self::IMAGEABLES),
         ];
     }

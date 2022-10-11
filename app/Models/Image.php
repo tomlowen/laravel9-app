@@ -33,7 +33,7 @@ class Image extends Model
      */
     protected $casts = [
         'order' => 'integer',
-        'imageable_id' => 'integer'
+        'imageable_id' => 'integer',
     ];
 
     /**

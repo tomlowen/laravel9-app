@@ -15,7 +15,7 @@ class RecipeUrl implements Rule
     /**
      * Create a new rule instance.
      *
-     * @param string $recipeUrl
+     * @param  string  $recipeUrl
      * @return void
      */
     public function __construct(string $recipeUrl)
@@ -36,7 +36,7 @@ class RecipeUrl implements Rule
 
         return Str::contains($recipePage, [
             'application/ld+json',
-            '"@type": "Recipe"'
+            '"@type": "Recipe"',
         ]);
     }
 

@@ -4,9 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
-use App\Models\Image;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 class Recipe extends Model
 {
@@ -52,10 +51,11 @@ class Recipe extends Model
     {
         static::created(function ($recipe) {
             $recipe->update([
-                'total_time' => $recipe->preparation_time + $recipe->cooking_time
+                'total_time' => $recipe->preparation_time + $recipe->cooking_time,
             ]);
         });
     }
+
     /**
      * Get the recipe categories.
      *
@@ -75,7 +75,6 @@ class Recipe extends Model
     {
         return $this->morphToMany(Image::class, 'imageable');
     }
-
 
     /**
      * Get all of the ingredients for the recipe.

@@ -36,7 +36,7 @@ class RecipeController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreRecipeRequest $request
+     * @param  \App\Http\Requests\StoreRecipeRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(StoreRecipeRequest $request)
@@ -58,14 +58,14 @@ class RecipeController extends Controller
         $importer->importIngredients($request['ingredients'], $recipe);
 
         return Redirect::route('recipes.show', [
-            'id' => $recipe->id
+            'id' => $recipe->id,
         ]);
     }
 
     /**
      * Import a recipe from a URL.
      *
-     * @param  \App\Http\Requests\ImportRecipeRequest $request
+     * @param  \App\Http\Requests\ImportRecipeRequest  $request
      * @return \Inertia\Response
      */
     public function import(ImportRecipeRequest $request)

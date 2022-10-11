@@ -7,13 +7,16 @@
 
     const attrs = useAttrs();
     const quantity = ref(attrs.recipe.yield);
+    
 </script>
 
 <template>
     <Head :title="$attrs.recipe.name" />
 
     <div class="absolute">
-        <div class="z-40 relative">
+        <div
+            class="z-40 relative"
+        >
             <img
                 src="@/assets/images/default.jpg"
                 :alt="$attrs.recipe.name"
@@ -21,9 +24,15 @@
             />
         </div>
 
-        <div class="z-50 relative top-96 max-w-7xl mx-auto sm:px-6 lg:px-8 ">
-            <div class="bg-white overflow-hidden shadow-sm rounded-3xl opacity-90">
-                <div class="p-6 bg-white border-b border-gray-200 flex flex-col items-center">
+        <div
+            class="z-50 relative top-96 max-w-7xl mx-auto sm:px-6 lg:px-8 "
+        >
+            <div
+                class="bg-white overflow-hidden shadow-sm rounded-3xl opacity-90"
+            >
+                <div
+                    class="p-6 bg-white border-b border-gray-200 flex flex-col items-center"
+                >
                     <h1
                         class="w-3/4 uppercase font-serif font-extrabold text-2xl text-center"
                     >
@@ -43,9 +52,16 @@
                     </p>
 
                     <!-- Quantity adjustment -->
-                    <div class="font-extrabold text-base text-center w-10/12 p-3 bg-neutral-200 border-b border-gray-200 flex flex-col items-center rounded-3xl opacity-90">
-                        <p>Quantity</p>
-                        <div class="text-xl flex">
+                    <div
+                        class="font-extrabold text-base text-center w-10/12 p-3 bg-neutral-200 border-b border-gray-200 flex flex-col items-center rounded-3xl opacity-90"
+                    >
+                        <p>
+                            Quantity
+                        </p>
+
+                        <div
+                            class="text-xl flex"
+                        >
                             <button
                                 @click="quantity--"
                                 :disabled="quantity < 2"
@@ -53,10 +69,12 @@
                             >
                                 -
                             </button>
+
                             <img
                                 src="@/assets/images/one-bowl.png"
                                 class="h-10 px-5"
                             />
+
                             <button
                                 @click="quantity++"
                             >

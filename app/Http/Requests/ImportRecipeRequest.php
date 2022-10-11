@@ -29,7 +29,7 @@ class ImportRecipeRequest extends FormRequest
                 'required',
                 'url',
                 new RecipeUrl($this->input('recipeUrl')),
-            ]
+            ],
         ];
     }
 }
