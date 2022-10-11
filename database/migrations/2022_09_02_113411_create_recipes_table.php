@@ -21,10 +21,11 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->text('steps');
             $table->tinyInteger('yield');
-            $table->tinyText('preparation_time')->nullable();
-            $table->tinyText('cooking_time')->nullable();
+            $table->smallInteger('preparation_time')->default(0);
+            $table->smallInteger('cooking_time')->default(0);
+            $table->smallInteger('total_time')->default(0);
             $table->float('rating')->nullable();
-            $table->smallInteger('calories')->nullable();
+            $table->string('calories')->nullable();
             $table->timestamps();
         });
     }

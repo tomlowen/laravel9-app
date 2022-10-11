@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateRecipeRequest;
 use App\Models\Recipe;
 use App\Services\ImportIngredientService;
 use App\Services\ImportRecipeService;
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 class RecipeController extends Controller
@@ -45,10 +46,10 @@ class RecipeController extends Controller
             'author' => $request['author'],
             'source' => $request['source'],
             'description' => $request['description'],
-            'steps' => $request['steps'],
+            'steps' => serialize($request['steps']),
             'yield' => $request['yield'],
-            'preparation_time' => $request['preparation_time'],
-            'cooking_time' => $request['cooking_time'],
+            'preparation_time' => $request['prepTime'],
+            'cooking_time' => $request['cookTime'],
             'rating' => $request['rating'],
             'calories' => $request['calories'],
         ]);
@@ -56,7 +57,9 @@ class RecipeController extends Controller
         $importer = new ImportIngredientService;
         $importer->importIngredients($request['ingredients'], $recipe);
 
-        return Inertia::render('Recipes/Recipe', $recipe);
+        return Redirect::route('recipes.show', [
+            'id' => $recipe->id
+        ]);
     }
 
     /**
@@ -80,7 +83,7 @@ class RecipeController extends Controller
      */
     public function show(Recipe $recipe)
     {
-        //
+        return Inertia::render('Recipes/Recipe', ['recipe' => $recipe]);
     }
 
     /**

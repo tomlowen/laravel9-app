@@ -29,8 +29,9 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::prefix('recipes')->name('recipes')->middleware(['auth', 'verified'])->group(function () {
+Route::prefix('recipes')->name('recipes.')->middleware(['auth', 'verified'])->group(function () {
     Route::get('/', [RecipeController::class, 'index'])->name('index');
+    Route::get('/{recipe}', [RecipeController::class, 'show'])->name('show');
     Route::get('/create', [RecipeController::class, 'create'])->name('create');
     Route::get('/edit', [RecipeController::class, 'edit'])->name('edit');
     Route::post('/store', [RecipeController::class, 'store'])->name('store');

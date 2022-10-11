@@ -44,6 +44,19 @@ class Recipe extends Model
     ];
 
     /**
+     * The "booted" method of the model.
+     *
+     * @return void
+     */
+    protected static function booted()
+    {
+        static::created(function ($recipe) {
+            $recipe->update([
+                'total_time' => $recipe->preparation_time + $recipe->cooking_time
+            ]);
+        });
+    }
+    /**
      * Get the recipe categories.
      *
      * @return Illuminate\Database\Eloquent\Relations\MorphMany

@@ -58,6 +58,7 @@
                             />
                             <div
                                 v-if="form.errors.name"
+                                class="text-sm text-red-600"
                             >
                                 {{ form.errors.name }}
                             </div>
@@ -77,6 +78,7 @@
                             ></textarea>
                             <div
                                 v-if="form.errors.description"
+                                class="text-sm text-red-400"
                             >
                                 {{ form.errors.description }}
                             </div>
@@ -98,6 +100,7 @@
                                     />
                                     <div
                                         v-if="form.errors.prepTime"
+                                        class="text-sm text-red-400"
                                     >
                                         {{ form.errors.prepTime }}
                                     </div>
@@ -119,6 +122,7 @@
                                     />
                                     <div
                                         v-if="form.errors.cookTime"
+                                        class="text-sm text-red-400"
                                     >
                                         {{ form.errors.cookTime }}
                                     </div>
@@ -140,6 +144,7 @@
                                     />
                                     <div
                                         v-if="form.errors.yield"
+                                        class="text-sm text-red-400"
                                     >
                                         {{ form.errors.yield }}
                                     </div>
@@ -161,6 +166,7 @@
                                     />
                                     <div
                                         v-if="form.errors.calories"
+                                        class="text-sm text-red-400"
                                     >
                                         {{ form.errors.calories }}
                                     </div>
@@ -182,6 +188,7 @@
                                     />
                                     <div
                                         v-if="form.errors.rating"
+                                        class="text-sm text-red-400"
                                     >
                                         {{ form.errors.rating }}
                                     </div>
@@ -203,6 +210,7 @@
                                     />
                                     <div
                                         v-if="form.errors.author"
+                                        class="text-sm text-red-400"
                                     >
                                         {{ form.errors.author }}
                                     </div>
@@ -224,6 +232,7 @@
                             />
                             <div
                                 v-if="form.errors.source"
+                                class="text-sm text-red-400"
                             >
                                 {{ form.errors.source }}
                             </div>

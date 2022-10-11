@@ -1,46 +1,71 @@
 <script setup>
     import BreezeAuthenticatedLayout from '@/Layouts/Authenticated.vue';
     import { Head, Link } from '@inertiajs/inertia-vue3';
-    import { ref } from 'vue'
+    import { ref, useAttrs } from 'vue'
     import { Inertia } from '@inertiajs/inertia'
-    import { useForm } from '@inertiajs/inertia-vue3'
+    import { formatTime } from '../../util/helpers'
 
-    const loading = ref(false);
-    const form = useForm({
-        recipeUrl: null,
-    });
-
-    function submit() {
-        loading.value = true;
-        form.post('/recipes/import', form)
-        loading.value = false;
-    };
+    const attrs = useAttrs();
+    const quantity = ref(attrs.recipe.yield);
 </script>
 
 <template>
-    <Head title="All Recipes" />
+    <Head :title="$attrs.recipe.name" />
 
-    <BreezeAuthenticatedLayout>
-        <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ $name }}
-            </h2>
-        </template>
+    <div class="absolute">
+        <div class="z-40 relative">
+            <img
+                src="@/assets/images/default.jpg"
+                :alt="$attrs.recipe.name"
+                class="w-full fixed"
+            />
+        </div>
 
-        <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6 bg-white border-b border-gray-200">
-                        <Link href="/recipe/create" as="button">Create a recipe</Link>
-                        <form @submit.prevent="submit" :disabled="form.processing">
-                            <label for="recipe-url">Enter a URL to import a recipe from:</label>
-                            <input id="recipe-url" v-model="form.recipeUrl" />
-                            <button type="submit">Import a recipe</button>
-                            <div v-if="loading">Loading</div>
-                        </form>
+        <div class="z-50 relative top-96 max-w-7xl mx-auto sm:px-6 lg:px-8 ">
+            <div class="bg-white overflow-hidden shadow-sm rounded-3xl opacity-90">
+                <div class="p-6 bg-white border-b border-gray-200 flex flex-col items-center">
+                    <h1
+                        class="w-3/4 uppercase font-serif font-extrabold text-2xl text-center"
+                    >
+                        {{ $attrs.recipe.name }}
+                    </h1>
+
+                    <p
+                        class="pt-2 w-11/12 font-bold text-sm text-center text-slate-400"
+                    >
+                        {{ $attrs.recipe.description }}
+                    </p>
+
+                    <p
+                        class="pt-3 pb-5 font-extrabold text-sm text-center"
+                    >
+                        {{ formatTime($attrs.recipe.total_time) }} | SERVES {{ quantity }}
+                    </p>
+
+                    <!-- Quantity adjustment -->
+                    <div class="font-extrabold text-base text-center w-10/12 p-3 bg-neutral-200 border-b border-gray-200 flex flex-col items-center rounded-3xl opacity-90">
+                        <p>Quantity</p>
+                        <div class="text-xl flex">
+                            <button
+                                @click="quantity--"
+                                :disabled="quantity < 2"
+                                :class="quantity < 2 ? 'text-slate-400' : ''"
+                            >
+                                -
+                            </button>
+                            <img
+                                src="@/assets/images/one-bowl.png"
+                                class="h-10 px-5"
+                            />
+                            <button
+                                @click="quantity++"
+                            >
+                                +
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </BreezeAuthenticatedLayout>
+    </div>
 </template>

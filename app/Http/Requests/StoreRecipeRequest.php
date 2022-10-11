@@ -24,55 +24,62 @@ class StoreRecipeRequest extends FormRequest
     public function rules()
     {
         return [
-            // 'recipe.name' => [
-            //     'required',
-            //     'string',
-            //     'max:255'
-            // ],
-            // 'recipe.author' => [
-            //     'sometimes',
-            //     'string',
-            //     'max:255'
-            // ],
-            // 'recipe.source' => [
-            //     'sometimes',
-            //     'url',
-            //     'max:255'
-            // ],
-            // 'recipe.description' => [
-            //     'sometimes',
-            //     'string',
-            //     'max:2000'
-            // ],
-            // 'recipe.steps' => [
-            //     'required',
-            //     'array',
-            // ],
-            // 'recipe.yield' => [
-            //     'sometimes',
-            //     'integer',
-            // ],
-            // 'recipe.prepTime' => [
-            //     'sometimes',
-            //     'integer',
-            // ],
-            // 'recipe.cookTime' => [
-            //     'sometimes',
-            //     'integer',
-            // ],
-            // 'recipe.rating' => [
-            //     'sometimes',
-            //     'integer',
-            // ],
-            // 'recipe.calories' => [
-            //     'sometimes',
-            //     'string',
-            //     'max:255'
-            // ],
-            // 'recipe.ingredients' => [
-            //     'required',
-            //     'array',
-            // ],
+            'name' => [
+                'required',
+                'string',
+                'max:255'
+            ],
+            'author' => [
+                'sometimes',
+                'nullable',
+                'string',
+                'max:255'
+            ],
+            'source' => [
+                'sometimes',
+                'nullable',
+                'url',
+                'max:255'
+            ],
+            'description' => [
+                'sometimes',
+                'nullable',
+                'string',
+                'max:2000'
+            ],
+            'steps' => [
+                'required',
+                'array',
+            ],
+            'yield' => [
+                'required',
+                'integer',
+            ],
+            'prepTime' => [
+                'sometimes',
+                'nullable',
+                'integer',
+            ],
+            'cookTime' => [
+                'sometimes',
+                'nullable',
+                'integer',
+            ],
+            'rating' => [
+                'sometimes',
+                'nullable',
+                'integer',
+            ],
+            'calories' => [
+                'sometimes',
+                'nullable',
+                'string',
+                'max:255'
+            ],
+            'ingredients' => [
+                'required',
+                'array',
+            ],
         ];
     }
 }
