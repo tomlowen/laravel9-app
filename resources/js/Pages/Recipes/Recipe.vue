@@ -82,6 +82,15 @@
                             </button>
                         </div>
                     </div>
+
+                    <div>
+                        <p
+                            v-for="(index, ingredient) in $attrs.recipe.ingredients"
+                            v-bind:key="index"
+                        >
+                            {{ ingredient }}
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>

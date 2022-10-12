@@ -14,6 +14,10 @@ class RecipeSeeder extends Seeder
      */
     public function run()
     {
-        Recipe::factory(10)->hasCategories(1)->hasRecipeIngredients(5)->create();
+        Recipe::factory(10)
+            ->hasCategories(1)
+            ->hasRecipeIngredients(5)
+            ->hasImages(1)
+            ->create();
     }
 }

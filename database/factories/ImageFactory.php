@@ -7,6 +7,7 @@ use App\Models\Image;
 use App\Models\Ingredient;
 use App\Models\Recipe;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Image>
@@ -29,10 +30,13 @@ class ImageFactory extends Factory
      */
     public function definition()
     {
+        $filename = fake()->uuid() . '.png';
+        Storage::disk(Image::IMAGE_PUBLIC_DISK)->put($filename, file_get_contents('https://api.lorem.space/image/burger'));
+
         return [
             'name' => fake()->word(),
             'type' => fake()->fileExtension(),
-            'filename' => fake()->uuid() . 'png',
+            'filename' => $filename,
             'disk' => Image::IMAGE_PUBLIC_DISK,
             'order' => fake()->numberBetween(1, 10),
             'imageable_id' => fake()->numberBetween(1, 10),
