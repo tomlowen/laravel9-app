@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->tinyText('name');
             $table->tinyText('type');
+            $table->string('disk');
             $table->string('filename');
             $table->tinyInteger('order');
             $table->morphs('imageable');

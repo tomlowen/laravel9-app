@@ -33,6 +33,7 @@ class ImageService
             'name' => 'default name',
             'type' => 'default type',
             'filename' => $filename,
+            'disk' => Image::IMAGE_PUBLIC_DISK,
             'order' => 1,
             'imageable_id' => $imageable->id,
             'imageable_type' => $imageable::MORPH_KEY,

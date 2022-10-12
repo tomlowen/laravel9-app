@@ -6,6 +6,7 @@ use App\Services\ImageService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
 
 class Image extends Model
@@ -13,6 +14,8 @@ class Image extends Model
     use HasFactory;
 
     const MORPH_KEY = 'image';
+
+    const IMAGE_PUBLIC_DISK = 'public';
 
     /**
      * The attributes that are mass assignable.
@@ -22,6 +25,7 @@ class Image extends Model
     protected $fillable = [
         'name',
         'type',
+        'disk',
         'filename',
         'order',
         'imageable_id',
@@ -37,6 +41,20 @@ class Image extends Model
         'order' => 'integer',
         'imageable_id' => 'integer',
     ];
+
+    /**
+     * The "boot" method of the model.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($image) {
+            Storage::disk($image->disk)->delete($image->filename);
+        });
+    }
 
     /**
      * Get the parent imageable model.

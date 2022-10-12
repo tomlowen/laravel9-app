@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Category;
+use App\Models\Image;
 use App\Models\Ingredient;
 use App\Models\Recipe;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -32,6 +33,7 @@ class ImageFactory extends Factory
             'name' => fake()->word(),
             'type' => fake()->fileExtension(),
             'filename' => fake()->uuid() . 'png',
+            'disk' => Image::IMAGE_PUBLIC_DISK,
             'order' => fake()->numberBetween(1, 10),
             'imageable_id' => fake()->numberBetween(1, 10),
             'imageable_type' => fake()->randomElement(self::IMAGEABLES),
