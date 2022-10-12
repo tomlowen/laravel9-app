@@ -15,11 +15,13 @@
         description: attrs.description,
         steps: attrs.steps,
         yield: attrs.yield,
-        prepTime: attrs.preparation_time,
-        cookTime: attrs.cooking_time,
+        prepTime: attrs.prepTime,
+        cookTime: attrs.cookTime,
         rating: attrs.rating,
         calories: attrs.calories,
         ingredients: attrs.ingredients,
+        image: null,
+        imageUrl: attrs.imageUrl
     });
 
     function submit() {
@@ -56,48 +58,60 @@
                             :disabled="form.processing"
                         >
 
-                            <!-- name -->
-                            <label
-                                for="recipe-name"
-                                class="block pb-1 font-medium text-sm text-gray-700"
-                            >
-                                Name
-                            </label>
+                            <div class="md:flex flex-row-reverse justify-center">
+                                <div class="rounded-full w-60 m-auto overflow-hidden h-60">
+                                    <img
+                                        :src="form.imageUrl"
+                                        alt="The finished dish"
+                                        class= ""
+                                    />
+                                </div>
 
-                            <input
-                                id="recipe-name"
-                                type="text"
-                                v-model="form.name"
-                                class="w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
-                            />
+                                <div class="w-full md:pr-5">
+                                    <!-- name -->
+                                    <label
+                                        for="recipe-name"
+                                        class="block pb-1 font-medium text-sm text-gray-700"
+                                    >
+                                        Name
+                                    </label>
 
-                            <div
-                                v-if="form.errors.name"
-                                class="text-sm text-red-600"
-                            >
-                                {{ form.errors.name }}
-                            </div>
+                                    <input
+                                        id="recipe-name"
+                                        type="text"
+                                        v-model="form.name"
+                                        class="w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                                    />
 
-                            <!-- description -->
-                            <label
-                                for="recipe-description"
-                                class="pt-3 pb-1 block font-medium text-sm text-gray-700"
-                            >
-                                Description
-                            </label>
+                                    <div
+                                        v-if="form.errors.name"
+                                        class="text-sm text-red-600"
+                                    >
+                                        {{ form.errors.name }}
+                                    </div>
 
-                            <textarea
-                                id="recipe-description"
-                                type="text"
-                                v-model="form.description"
-                                class="w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
-                            ></textarea>
+                                    <!-- description -->
+                                    <label
+                                        for="recipe-description"
+                                        class="pt-3 pb-1 block font-medium text-sm text-gray-700"
+                                    >
+                                        Description
+                                    </label>
 
-                            <div
-                                v-if="form.errors.description"
-                                class="text-sm text-red-400"
-                            >
-                                {{ form.errors.description }}
+                                    <textarea
+                                        id="recipe-description"
+                                        type="text"
+                                        v-model="form.description"
+                                        class="w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                                    ></textarea>
+
+                                    <div
+                                        v-if="form.errors.description"
+                                        class="text-sm text-red-400"
+                                    >
+                                        {{ form.errors.description }}
+                                    </div>
+                                </div>
                             </div>
 
                             <div

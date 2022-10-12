@@ -7,7 +7,7 @@
 
     const attrs = useAttrs();
     const quantity = ref(attrs.recipe.yield);
-    
+
 </script>
 
 <template>
@@ -18,20 +18,20 @@
             class="z-40 relative"
         >
             <img
-                src="@/assets/images/default.jpg"
+                :src="'/storage/' + $attrs.recipe.images[0].filename"
                 :alt="$attrs.recipe.name"
                 class="w-full fixed"
             />
         </div>
 
         <div
-            class="z-50 relative top-96 max-w-7xl mx-auto sm:px-6 lg:px-8 "
+            class="z-50 m-auto relative top-96 max-w-7xl mx-auto sm:px-6 lg:px-8 "
         >
             <div
-                class="bg-white overflow-hidden shadow-sm rounded-3xl opacity-90"
+                class="bg-gradient-to-tr bg-white overflow-hidden shadow-sm rounded-3xl"
             >
                 <div
-                    class="p-6 bg-white border-b border-gray-200 flex flex-col items-center"
+                    class="p-6 border-b border-gray-200 flex flex-col items-center"
                 >
                     <h1
                         class="w-3/4 uppercase font-serif font-extrabold text-2xl text-center"

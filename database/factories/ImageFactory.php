@@ -29,9 +29,9 @@ class ImageFactory extends Factory
     public function definition()
     {
         return [
-            'name' => fake()->string(),
+            'name' => fake()->word(),
             'type' => fake()->fileExtension(),
-            'filename' => fake()->uuid(),
+            'filename' => fake()->uuid() . 'png',
             'order' => fake()->numberBetween(1, 10),
             'imageable_id' => fake()->numberBetween(1, 10),
             'imageable_type' => fake()->randomElement(self::IMAGEABLES),

@@ -6,9 +6,11 @@ use App\Http\Requests\ImportRecipeRequest;
 use App\Http\Requests\StoreRecipeRequest;
 use App\Http\Requests\UpdateRecipeRequest;
 use App\Models\Recipe;
+use App\Services\ImageService;
 use App\Services\ImportIngredientService;
 use App\Services\ImportRecipeService;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class RecipeController extends Controller
@@ -57,6 +59,9 @@ class RecipeController extends Controller
         $importer = new ImportIngredientService;
         $importer->importIngredients($request['ingredients'], $recipe);
 
+        $imageService = new ImageService;
+        $imageService->storeImage($request['imageUrl'], $recipe, $request['image']);
+
         return Redirect::route('recipes.show', [
             'recipe' => $recipe->id,
         ]);
@@ -83,7 +88,10 @@ class RecipeController extends Controller
      */
     public function show(Recipe $recipe)
     {
-        return Inertia::render('Recipes/Recipe', ['recipe' => $recipe]);
+        // $image = Storage::get($recipe->images()->first()->filename);
+
+        return Inertia::render('Recipes/Recipe', ['recipe' => $recipe])
+            ->withViewData(['images' => $recipe->images]);
     }
 
     /**

@@ -31,12 +31,12 @@ Route::get('/dashboard', function () {
 
 Route::prefix('recipes')->name('recipes.')->middleware(['auth', 'verified'])->group(function () {
     Route::get('/', [RecipeController::class, 'index'])->name('index');
-    Route::get('/{recipe}', [RecipeController::class, 'show'])->name('show');
     Route::get('/create', [RecipeController::class, 'create'])->name('create');
     Route::get('/edit', [RecipeController::class, 'edit'])->name('edit');
+    Route::get('/import', [RecipeController::class, 'create'])->name('create');
+    Route::get('/{recipe}', [RecipeController::class, 'show'])->name('show');
     Route::post('/store', [RecipeController::class, 'store'])->name('store');
     Route::post('/import', [RecipeController::class, 'import'])->name('import');
-    Route::get('/import', [RecipeController::class, 'create'])->name('create');
 });
 
 require __DIR__.'/auth.php';

@@ -80,6 +80,17 @@ class StoreRecipeRequest extends FormRequest
                 'required',
                 'array',
             ],
+            'image' => [
+                'sometimes',
+                'nullable',
+                'image',
+                'max:10240' //10 mb
+            ],
+            'imageUrl' => [
+                'sometimes',
+                'nullable',
+                'string',
+            ],
         ];
     }
 }

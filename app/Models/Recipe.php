@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 class Recipe extends Model
@@ -79,9 +80,9 @@ class Recipe extends Model
      *
      * @return Illuminate\Database\Eloquent\Relations\MorphToMany
      */
-    public function images(): MorphToMany
+    public function images(): MorphMany
     {
-        return $this->morphToMany(Image::class, 'imageable');
+        return $this->morphMany(Image::class, 'imageable');
     }
 
     /**
