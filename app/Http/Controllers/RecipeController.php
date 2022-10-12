@@ -58,7 +58,7 @@ class RecipeController extends Controller
         $importer->importIngredients($request['ingredients'], $recipe);
 
         return Redirect::route('recipes.show', [
-            'id' => $recipe->id,
+            'recipe' => $recipe->id,
         ]);
     }
 

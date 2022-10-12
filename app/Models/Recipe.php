@@ -27,6 +27,7 @@ class Recipe extends Model
         'yield',
         'preparation_time',
         'cooking_time',
+        'total_time',
         'rating',
         'calories',
     ];
@@ -37,22 +38,29 @@ class Recipe extends Model
      * @var array<string, string>
      */
     protected $casts = [
+        'preparation_time' => 'integer',
+        'cooking_time' => 'integer',
+        'total_time' => 'integer',
         'yield' => 'integer',
         'rating' => 'float',
         'calories' => 'integer',
     ];
 
     /**
-     * The "booted" method of the model.
+     * The "boot" method of the model.
      *
      * @return void
      */
-    protected static function booted()
+    protected static function boot()
     {
-        static::created(function ($recipe) {
-            $recipe->update([
-                'total_time' => $recipe->preparation_time + $recipe->cooking_time,
-            ]);
+        parent::boot();
+
+        static::creating(function ($recipe) {
+            $recipe->total_time = $recipe->preparation_time + $recipe->cooking_time;
+        });
+
+        static::updating(function ($recipe) {
+            $recipe->total_time = $recipe->preparation_time + $recipe->cooking_time;
         });
     }
 
