@@ -91,7 +91,10 @@ class RecipeController extends Controller
         // $image = Storage::get($recipe->images()->first()->filename);
 
         return Inertia::render('Recipes/Recipe', ['recipe' => $recipe])
-            ->withViewData(['images' => $recipe->images]);
+            ->withViewData([
+                'images' => $recipe->images,
+                'ingredients' => $recipe->recipeIngredients
+            ]);
     }
 
     /**

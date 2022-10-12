@@ -7,6 +7,21 @@
 
     const attrs = useAttrs();
     const quantity = ref(attrs.recipe.yield);
+    const ingredients = ref(attrs.recipe.recipe_ingredients);
+
+    function increment() {
+        quantity.value++;
+        ingredients.value.forEach((i) => {
+            i.quantity = (i.quantity / (quantity.value -1)) * quantity.value;
+        })
+    }
+
+    function decrement() {
+        quantity.value--;
+        ingredients.value.forEach((i) => {
+            i.quantity = (i.quantity / (quantity.value +1)) * quantity.value;
+        })
+    }
 
 </script>
 
@@ -63,7 +78,7 @@
                             class="text-xl flex"
                         >
                             <button
-                                @click="quantity--"
+                                @click="decrement"
                                 :disabled="quantity < 2"
                                 :class="quantity < 2 ? 'text-slate-400' : ''"
                             >
@@ -76,20 +91,24 @@
                             />
 
                             <button
-                                @click="quantity++"
+                                @click="increment"
                             >
                                 +
                             </button>
                         </div>
                     </div>
 
-                    <div>
-                        <p
-                            v-for="(index, ingredient) in $attrs.recipe.ingredients"
+                    <div
+                        class="pt-5"
+                    >
+                        <div
+                            v-for="(ingredient, index) in ingredients"
                             v-bind:key="index"
                         >
-                            {{ ingredient }}
-                        </p>
+                            <p>
+                                {{ ingredient.name }} ....... {{ ingredient.quantity }} {{ ingredient.unit }}
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
