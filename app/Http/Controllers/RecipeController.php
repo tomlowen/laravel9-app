@@ -22,7 +22,9 @@ class RecipeController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Recipes/RecipesDashboard');
+        return Inertia::render('Recipes/RecipesDashboard', [
+            'recipes' => Recipe::with('images')->get()
+        ]);
     }
 
     /**
@@ -88,10 +90,8 @@ class RecipeController extends Controller
      */
     public function show(Recipe $recipe)
     {
-        // $image = Storage::get($recipe->images()->first()->filename);
-
-        return Inertia::render('Recipes/Recipe', ['recipe' => $recipe])
-            ->withViewData([
+        return Inertia::render('Recipes/Recipe', [
+                'recipe' => $recipe,
                 'images' => $recipe->images,
                 'ingredients' => $recipe->recipeIngredients
             ]);

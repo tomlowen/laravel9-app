@@ -19,10 +19,10 @@ class RecipeResource extends JsonResource
             'author' => $this->author,
             'source' => $this->source,
             'description' => $this->description,
-            'steps' => $this->steps,
+            'steps' => unserialize($this->steps),
             'yield' => $this->yield,
-            'preparation_time' => $this->prepTime,
-            'cooking_time' => $this->cookTime,
+            'prepTime' => $this->prepTime,
+            'cookTime' => $this->cookTime,
             'rating' => $this->rating,
             'calories' => $this->calories,
         ];

@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Libraries\Spoonacular\Requests\SpoonacularParseIngredientsRequest;
 use App\Models\RecipeIngredient;
+use Illuminate\Support\Str;
 
 class ImportIngredientService
 {
@@ -24,8 +25,8 @@ class ImportIngredientService
                 case \App\Models\Recipe::class:
                     RecipeIngredient::create([
                         'name' => $ingredient->name,
-                        'unit' => $ingredient->unit,
-                        'quantity' => $ingredient->amount,
+                        'unit' => $ingredient->unit ?? '',
+                        'quantity' => $ingredient->amount ?? '',
                         'recipe_id' => $ingredientable->id,
                         'notes' => implode(',', $ingredient->meta),
                         'optional' => false,
