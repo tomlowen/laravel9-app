@@ -1,7 +1,7 @@
 <script setup>
     import BreezeAuthenticatedLayout from '@/Layouts/Authenticated.vue';
     import { Head, Link, useForm } from '@inertiajs/inertia-vue3';
-    import { ref, useAttrs } from 'vue'
+    import { ref, useAttrs, onMounted } from 'vue'
     import { Inertia } from '@inertiajs/inertia'
     import Label from '../../Components/Label.vue'
     import Input from '../../Components/Input.vue'
@@ -23,9 +23,40 @@
         image: null,
         imageUrl: attrs.imageUrl
     });
+    // const recipeDescription = ref(null);
+
+    // onMounted(()=> {
+    //     console.log(recipeDescription);
+    //     // resizeTextAreas();
+    // });
+
+    // function resizeTextAreas() {
+    //     // const { recipeDescription } = this.$refs;
+    //     //asd
+    //     console.log(recipeDescription.value);
+    //     recipeDescription.value.classList.add("h-20");
+    //     console.log(recipeDescription.value);
+    //     // recipeDescription.style.height = recipeDescription.scrollHeight - 4 + 'px';
+    // };
 
     function submit() {
         form.post('/recipes/store', form)
+    };
+
+    function removeIngredient(index) {
+        form.ingredients.splice(index, 1)
+    };
+
+    function addIngredient() {
+        form.ingredients = [...form.ingredients, ''];
+    };
+
+    function removeStep(index) {
+        form.steps.splice(index, 1)
+    };
+
+    function addStep() {
+        form.steps = [...form.steps, {'@type': 'HowToStep', 'text': ''}];
     };
 </script>
 
@@ -58,14 +89,11 @@
                             :disabled="form.processing"
                         >
 
-                            <div class="md:flex flex-row-reverse justify-center">
-                                <div class="rounded-full w-60 m-auto overflow-hidden h-60">
-                                    <img
-                                        :src="form.imageUrl"
-                                        alt="The finished dish"
-                                        class= ""
-                                    />
-                                </div>
+                            <div class="md:flex flex-row-reverse justify-center align-middle">
+                                <div
+                                    class="rounded-full w-60 h-60 bg-center bg-cover m-auto"
+                                    :style="{ backgroundImage: `url(${form.imageUrl})` }"
+                                ></div>
 
                                 <div class="w-full md:pr-5">
                                     <!-- name -->
@@ -80,7 +108,7 @@
                                         id="recipe-name"
                                         type="text"
                                         v-model="form.name"
-                                        class="w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                                        class="bg-gray-50 w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
                                     />
 
                                     <div
@@ -99,10 +127,12 @@
                                     </label>
 
                                     <textarea
+                                        ref="recipeDescription"
                                         id="recipe-description"
                                         type="text"
+                                        @input="resizeTextAreas"
                                         v-model="form.description"
-                                        class="w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                                        class="h-max bg-gray-50 w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
                                     ></textarea>
 
                                     <div
@@ -132,7 +162,7 @@
                                         id="recipe-prepTime"
                                         type="text"
                                         v-model="form.prepTime"
-                                        class="w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                                        class="bg-gray-50 w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
                                     />
 
                                     <div
@@ -158,7 +188,7 @@
                                         id="recipe-cookTime"
                                         type="text"
                                         v-model="form.cookTime"
-                                        class="w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                                        class="bg-gray-50 w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
                                     />
 
                                     <div
@@ -184,7 +214,7 @@
                                         id="recipe-yield"
                                         type="text"
                                         v-model="form.yield"
-                                        class="w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                                        class="bg-gray-50 w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
                                     />
 
                                     <div
@@ -210,7 +240,7 @@
                                         id="recipe-calories"
                                         type="text"
                                         v-model="form.calories"
-                                        class="w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                                        class="bg-gray-50 w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
                                     />
 
                                     <div
@@ -236,7 +266,7 @@
                                         id="recipe-rating"
                                         type="text"
                                         v-model="form.rating"
-                                        class="w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                                        class="bg-gray-50 w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
                                     />
 
                                     <div
@@ -262,7 +292,7 @@
                                         id="recipe-author"
                                         type="text"
                                         v-model="form.author"
-                                        class="w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                                        class="bg-gray-50 w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
                                     />
 
                                     <div
@@ -286,7 +316,7 @@
                                 id="recipe-source"
                                 type="text"
                                 v-model="form.source"
-                                class="w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                                class="bg-gray-50 w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
                             />
 
                             <div
@@ -304,32 +334,84 @@
                                     Ingredients
                                 </label>
 
-                                <input
+                                <div
+                                    class="relative"
                                     v-for="(ingredient, index) in form.ingredients"
                                     v-bind:key="index"
-                                    :id="'recipe-ingredient-' + index"
-                                    type="text"
-                                    v-model="form.ingredients[index]"
-                                    class="block w-full sm:w-1/2 mb-3 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
-                                />
+                                >
+                                    <input
+                                        :id="'recipe-ingredient-' + index"
+                                        v-model="form.ingredients[index]"
+                                        type="text"
+                                        class="block w-full text-md my-2 text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                                    >
+
+                                    <div
+                                        @click="removeIngredient(index)"
+                                        class="text-gray absolute right-1.5 bottom-1.5 h-8 w-1 bg-gray-200 hover:bg-gray-300 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-full text-sm px-4 py-2 font-bold"
+                                    >
+                                        <p
+                                            class="absolute right-3 bottom-1.5"
+                                        >
+                                            x
+                                        </p>
+                                    </div>
                                 </div>
+
+                                <div
+                                    @click="addIngredient()"
+                                    class="text-gray relative h-8 w-1 bg-blue-100 hover:bg-gray-300 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-full text-sm px-4 py-2 font-bold"
+                                >
+                                    <p
+                                        class="absolute right-3 bottom-1.5"
+                                    >
+                                        +
+                                    </p>
+                                </div>
+                            </div>
 
                             <!-- Steps -->
                             <div>
                                 <label
-                                    class="block pt-3 pb-1 font-medium text-sm text-gray-700"
+                                    class="block pt-4 pb-1 font-medium text-sm text-gray-700"
                                 >
                                     Steps
                                 </label>
 
-                                <textarea
+                                <div
+                                    class="relative"
                                     v-for="(step, index) in form.steps"
                                     v-bind:key="index"
-                                    :id="'recipe-step-' + index"
-                                    type="text"
-                                    v-model="form.steps[index].text"
-                                    class="block w-full mb-3 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
-                                ></textarea>
+                                >
+                                    <textarea
+                                        :id="'recipe-step-' + index"
+                                        v-model="form.steps[index].text"
+                                        type="text"
+                                        class="block w-full text-md my-2 text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                                    ></textarea>
+
+                                    <div
+                                        @click="removeStep(index)"
+                                        class="text-gray absolute right-1.5 bottom-1.5 h-8 w-1 bg-gray-200 hover:bg-gray-300 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-full text-sm px-4 py-2 font-bold"
+                                    >
+                                        <p
+                                            class="absolute right-3 bottom-1.5"
+                                        >
+                                            x
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div
+                                    @click="addStep()"
+                                    class="mb-3 text-gray relative h-8 w-1 bg-blue-100 hover:bg-gray-300 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-full text-sm px-4 py-2 font-bold"
+                                >
+                                    <p
+                                        class="absolute right-3 bottom-1.5"
+                                    >
+                                        +
+                                    </p>
+                                </div>
                             </div>
 
                             <Button>Save</Button>
