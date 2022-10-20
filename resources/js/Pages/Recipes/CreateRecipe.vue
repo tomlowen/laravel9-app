@@ -1,11 +1,13 @@
 <script setup>
     import BreezeAuthenticatedLayout from '@/Layouts/Authenticated.vue';
     import { Head, Link, useForm } from '@inertiajs/inertia-vue3';
-    import { ref, useAttrs, onMounted } from 'vue'
+    import { ref, useAttrs, onMounted, computed } from 'vue'
     import { Inertia } from '@inertiajs/inertia'
     import Label from '../../Components/Label.vue'
     import Input from '../../Components/Input.vue'
     import Button from '../../Components/Button.vue'
+
+    import placeholderImage from '@/assets/images/placeholder-image.png'
 
     const attrs = useAttrs();
     const form = useForm({
@@ -13,31 +15,16 @@
         author: attrs.author,
         source: attrs.source,
         description: attrs.description,
-        steps: attrs.steps,
+        steps: attrs.steps ? attrs.steps : '',
         yield: attrs.yield,
         prepTime: attrs.prepTime,
         cookTime: attrs.cookTime,
         rating: attrs.rating,
         calories: attrs.calories,
-        ingredients: attrs.ingredients,
+        ingredients: attrs.ingredients ? attrs.ingredients : '',
         image: null,
-        imageUrl: attrs.imageUrl
+        imageUrl: attrs.imageUrl ? form.imageUrl : placeholderImage
     });
-    // const recipeDescription = ref(null);
-
-    // onMounted(()=> {
-    //     console.log(recipeDescription);
-    //     // resizeTextAreas();
-    // });
-
-    // function resizeTextAreas() {
-    //     // const { recipeDescription } = this.$refs;
-    //     //asd
-    //     console.log(recipeDescription.value);
-    //     recipeDescription.value.classList.add("h-20");
-    //     console.log(recipeDescription.value);
-    //     // recipeDescription.style.height = recipeDescription.scrollHeight - 4 + 'px';
-    // };
 
     function submit() {
         form.post('/recipes/store', form)
@@ -127,12 +114,9 @@
                                     </label>
 
                                     <textarea
-                                        ref="recipeDescription"
-                                        id="recipe-description"
-                                        type="text"
-                                        @input="resizeTextAreas"
                                         v-model="form.description"
-                                        class="h-max bg-gray-50 w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                                        type="text"
+                                        class="block w-full text-md my-2 text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
                                     ></textarea>
 
                                     <div
@@ -384,6 +368,7 @@
                                     v-bind:key="index"
                                 >
                                     <textarea
+                                        ref="textAreas"
                                         :id="'recipe-step-' + index"
                                         v-model="form.steps[index].text"
                                         type="text"
@@ -392,7 +377,7 @@
 
                                     <div
                                         @click="removeStep(index)"
-                                        class="text-gray absolute right-1.5 bottom-1.5 h-8 w-1 bg-gray-200 hover:bg-gray-300 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-full text-sm px-4 py-2 font-bold"
+                                        class="text-gray absolute right-1.5 bottom-7 h-8 w-1 bg-gray-200 hover:bg-gray-300 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-full text-sm px-4 py-2 font-bold"
                                     >
                                         <p
                                             class="absolute right-3 bottom-1.5"

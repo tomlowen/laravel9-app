@@ -70,7 +70,7 @@
                                 </p>
 
                                 <Link
-                                    href="/recipe/create"
+                                    href="/recipes/create"
                                     as="button"
                                 >
                                     Create recipe
