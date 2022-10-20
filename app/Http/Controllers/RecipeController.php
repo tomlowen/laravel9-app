@@ -77,7 +77,7 @@ class RecipeController extends Controller
 
         $recipe = app(RecipeService::class)->create($request, $user);
 
-        return Redirect::route('recipes.show', $recipe);
+        return Redirect::route('recipes.show', $recipe, 303);
     }
 
     /**
@@ -155,6 +155,12 @@ class RecipeController extends Controller
         }
 
         // Update
+
+        return Redirect::route(
+            'recipes.show',
+            ['recipe' => new RecipeResource($recipe)],
+            303
+        );
     }
 
     /**
@@ -172,8 +178,10 @@ class RecipeController extends Controller
 
         app(RecipeService::class)->delete($recipe);
 
-        return Inertia::render('Recipes/RecipesDashboard', [
-            'recipes' => Recipe::where('user_id', $request->user()->id)->with('images')->get()
-        ]);
+        return Redirect::route(
+            'recipes.index',
+            [],
+            303
+        );
     }
 }
