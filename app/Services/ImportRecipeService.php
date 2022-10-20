@@ -4,6 +4,7 @@ namespace App\Services;
 
 use DOMDocument;
 use DOMXPath;
+use Illuminate\Support\Facades\Log;
 
 class ImportRecipeService
 {
@@ -26,7 +27,9 @@ class ImportRecipeService
         $jsonScripts = $xp->query('//script[@type="application/ld+json"]');
         $json = trim($jsonScripts->item(0)->nodeValue); // get the first script only (it should be unique anyway)
         $recipe = json_decode($json);
-        \Log::info($json);
+
+        Log::info($json);
+
         return [
             'name' => $recipe->name ?? null,
             'author' => $recipe->author->name ?? null,
@@ -34,8 +37,8 @@ class ImportRecipeService
             'description' => $recipe->description ?? null,
             'steps' => $recipe->recipeInstructions ? $recipe->recipeInstructions : null,
             'yield' => $recipe->recipeYield ?? null,
-            'prepTime' => isset($recipe->prepTime) ? self::formatTime($recipe->prepTime) : null,
-            'cookTime' => isset($recipe->cookTime) ? self::formatTime($recipe->cookTime) : null,
+            'preparation_time' => isset($recipe->prepTime) ? self::formatTime($recipe->prepTime) : null,
+            'cooking_time' => isset($recipe->cookTime) ? self::formatTime($recipe->cookTime) : null,
             'rating' => isset($recipe->aggregateRating) ? $recipe->aggregateRating->ratingValue : null,
             'calories' => isset($recipe->nutrition) ? $recipe->nutrition->calories : null,
             'ingredients' => $recipe->recipeIngredient ?? null,

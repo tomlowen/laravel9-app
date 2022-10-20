@@ -6,28 +6,35 @@
     import Label from '../../Components/Label.vue'
     import Input from '../../Components/Input.vue'
     import Button from '../../Components/Button.vue'
-
     import placeholderImage from '@/assets/images/placeholder-image.png'
 
     const attrs = useAttrs();
     const form = useForm({
-        name: attrs.name,
-        author: attrs.author,
-        source: attrs.source,
-        description: attrs.description,
-        steps: attrs.steps ? attrs.steps : '',
-        yield: attrs.yield,
-        prepTime: attrs.prepTime,
-        cookTime: attrs.cookTime,
-        rating: attrs.rating,
-        calories: attrs.calories,
-        ingredients: attrs.ingredients ? attrs.ingredients : '',
+        name: attrs.recipe.data.name,
+        author: attrs.recipe.data.author,
+        source: attrs.recipe.data.source,
+        description: attrs.recipe.data.description,
+        steps: attrs.recipe.data.steps ? attrs.recipe.data.steps : [],
+        yield: attrs.recipe.data.yield,
+        prepTime: attrs.recipe.data.prepTime,
+        cookTime: attrs.recipe.data.cookTime,
+        rating: attrs.recipe.data.rating,
+        calories: attrs.recipe.data.calories,
+        ingredients: attrs.recipe.data.ingredients
+            ? attrs.recipe.data.ingredients.map((i) => `${i.quantity} ${i.unit} ${i.name}${i.notes ? ', ' + i.notes : ''}`)
+            : [],
         image: null,
-        imageUrl: attrs.imageUrl ? form.imageUrl : placeholderImage
+        imageUrl: attrs.recipe.data.images ? '/storage/' + attrs.recipe.data.images[0].filename : placeholderImage
     });
 
+    const existingRecipe = onMounted(() => attrs.recipe.id);
+
     function submit() {
-        form.post('/recipes/store', form)
+        if (existingRecipe) {
+            form.put('/recipes/update', form)
+        } else {
+            form.post('/recipes/store', form)
+        }
     };
 
     function removeIngredient(index) {
@@ -55,7 +62,7 @@
             <h2
                 class="font-semibold text-xl text-gray-800 leading-tight"
             >
-                Create a recipe
+                {{existingRecipe ? 'Update your recipe' : 'Create a recipe'}}
             </h2>
         </template>
 
@@ -399,7 +406,9 @@
                                 </div>
                             </div>
 
-                            <Button>Save</Button>
+                            <Button>
+                                {{existingRecipe ? 'Update' : 'Save'}}
+                            </Button>
                         </form>
                     </div>
                 </div>

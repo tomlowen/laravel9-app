@@ -4,10 +4,14 @@
     import { ref, useAttrs } from 'vue'
     import { Inertia } from '@inertiajs/inertia'
     import { formatTime } from '../../util/helpers'
+    import ChevronLeft from '../../Components/Icons/ChevronLeft.vue'
+    import Options from '../../Components/Icons/Options.vue'
+    import Dropdown from '../../Components/Dropdown.vue'
+    import DropdownLink from '../../Components/DropdownLink.vue'
 
     const attrs = useAttrs();
-    const quantity = ref(attrs.recipe.yield);
-    const ingredients = ref(attrs.recipe.recipe_ingredients);
+    const quantity = ref(attrs.recipe.data.yield);
+    const ingredients = ref(attrs.recipe.data.ingredients);
     const activeTab = ref('tab-1');
 
     function increment() {
@@ -27,21 +31,86 @@
 </script>
 
 <template>
-    <Head :title="$attrs.recipe.name" />
+    <Head :title="$attrs.recipe.data.name" />
 
-    <div class="absolute">
+    <div
+        class="absolute"
+    >
         <div
-            class="z-40 relative"
+            class="w-full"
         >
-            <img
-                :src="'/storage/' + $attrs.recipe.images[0].filename"
-                :alt="$attrs.recipe.name"
-                class="w-full fixed"
-            />
+            <!-- Top buttons -->
+            <div
+                class="h-80 flex justify-between w-full relative"
+            >
+                <Link
+                    href="/recipes"
+                    class="h-10 w-10 z-50 sticky left-3 top-3 mb-3"
+                >
+                    <ChevronLeft
+                        class="leading-4 rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
+                    ></ChevronLeft>
+                </Link>
+
+                <div
+                    class="h-10 w-10 z-50 rounded-full sticky right-3 top-3 mb-3"
+                >
+                    <Dropdown
+                        align="right"
+                        width="48"
+                    >
+                        <template #trigger>
+                            <span
+                                class="inline-flex rounded-md"
+                            >
+                                <button
+                                    type="button"
+                                    class="inline-flex items-center opacity-90 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
+                                >
+                                    <Options></Options>
+                                </button>
+                            </span>
+                        </template>
+
+                        <template #content>
+                            <DropdownLink
+                                :href="'/recipes/' + $attrs.recipe.data.id"
+                                as="button"
+                            >
+                                <p>Share</p>
+                            </DropdownLink>
+
+                            <DropdownLink
+                                :href="`/recipes/${$attrs.recipe.data.id}/edit/`"
+                                method="post"
+                                as="button"
+                            >
+                                <p>Edit</p>
+                            </DropdownLink>
+
+                            <DropdownLink
+                                :href="`/recipes/${$attrs.recipe.data.id}`"
+                                method="delete"
+                                as="button"
+                            >
+                                <p>Delete</p>
+                            </DropdownLink>
+                        </template>
+                    </Dropdown>
+                </div>
+            </div>
+
+            <div class="z-40">
+                <img
+                    :src="'/storage/' + $attrs.recipe.data.images[0].filename"
+                    :alt="$attrs.recipe.data.name"
+                    class="w-full fixed top-0"
+                />
+            </div>
         </div>
 
         <div
-            class="z-50 m-auto relative top-96 max-w-7xl mx-auto sm:px-6 lg:px-8 "
+            class="z-50 m-auto relative max-w-7xl mx-auto sm:px-6 lg:px-8 "
         >
             <div
                 class="bg-gradient-to-tr bg-white overflow-hidden shadow-sm rounded-3xl"
@@ -52,19 +121,19 @@
                     <h1
                         class="w-3/4 uppercase font-serif font-extrabold text-2xl text-center"
                     >
-                        {{ $attrs.recipe.name }}
+                        {{ $attrs.recipe.data.name }}
                     </h1>
 
                     <p
                         class="pt-2 w-11/12 font-bold text-sm text-center text-slate-400"
                     >
-                        {{ $attrs.recipe.description }}
+                        {{ $attrs.recipe.data.description }}
                     </p>
 
                     <p
                         class="pt-3 pb-5 font-extrabold text-sm text-center"
                     >
-                        {{ formatTime($attrs.recipe.total_time) }} | SERVES {{ quantity }}
+                        {{ formatTime($attrs.recipe.data.totalTime) }} | SERVES {{ quantity }}
                     </p>
 
                     <!-- Quantity adjustment -->
@@ -141,7 +210,7 @@
                         <div id="tab-content" class="w-11/12 border-solid border-2 border-neutral-200 rounded-xl">
                             <div id="ingredientsTab" class="p-6">
                                 <div
-                                    v-for="(ingredient, index) in ingredients"
+                                    v-for="(ingredient, index) in $attrs.recipe.data.ingredients"
                                     v-bind:key="index"
                                     class="flex justify-between pt-2 font-semibold"
                                 >
@@ -158,7 +227,7 @@
                                 </div>
                             </div>
 
-                            <div id="stepsTab">
+                            <!-- <div id="stepsTab">
                                 <div
                                     v-for="(step, index) in attrs.recipe.steps"
                                     v-bind:key="index"
@@ -175,7 +244,7 @@
                                         </p>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>

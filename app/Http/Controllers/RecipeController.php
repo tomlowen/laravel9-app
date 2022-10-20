@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ImportRecipeRequest;
 use App\Http\Requests\StoreRecipeRequest;
 use App\Http\Requests\UpdateRecipeRequest;
+use App\Http\Resources\RecipeResource;
 use App\Models\Recipe;
 use App\Services\ImageService;
 use App\Services\ImportIngredientService;
 use App\Services\ImportRecipeService;
+use App\Services\RecipeService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
@@ -25,18 +27,37 @@ class RecipeController extends Controller
     {
         $user = $request->user();
 
+        if (!$user) {
+            return Redirect::route('login');
+        }
+
+        $collection = Recipe::where('user_id', $user->id)->get();
+        $recipes = [];
+
+        foreach ($collection as $recipe) {
+            $recipe->load(['images']);
+            $recipes[] = $recipe;
+        }
+
         return Inertia::render('Recipes/RecipesDashboard', [
-            'recipes' => Recipe::where('user_id', $user->id)->with('images')->get()
+            'recipes' => RecipeResource::collection($recipes)
         ]);
     }
 
     /**
      * Show the form for creating a new resource.
      *
+     * @param  \App\Http\Requests\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
+        $user = $request->user();
+
+        if (!$user) {
+            return Redirect::route('login');
+        }
+
         return Inertia::render('Recipes/CreateRecipe');
     }
 
@@ -50,29 +71,13 @@ class RecipeController extends Controller
     {
         $user = $request->user();
 
-        $recipe = Recipe::create([
-            'name' => $request['name'],
-            'user_id' => $user->id,
-            'author' => $request['author'],
-            'source' => $request['source'],
-            'description' => $request['description'],
-            'steps' => serialize($request['steps']),
-            'yield' => $request['yield'],
-            'preparation_time' => $request['prepTime'],
-            'cooking_time' => $request['cookTime'],
-            'rating' => $request['rating'],
-            'calories' => $request['calories'],
-        ]);
+        if(!$user) {
+            abort(404);
+        }
 
-        $importer = new ImportIngredientService;
-        $importer->importIngredients($request['ingredients'], $recipe);
+        $recipe = app(RecipeService::class)->create($request, $user);
 
-        $imageService = new ImageService;
-        $imageService->storeImage($request['imageUrl'], $recipe, $request['image']);
-
-        return Redirect::route('recipes.show', [
-            'recipe' => $recipe->id,
-        ]);
+        return Redirect::route('recipes.show', $recipe);
     }
 
     /**
@@ -83,6 +88,12 @@ class RecipeController extends Controller
      */
     public function import(ImportRecipeRequest $request)
     {
+        $user = $request->user();
+
+        if (!$user) {
+            return Redirect::route('login');
+        }
+
         $recipe = app(ImportRecipeService::class)->getRecipeFromUrl($request['recipeUrl']);
 
         return Inertia::render('Recipes/CreateRecipe', $recipe);
@@ -91,32 +102,41 @@ class RecipeController extends Controller
     /**
      * Display the specified resource.
      *
+     * @param  \App\Http\Requests\Request  $request
      * @param  \App\Models\Recipe  $recipe
      * @return \Illuminate\Http\Response
      */
     public function show(Request $request, Recipe $recipe)
     {
-        $user = $request->user();
-        if($user->id != $recipe->user_id) {
+        if($request->user()->id != $recipe->user_id) {
             abort(404);
         }
 
+        $recipe->load(['recipeIngredients', 'images']);
+
         return Inertia::render('Recipes/Recipe', [
-                'recipe' => $recipe,
-                'images' => $recipe->images,
-                'ingredients' => $recipe->recipeIngredients
+                'recipe' => new RecipeResource($recipe),
             ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
+     * @param  \App\Http\Requests\Request  $request
      * @param  \App\Models\Recipe  $recipe
      * @return \Illuminate\Http\Response
      */
-    public function edit(Recipe $recipe)
+    public function edit(Request $request, Recipe $recipe)
     {
-        return Inertia::render('Recipes/CreateRecipe', $recipe);
+        if($request->user()->id != $recipe->user_id) {
+            abort(404);
+        }
+
+        $recipe->load(['recipeIngredients', 'images']);
+
+        return Inertia::render('Recipes/CreateRecipe', [
+            'recipe' => new RecipeResource($recipe),
+        ]);
     }
 
     /**
@@ -128,17 +148,32 @@ class RecipeController extends Controller
      */
     public function update(UpdateRecipeRequest $request, Recipe $recipe)
     {
-        //
+        $recipe = Recipe::findOrFail($recipe);
+
+        if($request->user()->id != $recipe->user_id) {
+            abort(404);
+        }
+
+        // Update
     }
 
     /**
      * Remove the specified resource from storage.
      *
+     * @param  \App\Http\Requests\Request  $request
      * @param  \App\Models\Recipe  $recipe
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Recipe $recipe)
+    public function destroy(Request $request, Recipe $recipe)
     {
-        //
+        if($request->user()->id != $recipe->user_id) {
+            abort(404);
+        }
+
+        app(RecipeService::class)->delete($recipe);
+
+        return Inertia::render('Recipes/RecipesDashboard', [
+            'recipes' => Recipe::where('user_id', $request->user()->id)->with('images')->get()
+        ]);
     }
 }

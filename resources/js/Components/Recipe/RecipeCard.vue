@@ -31,7 +31,7 @@ const imageSrc = computed(()=>props.recipe.images[0].filename)
                     <p
                         class="font-extrabold text-xs text-center"
                     >
-                        {{ formatTime(recipe.total_time) }} | EASY
+                        {{ formatTime(recipe.totalTime) }} | EASY
                     </p>
                 <div/>
             </div>

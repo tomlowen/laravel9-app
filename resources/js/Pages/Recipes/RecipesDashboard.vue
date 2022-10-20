@@ -95,7 +95,7 @@
                         class="p-6 bg-white border-b border-gray-200 flex flex-col sm:flex-wrap sm:flex-row grow"
                     >
                         <div
-                            v-for="(recipe, index) in $attrs.recipes"
+                            v-for="(recipe, index) in $attrs.recipes.data"
                             v-bind:key="index"
                             class="w-100 sm:w-4/12 md:w-3/12"
                         >
