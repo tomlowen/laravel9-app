@@ -15,8 +15,6 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        User::factory(5)->create();
-
         if (! User::where('email', 'test@example.com')->exists()) {
             User::factory()->create([
                 'name' => 'Test User',
@@ -24,5 +22,7 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('password'),
             ]);
         }
+
+        User::factory(5)->create();
     }
 }

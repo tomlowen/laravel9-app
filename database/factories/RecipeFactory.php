@@ -18,6 +18,7 @@ class RecipeFactory extends Factory
     {
         return [
             'name' => fake()->word(),
+            'user_id' => 1,
             'author' => fake()->name(),
             'source' => fake()->url(),
             'description' => fake()->paragraph(),

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
@@ -21,6 +22,7 @@ class Recipe extends Model
      */
     protected $fillable = [
         'name',
+        'user_id',
         'author',
         'source',
         'description',
@@ -39,6 +41,7 @@ class Recipe extends Model
      * @var array<string, string>
      */
     protected $casts = [
+        'user_id' => 'integer',
         'preparation_time' => 'integer',
         'cooking_time' => 'integer',
         'total_time' => 'integer',
@@ -103,5 +106,15 @@ class Recipe extends Model
     public function tags(): MorphToMany
     {
         return $this->morphToMany(Tag::class, 'taggable');
+    }
+
+    /**
+     * Get the User for the recipe.
+     *
+     * @return Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 }

@@ -9,6 +9,7 @@ use App\Models\Recipe;
 use App\Services\ImageService;
 use App\Services\ImportIngredientService;
 use App\Services\ImportRecipeService;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
@@ -20,10 +21,12 @@ class RecipeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $user = $request->user();
+
         return Inertia::render('Recipes/RecipesDashboard', [
-            'recipes' => Recipe::with('images')->get()
+            'recipes' => Recipe::where('user_id', $user->id)->with('images')->get()
         ]);
     }
 
@@ -45,8 +48,11 @@ class RecipeController extends Controller
      */
     public function store(StoreRecipeRequest $request)
     {
+        $user = $request->user();
+
         $recipe = Recipe::create([
             'name' => $request['name'],
+            'user_id' => $user->id,
             'author' => $request['author'],
             'source' => $request['source'],
             'description' => $request['description'],
@@ -88,8 +94,13 @@ class RecipeController extends Controller
      * @param  \App\Models\Recipe  $recipe
      * @return \Illuminate\Http\Response
      */
-    public function show(Recipe $recipe)
+    public function show(Request $request, Recipe $recipe)
     {
+        $user = $request->user();
+        if($user->id != $recipe->user_id) {
+            abort(404);
+        }
+
         return Inertia::render('Recipes/Recipe', [
                 'recipe' => $recipe,
                 'images' => $recipe->images,
