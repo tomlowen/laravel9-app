@@ -82,7 +82,6 @@
 
                             <DropdownLink
                                 :href="`/recipes/${$attrs.recipe.data.id}/edit/`"
-                                method="post"
                                 as="button"
                             >
                                 <p>Edit</p>

@@ -6,6 +6,7 @@
     import Label from '../../Components/Label.vue'
     import Input from '../../Components/Input.vue'
     import Button from '../../Components/Button.vue'
+    import TextArea from '../../Components/TextArea.vue'
     import placeholderImage from '@/assets/images/placeholder-image.png'
 
     const attrs = useAttrs();
@@ -38,7 +39,7 @@
 
     function submit() {
         if (attrs.recipe.data.id) {
-            form.put('/recipes/update', form)
+            form.put(`/recipes/${attrs.recipe.data.id}/update`, form)
         } else {
             form.post('/recipes/store', form)
         }
@@ -69,7 +70,7 @@
             <h2
                 class="font-semibold text-xl text-gray-800 leading-tight"
             >
-                {{existingRecipe ? 'Update your recipe' : 'Create a recipe'}}
+                {{$attrs.recipe.data.id ? 'Update your recipe' : 'Create a recipe'}}
             </h2>
         </template>
 
@@ -127,11 +128,7 @@
                                         Description
                                     </label>
 
-                                    <textarea
-                                        v-model="form.description"
-                                        type="text"
-                                        class="block w-full text-md my-2 text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
-                                    ></textarea>
+                                    <TextArea :modelValue="form.description"></TextArea>
 
                                     <div
                                         v-if="form.errors.description"
@@ -381,17 +378,14 @@
                                     v-for="(step, index) in form.steps"
                                     v-bind:key="index"
                                 >
-                                    <textarea
-                                        ref="textAreas"
+                                    <TextArea
                                         :id="'recipe-step-' + index"
-                                        v-model="form.steps[index].text"
-                                        type="text"
-                                        class="block w-full text-md my-2 text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
-                                    ></textarea>
+                                        :modelValue="form.steps[index].text"
+                                    ></TextArea>
 
                                     <div
                                         @click="removeStep(index)"
-                                        class="text-gray absolute right-1.5 bottom-7 h-8 w-1 bg-gray-200 hover:bg-gray-300 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-full text-sm px-4 py-2 font-bold"
+                                        class="text-gray absolute right-1.5 bottom-2 h-8 w-1 bg-gray-200 hover:bg-gray-300 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-full text-sm px-4 py-2 font-bold"
                                     >
                                         <p
                                             class="absolute right-3 bottom-1.5"

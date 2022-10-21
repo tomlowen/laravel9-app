@@ -73,7 +73,6 @@ class StoreRecipeRequest extends FormRequest
             'calories' => [
                 'sometimes',
                 'nullable',
-                'string',
                 'max:255',
             ],
             'ingredients' => [

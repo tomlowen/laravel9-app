@@ -146,9 +146,9 @@ class RecipeController extends Controller
      * @param  \App\Models\Recipe  $recipe
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateRecipeRequest $request, Recipe $recipe)
+    public function update(StoreRecipeRequest $request, Recipe $recipe)
     {
-        // $recipe = Recipe::firstOrFail($recipe);
+        $recipe = Recipe::findOrFail($recipe->id);
 
         if($request->user()->id != $recipe->user_id) {
             abort(404);

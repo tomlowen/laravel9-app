@@ -33,12 +33,12 @@ Route::prefix('recipes')->name('recipes.')->middleware(['auth', 'verified'])->gr
     Route::get('/', [RecipeController::class, 'index'])->name('index');
     Route::get('/create', [RecipeController::class, 'create'])->name('create');
     Route::get('/import', [RecipeController::class, 'create'])->name('create');
-    Route::post('/{recipe}/edit', [RecipeController::class, 'edit'])->name('edit');
+    Route::get('/{recipe}/edit', [RecipeController::class, 'edit'])->name('edit');
+    Route::get('/{recipe}', [RecipeController::class, 'show'])->name('show');
     Route::post('/store', [RecipeController::class, 'store'])->name('store');
     Route::post('/import', [RecipeController::class, 'import'])->name('import');
-    Route::put('/update', [RecipeController::class, 'update'])->name('update');
+    Route::put('/{recipe}/update', [RecipeController::class, 'update'])->name('update');
     Route::delete('/{recipe}', [RecipeController::class, 'destroy'])->name('destroy');
-    Route::get('/{recipe}', [RecipeController::class, 'show'])->name('show');
 });
 
 require __DIR__.'/auth.php';
