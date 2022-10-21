@@ -11,21 +11,19 @@
 
     const attrs = useAttrs();
     const form = useForm({
-        name: attrs.recipe.data.name,
-        author: attrs.recipe.data.author,
-        source: attrs.recipe.data.source,
-        description: attrs.recipe.data.description,
-        steps: attrs.recipe.data.steps ? attrs.recipe.data.steps : [],
-        yield: attrs.recipe.data.yield,
-        prepTime: attrs.recipe.data.prepTime,
-        cookTime: attrs.recipe.data.cookTime,
-        rating: attrs.recipe.data.rating,
-        calories: attrs.recipe.data.calories,
-        ingredients: attrs.recipe.data.ingredients
-            ? attrs.recipe.data.ingredients
-            : [],
+        name: attrs.recipe ? attrs.recipe.data.name : '',
+        author: attrs.recipe ? attrs.recipe.data.author : '',
+        description: attrs.recipe ? attrs.recipe.data.description : '',
+        steps: attrs.recipe ? attrs.recipe.data.steps : [],
+        source: attrs.recipe ? attrs.recipe.data.source : '',
+        yield: attrs.recipe ? attrs.recipe.data.yield : '',
+        prepTime: attrs.recipe ? attrs.recipe.data.prepTime : 0,
+        cookTime: attrs.recipe ? attrs.recipe.data.cookTime : 0,
+        rating: attrs.recipe ? attrs.recipe.data.rating : '',
+        calories: attrs.recipe ? attrs.recipe.data.calories : '',
+        ingredients: attrs.recipe ? attrs.recipe.data.ingredients : [],
         image: null,
-        imageUrl: attrs.recipe.data.imageUrl ? attrs.recipe.data.imageUrl : placeholderImage
+        imageUrl: attrs.recipe ? attrs.recipe.data.imageUrl : placeholderImage
     });
 
     onMounted(() => {
@@ -38,7 +36,7 @@
     });
 
     function submit() {
-        if (attrs.recipe.data.id) {
+        if (attrs.recipe && attrs.recipe.data.id) {
             form.put(`/recipes/${attrs.recipe.data.id}/update`, form)
         } else {
             form.post('/recipes/store', form)
@@ -50,7 +48,7 @@
     };
 
     function addIngredient() {
-        form.ingredients = [...form.ingredients, ''];
+        form.ingredients.push('');
     };
 
     function removeStep(index) {
@@ -70,7 +68,7 @@
             <h2
                 class="font-semibold text-xl text-gray-800 leading-tight"
             >
-                {{$attrs.recipe.data.id ? 'Update your recipe' : 'Create a recipe'}}
+                {{$attrs.recipe && $attrs.recipe.data.id ? 'Update your recipe' : 'Create a recipe'}}
             </h2>
         </template>
 
@@ -408,7 +406,7 @@
                             </div>
 
                             <Button>
-                                {{$attrs.recipe.data.id ? 'Update' : 'Save'}}
+                                {{$attrs.recipe && $attrs.recipe.data.id ? 'Update' : 'Save'}}
                             </Button>
                         </form>
                     </div>
