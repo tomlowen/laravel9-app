@@ -2,11 +2,18 @@
 
 namespace App\Http\Requests;
 
-use App\Rules\RecipeUrl;
+use App\Rules\validRecipeUrl;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ImportRecipeRequest extends FormRequest
 {
+    /**
+     * Indicates if the validator should stop on the first rule failure.
+     *
+     * @var bool
+     */
+    protected $stopOnFirstFailure = true;
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -26,9 +33,10 @@ class ImportRecipeRequest extends FormRequest
     {
         return [
             'recipeUrl' => [
+                'bail',
                 'required',
-                'url',
-                new RecipeUrl($this->input('recipeUrl')),
+                'active_url',
+                new validRecipeUrl
             ],
         ];
     }

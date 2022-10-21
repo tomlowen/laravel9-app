@@ -41,24 +41,32 @@
                             :disabled="form.processing"
                         >
                             <label
-                                for="recipe-url"
+                                for="recipeUrl"
                                 class="pb-1 pt-2 font-medium text-sm text-gray-700"
                             >
                                 Enter a URL to import a recipe:
                             </label>
 
                             <input
-                                id="recipe-url"
+                                id="recipeUrl"
                                 v-model="form.recipeUrl"
                                 type="text"
                                 class="w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
                             />
 
                             <div
+                                v-if="form.errors"
+                                class="text-sm text-red-600"
+                            >
+                                {{ form.errors.recipeUrl }}
+                            </div>
+
+                            <div
                                 class="flex align-middle mt-3"
                             >
                                 <Button
                                     type="submit"
+
                                 >
                                     Import recipe
                                 </Button>

@@ -21,16 +21,23 @@
         rating: attrs.recipe.data.rating,
         calories: attrs.recipe.data.calories,
         ingredients: attrs.recipe.data.ingredients
-            ? attrs.recipe.data.ingredients.map((i) => `${i.quantity} ${i.unit} ${i.name}${i.notes ? ', ' + i.notes : ''}`)
+            ? attrs.recipe.data.ingredients
             : [],
         image: null,
-        imageUrl: attrs.recipe.data.images ? '/storage/' + attrs.recipe.data.images[0].filename : placeholderImage
+        imageUrl: attrs.recipe.data.imageUrl ? attrs.recipe.data.imageUrl : placeholderImage
     });
 
-    const existingRecipe = onMounted(() => attrs.recipe.id);
+    onMounted(() => {
+        const existingRecipe = attrs.recipe.data.id;
+
+        if (existingRecipe) {
+            form.ingredients = attrs.recipe.data.ingredients.map((i) => `${i.quantity} ${i.unit} ${i.name}${i.notes ? ', ' + i.notes : ''}`)
+            form.imageUrl = attrs.recipe.data.images ? '/storage/' + attrs.recipe.data.images[0].filename : placeholderImage
+        }
+    });
 
     function submit() {
-        if (existingRecipe) {
+        if (attrs.recipe.data.id) {
             form.put('/recipes/update', form)
         } else {
             form.post('/recipes/store', form)
@@ -89,7 +96,7 @@
                                     :style="{ backgroundImage: `url(${form.imageUrl})` }"
                                 ></div>
 
-                                <div class="w-full md:pr-5">
+                                <div class="w-full md:mr-5">
                                     <!-- name -->
                                     <label
                                         for="recipe-name"
@@ -407,7 +414,7 @@
                             </div>
 
                             <Button>
-                                {{existingRecipe ? 'Update' : 'Save'}}
+                                {{$attrs.recipe.data.id ? 'Update' : 'Save'}}
                             </Button>
                         </form>
                     </div>

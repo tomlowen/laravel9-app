@@ -96,7 +96,7 @@ class RecipeController extends Controller
 
         $recipe = app(ImportRecipeService::class)->getRecipeFromUrl($request['recipeUrl']);
 
-        return Inertia::render('Recipes/CreateRecipe', $recipe);
+        return Inertia::render('Recipes/CreateRecipe', ['recipe' => $recipe]);
     }
 
     /**
@@ -148,7 +148,7 @@ class RecipeController extends Controller
      */
     public function update(UpdateRecipeRequest $request, Recipe $recipe)
     {
-        $recipe = Recipe::findOrFail($recipe);
+        // $recipe = Recipe::firstOrFail($recipe);
 
         if($request->user()->id != $recipe->user_id) {
             abort(404);

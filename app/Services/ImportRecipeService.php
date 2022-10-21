@@ -31,18 +31,20 @@ class ImportRecipeService
         Log::info($json);
 
         return [
-            'name' => $recipe->name ?? null,
-            'author' => $recipe->author->name ?? null,
-            'source' => $url,
-            'description' => $recipe->description ?? null,
-            'steps' => $recipe->recipeInstructions ? $recipe->recipeInstructions : null,
-            'yield' => $recipe->recipeYield ?? null,
-            'preparation_time' => isset($recipe->prepTime) ? self::formatTime($recipe->prepTime) : null,
-            'cooking_time' => isset($recipe->cookTime) ? self::formatTime($recipe->cookTime) : null,
-            'rating' => isset($recipe->aggregateRating) ? $recipe->aggregateRating->ratingValue : null,
-            'calories' => isset($recipe->nutrition) ? $recipe->nutrition->calories : null,
-            'ingredients' => $recipe->recipeIngredient ?? null,
-            'imageUrl' => self::getImage($recipe),
+            'data' => [
+                'name' => $recipe->name ?? null,
+                'author' => $recipe->author->name ?? null,
+                'source' => $url,
+                'description' => $recipe->description ?? null,
+                'steps' => $recipe->recipeInstructions ? $recipe->recipeInstructions : null,
+                'yield' => $recipe->recipeYield ?? null,
+                'prepTime' => isset($recipe->prepTime) ? self::formatTime($recipe->prepTime) : null,
+                'cookTime' => isset($recipe->cookTime) ? self::formatTime($recipe->cookTime) : null,
+                'rating' => isset($recipe->aggregateRating) ? $recipe->aggregateRating->ratingValue : null,
+                'calories' => isset($recipe->nutrition) ? $recipe->nutrition->calories : null,
+                'ingredients' => $recipe->recipeIngredient ?? null,
+                'imageUrl' => self::getImage($recipe),
+            ]
         ];
     }
 
