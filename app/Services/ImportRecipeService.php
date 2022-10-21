@@ -4,6 +4,7 @@ namespace App\Services;
 
 use DOMDocument;
 use DOMXPath;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 
 class ImportRecipeService
@@ -26,23 +27,33 @@ class ImportRecipeService
         $xp = new DOMXPath($d);
         $jsonScripts = $xp->query('//script[@type="application/ld+json"]');
         $json = trim($jsonScripts->item(0)->nodeValue); // get the first script only (it should be unique anyway)
-        $recipe = json_decode($json);
+        $jsonLdScript = json_decode($json, true);
 
-        Log::info($json);
+        if (isset($jsonLdScript['@type']) && $jsonLdScript['@type'] === 'Recipe') {
+            $recipe = $jsonLdScript;
+        }
+        else {
+            $sections = Arr::collapse($jsonLdScript);
+            $recipe = Arr::first($sections, function ($value) {
+                return $value['@type'] === 'Recipe';
+            });
+        }
+
+        Log::info($recipe);
 
         return [
             'data' => [
-                'name' => $recipe->name ?? null,
-                'author' => $recipe->author->name ?? null,
+                'name' => $recipe['name'] ?? null,
+                'author' => $recipe['author']['name'] ?? null,
                 'source' => $url,
-                'description' => $recipe->description ?? null,
-                'steps' => $recipe->recipeInstructions ? $recipe->recipeInstructions : null,
-                'yield' => $recipe->recipeYield ?? null,
-                'prepTime' => isset($recipe->prepTime) ? self::formatTime($recipe->prepTime) : null,
-                'cookTime' => isset($recipe->cookTime) ? self::formatTime($recipe->cookTime) : null,
-                'rating' => isset($recipe->aggregateRating) ? $recipe->aggregateRating->ratingValue : null,
-                'calories' => isset($recipe->nutrition) ? $recipe->nutrition->calories : null,
-                'ingredients' => $recipe->recipeIngredient ?? null,
+                'description' => $recipe['description'] ?? null,
+                'steps' => $recipe['recipeInstructions'] ? $recipe['recipeInstructions'] : null,
+                'yield' => $recipe['recipeYield'] ?? null,
+                'prepTime' => isset($recipe['prepTime']) ? self::formatTime($recipe['prepTime']) : null,
+                'cookTime' => isset($recipe['cookTime']) ? self::formatTime($recipe['cookTime']) : null,
+                'rating' => isset($recipe['aggregateRating']) ? $recipe['aggregateRating']['ratingValue'] : null,
+                'calories' => isset($recipe['nutrition']) ? $recipe['nutrition']['calories'] : null,
+                'ingredients' => $recipe['recipeIngredient'] ?? null,
                 'imageUrl' => self::getImage($recipe),
             ]
         ];
@@ -87,10 +98,10 @@ class ImportRecipeService
      */
     public function getImage(object $recipe)
     {
-        if (isset($recipe->image)) {
-            $image = $recipe->image;
-        } elseif (isset($recipe->seoMetadata->image->url)) {
-            $image = $recipe->seoMetadata->image->url;
+        if (isset($recipe['image'])) {
+            $image = $recipe['image'];
+        } elseif (isset($recipe['seoMetadata']['image']['url'])) {
+            $image = $recipe['seoMetadata']['image']['url'];
         } else {
             return null;
         }
