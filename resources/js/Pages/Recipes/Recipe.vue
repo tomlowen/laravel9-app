@@ -5,14 +5,19 @@
     import { Inertia } from '@inertiajs/inertia'
     import { formatTime } from '../../util/helpers'
     import ChevronLeft from '../../Components/Icons/ChevronLeft.vue'
-    import Options from '../../Components/Icons/Options.vue'
+    import OptionsIcon from '../../Components/Icons/Options.vue'
+    import EditIcon from '../../Components/Icons/Edit.vue'
+    import DeleteIcon from '../../Components/Icons/Delete.vue'
+    import ShareIcon from '../../Components/Icons/Share.vue'
     import Dropdown from '../../Components/Dropdown.vue'
+    import DeleteRecipeModal from '../../Components/DeleteRecipeModal.vue'
     import DropdownLink from '../../Components/DropdownLink.vue'
 
     const attrs = useAttrs();
     const quantity = ref(attrs.recipe.data.yield);
     const ingredients = ref(attrs.recipe.data.ingredients);
     const activeTab = ref('tab-1');
+    const modalVisible = ref(false);
 
     function increment() {
         quantity.value++;
@@ -28,24 +33,35 @@
         })
     }
 
+    function setActiveTab(tab) {
+        activeTab.value = tab;
+    }
+
+    function toggleModal() {
+        console.log('togglemodalcalledinparent')
+        modalVisible.value = !modalVisible.value;
+    }
+
 </script>
 
 <template>
     <Head :title="$attrs.recipe.data.name" />
 
+    <DeleteRecipeModal :modalVisible="modalVisible" :recipeId="$attrs.recipe.data.id" @toggleModal="toggleModal"></DeleteRecipeModal>
+
     <div
-        class="absolute"
+        class="absolute w-full"
     >
         <div
             class="w-full"
         >
             <!-- Top buttons -->
             <div
-                class="h-80 flex justify-between w-full relative"
+                class="h-80 flex justify-between w-full relative m-auto max-w-7xl mx-auto sm:px-6 lg:px-8"
             >
                 <Link
                     href="/recipes"
-                    class="h-10 w-10 z-50 sticky left-3 top-3 mb-3"
+                    class="h-10 w-10 z-30 sticky left-3 top-3 mb-3"
                 >
                     <ChevronLeft
                         class="leading-4 rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
@@ -67,39 +83,44 @@
                                     type="button"
                                     class="inline-flex items-center opacity-90 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
                                 >
-                                    <Options></Options>
+                                    <OptionsIcon></OptionsIcon>
                                 </button>
                             </span>
                         </template>
 
                         <template #content>
                             <DropdownLink
+                                class="flex align-middle"
                                 :href="'/recipes/' + $attrs.recipe.data.id"
                                 as="button"
                             >
-                                <p>Share</p>
+                                <ShareIcon class="mr-1"></ShareIcon>
+                                <p class="m-1">Share</p>
                             </DropdownLink>
 
                             <DropdownLink
+                                class="flex align-center"
                                 :href="`/recipes/${$attrs.recipe.data.id}/edit/`"
                                 as="button"
                             >
-                                <p>Edit</p>
+                                <EditIcon class="mr-1"></EditIcon>
+                                <p class="m-1">Edit</p>
                             </DropdownLink>
 
-                            <DropdownLink
-                                :href="`/recipes/${$attrs.recipe.data.id}`"
-                                method="delete"
+                            <button
+                                class="w-full px-4 py-2 flex align-center text-red-400 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
                                 as="button"
+                                @click="toggleModal"
                             >
-                                <p>Delete</p>
-                            </DropdownLink>
+                                <DeleteIcon class="mr-1"></DeleteIcon>
+                                <p class="m-1">Delete</p>
+                            </button>
                         </template>
                     </Dropdown>
                 </div>
             </div>
 
-            <div class="z-40">
+            <div class="z-20">
                 <img
                     :src="'/storage/' + $attrs.recipe.data.images[0].filename"
                     :alt="$attrs.recipe.data.name"
@@ -109,7 +130,7 @@
         </div>
 
         <div
-            class="z-50 m-auto relative max-w-7xl mx-auto sm:px-6 lg:px-8 "
+            class="z-30 m-auto relative max-w-7xl mx-auto sm:px-6 lg:px-8 "
         >
             <div
                 class="bg-gradient-to-tr bg-white overflow-hidden shadow-sm rounded-3xl"
@@ -168,7 +189,7 @@
                     </div>
 
                     <div
-                        class="pt-8 w-11/12 flex flex-col items-center"
+                        class="pt-8 w-11/12 flex flex-col items-center mb-20"
                     >
                         <!-- Tab bar -->
                         <div
@@ -183,6 +204,7 @@
                                     id="tab-1"
                                     type="button"
                                     class="w-1/3 rounded-l inline-block px-3 py-2.5 text-black font-bold text-sm leading-tight transition duration-150 ease-in-out"
+                                    @click="setActiveTab('tab-1')"
                                 >
                                     Ingredients
                                 </button>
@@ -191,6 +213,7 @@
                                     id="tab-2"
                                     type="button"
                                     class="w-1/3 inline-block px-3 py-2.5 text-black font-bold text-sm leading-tight transition duration-150 ease-in-out"
+                                    @click="setActiveTab('tab-2')"
                                 >
                                     Steps
                                 </button>
@@ -199,6 +222,7 @@
                                     id="tab-3"
                                     type="button"
                                     class="w-1/3 rounded-r inline-block px-3 py-2.5 text-black font-bold text-sm leading-tight transition duration-150 ease-in-out"
+                                    @click="setActiveTab('tab-3')"
                                 >
                                     More info
                                 </button>
@@ -206,44 +230,52 @@
                         </div>
 
                         <!-- Tab content -->
-                        <div id="tab-content" class="w-11/12 border-solid border-2 border-neutral-200 rounded-xl">
-                            <div id="ingredientsTab" class="p-6">
-                                <div
-                                    v-for="(ingredient, index) in $attrs.recipe.data.ingredients"
-                                    v-bind:key="index"
-                                    class="flex justify-between pt-2 font-semibold"
-                                >
-                                    <div>
-                                        <p>
-                                            {{ ingredient.name.charAt(0).toUpperCase() + ingredient.name.slice(1) }}
-                                        </p>
+                        <div id="tab-content" class="w-11/12">
+                            <div class="md:flex">
+                                <div ref="tab-1" :class="{'mmd:hidden': activeTab !== 'tab-1'}" class="md:mr-2 p-6 border-solid border-2 border-neutral-200 rounded-xl md:w-1/2 lg:w-1/3" >
+                                    <div
+                                        v-for="(ingredient, index) in $attrs.recipe.data.ingredients"
+                                        v-bind:key="index"
+                                        class="flex justify-between pt-2 font-semibold"
+                                    >
+                                        <div>
+                                            <p>
+                                                {{ ingredient.name.charAt(0).toUpperCase() + ingredient.name.slice(1) }}
+                                            </p>
+                                        </div>
+                                        <div>
+                                            <p>
+                                                {{ ingredient.quantity }} {{ ingredient.unit }}
+                                            </p>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <p>
-                                            {{ ingredient.quantity }} {{ ingredient.unit }}
-                                        </p>
+                                </div>
+
+                                <div ref="tab-2" :class="{'mmd:hidden': activeTab !== 'tab-2'}" class="p-6 border-solid border-2 border-neutral-200 rounded-xl md:w-1/2 lg:w-2/3" >
+                                    <div
+                                        v-for="(step, index) in attrs.recipe.data.steps"
+                                        v-bind:key="index"
+                                        class="flex justify-between pt-2"
+                                    >
+                                        <div class="mr-2 font-semibold">
+                                            <p>
+                                                {{ index + 1 }}
+                                            </p>
+                                        </div>
+                                        <div>
+                                            <p>
+                                                {{ step.text }}
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- <div id="stepsTab">
+                            <div ref="tab-3" :class="{'mmd:hidden': activeTab !== 'tab-3'}" class="md:mt-2 p-6 border-solid border-2 border-neutral-200 rounded-xl" >
                                 <div
-                                    v-for="(step, index) in attrs.recipe.steps"
-                                    v-bind:key="index"
-                                    class="flex justify-between pt-2 font-semibold"
-                                >
-                                    <div>
-                                        <p>
-                                            {{ index + 1 }}
-                                        </p>
-                                    </div>
-                                    <div>
-                                        <p>
-                                            {{ step.text }}
-                                        </p>
-                                    </div>
+                                > More info
                                 </div>
-                            </div> -->
+                            </div>
                         </div>
                     </div>
                 </div>
