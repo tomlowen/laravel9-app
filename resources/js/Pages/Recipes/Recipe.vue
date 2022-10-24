@@ -264,7 +264,7 @@
                                         </div>
                                         <div>
                                             <p>
-                                                {{ step.text }}
+                                                {{ step }}
                                             </p>
                                         </div>
                                     </div>
