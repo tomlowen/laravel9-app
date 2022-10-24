@@ -68,7 +68,7 @@ class StoreRecipeRequest extends FormRequest
             'rating' => [
                 'sometimes',
                 'nullable',
-                'integer',
+                'numeric',
             ],
             'calories' => [
                 'sometimes',

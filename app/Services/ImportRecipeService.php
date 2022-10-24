@@ -4,6 +4,7 @@ namespace App\Services;
 
 use DOMDocument;
 use DOMXPath;
+use Hamcrest\Type\IsString;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 
@@ -44,14 +45,14 @@ class ImportRecipeService
         return [
             'data' => [
                 'name' => $recipe['name'] ?? null,
-                'author' => $recipe['author']['name'] ?? null,
+                'author' => self::getAuthor($recipe),
                 'source' => $url,
                 'description' => $recipe['description'] ?? null,
-                'steps' => $recipe['recipeInstructions'] ? $recipe['recipeInstructions'] : null,
-                'yield' => $recipe['recipeYield'] ?? null,
+                'steps' => self::getSteps($recipe),
+                'yield' => self::getYield($recipe),
                 'prepTime' => isset($recipe['prepTime']) ? self::formatTime($recipe['prepTime']) : null,
                 'cookTime' => isset($recipe['cookTime']) ? self::formatTime($recipe['cookTime']) : null,
-                'rating' => isset($recipe['aggregateRating']) ? $recipe['aggregateRating']['ratingValue'] : null,
+                'rating' => self::getRating($recipe),
                 'calories' => isset($recipe['nutrition']) ? $recipe['nutrition']['calories'] : null,
                 'ingredients' => $recipe['recipeIngredient'] ?? null,
                 'imageUrl' => self::getImage($recipe),
@@ -59,16 +60,31 @@ class ImportRecipeService
         ];
     }
 
-    // /**
-    //  * Format the steps
-    //  *
-    //  * @param  array  $steps
-    //  * @return array
-    //  */
-    // public function formatSteps(array $steps)
-    // {
-    //     return $steps;
-    // }
+    /**
+     * Format the steps
+     *
+     * @param  array  $steps
+     * @return array
+     */
+    public function getSteps(array $recipe)
+    {
+        if (!isset($recipe['recipeInstructions'])) {
+            return null;
+        }
+
+        if (is_string($recipe['recipeInstructions'][0])) {
+            if ($recipe['recipeInstructions'][0] === '<') {
+                preg_match_all("'(?<=<li>)(.*?)(?=</li>)'si", $recipe['recipeInstructions'], $matches);
+                return $matches[0];
+            }
+
+            return $recipe['recipeInstructions'];
+        }
+
+        return Arr::map($recipe['recipeInstructions'], function ($value) {
+            return $value['text'];
+        });
+    }
 
     /**
      * Format a time
@@ -91,12 +107,27 @@ class ImportRecipeService
     }
 
     /**
-     * Get image
+     * Get author
      *
-     * @param object $recipe
+     * @param array $recipe
      * @return string|null
      */
-    public function getImage(object $recipe)
+    public function getAuthor(array $recipe)
+    {
+        if (isset($recipe['author']['name'])) {
+            return $recipe['author']['name'];
+        }
+
+        return $recipe['author'][0]['name'] ?? null;
+    }
+
+    /**
+     * Get image
+     *
+     * @param array $recipe
+     * @return string|null
+     */
+    public function getImage(array $recipe)
     {
         if (isset($recipe['image'])) {
             $image = $recipe['image'];
@@ -110,12 +141,45 @@ class ImportRecipeService
             return $image;
         }
 
-        if (is_object($image)) {
-            return $image->url;
+        if (isset($image['url'])) {
+            return $image['url'];
         }
 
-        if (is_array($image)) {
+        if (isset($image[0])) {
             return $image[0];
         }
+
+        return null;
+    }
+
+    /**
+     * Get rating
+     *
+     * @param array $recipe
+     * @return int|null
+     */
+    public function getRating(array $recipe)
+    {
+        if (! isset($recipe['aggregateRating'])) {
+            return;
+        }
+
+        $rating = (int) $recipe['aggregateRating']['ratingValue'];
+        return number_format((float)$rating, 1, '.');
+    }
+
+    /**
+     * Get yield
+     *
+     * @param array $recipe
+     * @return int|null
+     */
+    public function getYield(array $recipe)
+    {
+        if (! isset($recipe['recipeYield'])) {
+            return;
+        }
+
+        return (int) filter_var($recipe['recipeYield'], FILTER_SANITIZE_NUMBER_INT);
     }
 }

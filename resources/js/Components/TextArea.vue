@@ -23,7 +23,7 @@
     <textarea
         v-model="modelValue"
         ref="textarea"
-        rows="3"
+        rows="1"
         @input="resize"
         @focus="resize"
         @keyup="resize"

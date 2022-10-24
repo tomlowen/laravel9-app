@@ -255,7 +255,7 @@
                                     <div
                                         v-for="(step, index) in attrs.recipe.data.steps"
                                         v-bind:key="index"
-                                        class="flex justify-between pt-2"
+                                        class="flex pt-2"
                                     >
                                         <div class="mr-2 font-semibold">
                                             <p>

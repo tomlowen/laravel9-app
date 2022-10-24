@@ -148,7 +148,7 @@
                                         for="recipe-prepTime"
                                         class="pb-1 pt-2 font-medium text-sm text-gray-700"
                                     >
-                                        Preparation Time
+                                        Preparation Time (minutes)
                                     </label>
 
                                     <input
@@ -174,7 +174,7 @@
                                         for="recipe-cookTime"
                                         class="pb-1 pt-2 font-medium text-sm text-gray-700"
                                     >
-                                        Cooking Time
+                                        Cooking Time (minutes)
                                     </label>
 
                                     <input
@@ -378,7 +378,7 @@
                                 >
                                     <TextArea
                                         :id="'recipe-step-' + index"
-                                        :modelValue="form.steps[index].text"
+                                        :modelValue="form.steps[index]"
                                     ></TextArea>
 
                                     <div

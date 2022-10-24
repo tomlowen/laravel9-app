@@ -25,8 +25,8 @@ class RecipeService
             'description' => $request['description'],
             'steps' => serialize($request['steps']),
             'yield' => $request['yield'],
-            'preparation_time' => $request['prepTime'],
-            'cooking_time' => $request['cookTime'],
+            'preparation_time' => $request['prepTime'] ?? 0,
+            'cooking_time' => $request['cookTime'] ?? 0,
             'rating' => $request['rating'],
             'calories' => $request['calories'],
         ]);
