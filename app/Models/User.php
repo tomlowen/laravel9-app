@@ -52,4 +52,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(Recipe::class);
     }
+
+    /**
+     * Get all of the categories for the User.
+     *
+     * @return Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function categories(): HasMany
+    {
+        return $this->hasMany(Category::class);
+    }
 }

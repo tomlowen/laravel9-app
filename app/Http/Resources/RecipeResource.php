@@ -28,6 +28,7 @@ class RecipeResource extends JsonResource
             'totalTime' => $this->preparation_time + $this->cooking_time,
             'rating' => $this->rating,
             'calories' => $this->calories,
+            'categories' => CategoryResource::collection($this->whenLoaded('categories')),
             'ingredients' => RecipeIngredientResource::collection($this->whenLoaded('recipeIngredients')),
             'images' => ImageResource::collection($this->whenLoaded('images'))
         ];

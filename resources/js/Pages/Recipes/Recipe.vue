@@ -47,7 +47,11 @@
 <template>
     <Head :title="$attrs.recipe.data.name" />
 
-    <DeleteRecipeModal :modalVisible="modalVisible" :recipeId="$attrs.recipe.data.id" @toggleModal="toggleModal"></DeleteRecipeModal>
+    <DeleteRecipeModal
+        :modalVisible="modalVisible"
+        :recipeId="$attrs.recipe.data.id"
+        @toggleModal="toggleModal"
+    ></DeleteRecipeModal>+
 
     <div
         class="absolute w-full"

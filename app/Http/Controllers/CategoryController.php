@@ -2,19 +2,33 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
+use Inertia\Inertia;
 
 class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
+     * @param  \App\Http\Requests\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $user = $request->user();
+
+        if (!$user) {
+            return Redirect::route('login');
+        }
+
+        $categories = Category::where('user_id', $user->id)->get();
+
+        return Inertia::render('Recipes/RecipesDashboard', [
+            'recipes' => CategoryResource::collection($categories)
+        ]);
     }
 
     /**

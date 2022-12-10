@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ImportRecipeRequest;
 use App\Http\Requests\StoreRecipeRequest;
 use App\Http\Requests\UpdateRecipeRequest;
+use App\Http\Resources\CategoryResource;
 use App\Http\Resources\RecipeResource;
+use App\Models\Category;
 use App\Models\Recipe;
 use App\Services\ImageService;
 use App\Services\ImportIngredientService;
@@ -21,6 +23,7 @@ class RecipeController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param  \App\Http\Requests\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
@@ -32,15 +35,20 @@ class RecipeController extends Controller
         }
 
         $collection = Recipe::where('user_id', $user->id)->get();
+        $categories = Category::where('user_id', $user->id)->get();
         $recipes = [];
 
         foreach ($collection as $recipe) {
-            $recipe->load(['images']);
+            $recipe->load([
+                'categories',
+                'images',
+            ]);
             $recipes[] = $recipe;
         }
 
         return Inertia::render('Recipes/RecipesDashboard', [
-            'recipes' => RecipeResource::collection($recipes)
+            'recipes' => RecipeResource::collection($recipes),
+            'categories' => CategoryResource::collection($categories),
         ]);
     }
 
@@ -112,7 +120,11 @@ class RecipeController extends Controller
             abort(404);
         }
 
-        $recipe->load(['recipeIngredients', 'images']);
+        $recipe->load([
+            'categories',
+            'images',
+            'recipeIngredients',
+        ]);
 
         return Inertia::render('Recipes/Recipe', [
                 'recipe' => new RecipeResource($recipe),
