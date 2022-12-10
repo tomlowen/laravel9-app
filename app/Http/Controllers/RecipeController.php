@@ -66,7 +66,11 @@ class RecipeController extends Controller
             return Redirect::route('login');
         }
 
-        return Inertia::render('Recipes/CreateRecipe');
+        $categories = Category::where('user_id', $user->id)->get();
+
+        return Inertia::render('Recipes/CreateRecipe', [
+            'categories' => CategoryResource::collection($categories),
+        ]);
     }
 
     /**
@@ -84,6 +88,8 @@ class RecipeController extends Controller
         }
 
         $recipe = app(RecipeService::class)->create($request, $user);
+
+        //attach the categories.
 
         return Redirect::route('recipes.show', $recipe, 303);
     }
@@ -103,8 +109,12 @@ class RecipeController extends Controller
         }
 
         $recipe = app(ImportRecipeService::class)->getRecipeFromUrl($request['recipeUrl']);
+        $categories = Category::where('user_id', $user->id)->get();
 
-        return Inertia::render('Recipes/CreateRecipe', ['recipe' => $recipe]);
+        return Inertia::render('Recipes/CreateRecipe', [
+            'recipe' => $recipe,
+            'categories' => CategoryResource::collection($categories),
+        ]);
     }
 
     /**
@@ -116,7 +126,13 @@ class RecipeController extends Controller
      */
     public function show(Request $request, Recipe $recipe)
     {
-        if($request->user()->id != $recipe->user_id) {
+        $user = $request->user();
+
+        if (!$user) {
+            return Redirect::route('login');
+        }
+
+        if($user->id != $recipe->user_id) {
             abort(404);
         }
 
@@ -140,14 +156,27 @@ class RecipeController extends Controller
      */
     public function edit(Request $request, Recipe $recipe)
     {
-        if($request->user()->id != $recipe->user_id) {
+        $user = $request->user();
+
+        if (!$user) {
+            return Redirect::route('login');
+        }
+
+        if($user->id != $recipe->user_id) {
             abort(404);
         }
 
-        $recipe->load(['recipeIngredients', 'images']);
+        $recipe->load([
+            'recipeIngredients',
+            'images',
+            'categories'
+        ]);
+
+        $categories = Category::where('user_id', $user->id)->get();
 
         return Inertia::render('Recipes/CreateRecipe', [
             'recipe' => new RecipeResource($recipe),
+            'categories' => CategoryResource::collection($categories),
         ]);
     }
 
@@ -161,12 +190,17 @@ class RecipeController extends Controller
     public function update(StoreRecipeRequest $request, Recipe $recipe)
     {
         $recipe = Recipe::findOrFail($recipe->id);
+        $user = $request->user();
 
-        if($request->user()->id != $recipe->user_id) {
+        if (!$user) {
+            return Redirect::route('login');
+        }
+
+        if($user->id != $recipe->user_id) {
             abort(404);
         }
 
-        // Update
+        // Update the DB
 
         return Redirect::route(
             'recipes.show',

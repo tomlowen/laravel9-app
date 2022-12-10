@@ -1,13 +1,14 @@
 <script setup>
     import BreezeAuthenticatedLayout from '@/Layouts/Authenticated.vue';
     import { Head, Link, useForm } from '@inertiajs/inertia-vue3';
-    import { ref, useAttrs, onMounted, computed } from 'vue'
-    import { Inertia } from '@inertiajs/inertia'
-    import Label from '../../Components/Label.vue'
-    import Input from '../../Components/Input.vue'
-    import Button from '../../Components/Button.vue'
-    import TextArea from '../../Components/TextArea.vue'
-    import placeholderImage from '@/assets/images/placeholder-image.png'
+    import { ref, useAttrs, onMounted, computed } from 'vue';
+    import { Inertia } from '@inertiajs/inertia';
+    import Label from '../../Components/Label.vue';
+    import Input from '../../Components/Input.vue';
+    import Button from '../../Components/Button.vue';
+    import TextArea from '../../Components/TextArea.vue';
+    import CategoryDropdown from '../../Components/Category/CategoryDropdown.vue';
+    import placeholderImage from '@/assets/images/placeholder-image.png';
 
     const attrs = useAttrs();
     const form = useForm({
@@ -22,12 +23,13 @@
         rating: attrs.recipe ? attrs.recipe.data.rating : '',
         calories: attrs.recipe ? attrs.recipe.data.calories : '',
         ingredients: attrs.recipe ? attrs.recipe.data.ingredients : [],
+        categories: attrs.recipe ? attrs.recipe.data.categories.map((c) => c.slug) : [],
         image: null,
         imageUrl: attrs.recipe ? attrs.recipe.data.imageUrl : placeholderImage
     });
 
     onMounted(() => {
-        const existingRecipe = attrs.recipe.data.id;
+        const existingRecipe = attrs.recipe ? attrs.recipe.data.id : null;
 
         if (existingRecipe) {
             form.ingredients = attrs.recipe.data.ingredients.map((i) => `${i.quantity} ${i.unit} ${i.name}${i.notes ? ', ' + i.notes : ''}`)
@@ -58,6 +60,10 @@
     function addStep() {
         form.steps = [...form.steps, {'@type': 'HowToStep', 'text': ''}];
     };
+
+    function updateCategories(categories) {
+        form.categories = [...categories];
+    }
 </script>
 
 <template>
@@ -318,6 +324,13 @@
                             >
                                 {{ form.errors.source }}
                             </div>
+
+
+                            <CategoryDropdown
+                                :userCategories="$attrs.categories.data"
+                                :recipeCategories="attrs.recipe ? $attrs.recipe.data.categories.map((c) => c.slug) : []"
+                                @updated:categories="updateCategories"
+                            ></CategoryDropdown>
 
                             <!-- Ingredients -->
                             <div>

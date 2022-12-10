@@ -8,6 +8,10 @@ const props = defineProps({
         type: [Array, Boolean],
         default: false,
     },
+    name: {
+        type: String,
+        required: true,
+    },
     value: {
         default: null,
     },
@@ -19,7 +23,7 @@ const proxyChecked = computed({
     },
 
     set(val) {
-        emit("update:checked", val);
+        emit("update:checked", props.name);
     },
 });
 </script>
