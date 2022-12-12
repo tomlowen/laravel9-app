@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
+use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
@@ -44,12 +46,25 @@ class CategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\StoreCategoryRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreCategoryRequest $request)
     {
-        //
+        $user = $request->user();
+        $name = ucfirst($request->validated('category'));
+
+        if (!$user) {
+            return Redirect::route('login');
+        }
+
+        Category::create([
+            'user_id' => $user->id,
+            'name' => $name,
+            'slug' => Str::slug($name),
+        ]);
+
+        return Redirect::route('recipes.create');
     }
 
     /**
@@ -89,11 +104,22 @@ class CategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      *
+     * @param  \App\Http\Requests\Request  $request
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Category $category)
+    public function destroy(Request $request, Category $category)
     {
-        //
+        if($request->user()->id != $category->user_id) {
+            abort(404);
+        }
+
+        $category->delete();
+
+        return Redirect::route(
+            'categories.index',
+            [],
+            303
+        );
     }
 }

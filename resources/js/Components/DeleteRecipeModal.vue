@@ -16,7 +16,6 @@
     const emit = defineEmits(['toggleModal'])
 
     function toggleModal() {
-        console.log('togglemodalcalledinchild')
         emit('toggleModal');
     }
 

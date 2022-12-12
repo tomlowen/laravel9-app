@@ -89,9 +89,7 @@ class RecipeController extends Controller
 
         $recipe = app(RecipeService::class)->create($request, $user);
 
-        //attach the categories.
-
-        return Redirect::route('recipes.show', $recipe, 303);
+        return Redirect::route('recipes.show', ['recipe' => $recipe->id], 303);
     }
 
     /**
@@ -200,13 +198,9 @@ class RecipeController extends Controller
             abort(404);
         }
 
-        // Update the DB
+        $recipe = app(RecipeService::class)->update($request, $user);
 
-        return Redirect::route(
-            'recipes.show',
-            ['recipe' => new RecipeResource($recipe)],
-            303
-        );
+        return Redirect::route('recipes.show', ['recipe' => $recipe->id], 303);
     }
 
     /**

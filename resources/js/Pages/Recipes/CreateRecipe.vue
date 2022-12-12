@@ -9,9 +9,11 @@
     import TextArea from '../../Components/TextArea.vue';
     import CategoryDropdown from '../../Components/Category/CategoryDropdown.vue';
     import placeholderImage from '@/assets/images/placeholder-image.png';
+    import DeleteIcon from '../../Components/Icons/Delete.vue'
 
     const attrs = useAttrs();
     const form = useForm({
+        recipeId: attrs.recipe ? attrs.recipe.data.id : null,
         name: attrs.recipe ? attrs.recipe.data.name : '',
         author: attrs.recipe ? attrs.recipe.data.author : '',
         description: attrs.recipe ? attrs.recipe.data.description : '',
@@ -23,7 +25,7 @@
         rating: attrs.recipe ? attrs.recipe.data.rating : '',
         calories: attrs.recipe ? attrs.recipe.data.calories : '',
         ingredients: attrs.recipe ? attrs.recipe.data.ingredients : [],
-        categories: attrs.recipe ? attrs.recipe.data.categories.map((c) => c.slug) : [],
+        categories: attrs.recipe && attrs.recipe.data.categories ? attrs.recipe.data.categories.map((c) => c.slug) : [],
         image: null,
         imageUrl: attrs.recipe ? attrs.recipe.data.imageUrl : placeholderImage
     });
@@ -61,8 +63,13 @@
         form.steps = [...form.steps, {'@type': 'HowToStep', 'text': ''}];
     };
 
-    function updateCategories(categories) {
-        form.categories = [...categories];
+    function addCategory(category) {
+        form.categories = [...form.categories, category];
+    };
+
+    function removeCategory(category) {
+        const index = form.categories.indexOf(category);
+        form.categories.splice(index, 1);
     }
 </script>
 
@@ -97,11 +104,11 @@
 
                             <div class="md:flex flex-row-reverse justify-center align-middle">
                                 <div
-                                    class="rounded-full w-60 h-60 bg-center bg-cover m-auto"
+                                    class="rounded-full w-60 h-60 bg-center m-auto md:m-0"
                                     :style="{ backgroundImage: `url(${form.imageUrl})` }"
                                 ></div>
 
-                                <div class="w-full md:mr-5">
+                                <div class="w-full md:w-3/4 md:mr-5">
                                     <!-- name -->
                                     <label
                                         for="recipe-name"
@@ -325,12 +332,40 @@
                                 {{ form.errors.source }}
                             </div>
 
-
-                            <CategoryDropdown
-                                :userCategories="$attrs.categories.data"
-                                :recipeCategories="attrs.recipe ? $attrs.recipe.data.categories.map((c) => c.slug) : []"
-                                @updated:categories="updateCategories"
-                            ></CategoryDropdown>
+                            <!-- Categories -->
+                            <div>
+                                <div>
+                                    <label
+                                        for="recipe-source"
+                                        class="block pt-3 pb-1 font-medium text-sm text-gray-700"
+                                    >
+                                        Categories
+                                    </label>
+                                </div>
+                                <div class="">
+                                    <div
+                                        v-for="(category, index) in form.categories"
+                                        v-bind:key="index"
+                                    >
+                                        <div
+                                            class="text-xs inline-flex items-center font-bold leading-sm uppercase px-3 my-1 bg-blue-100 hover:bg-gray-300 rounded-full"
+                                            @click="removeCategory(category)"
+                                        >
+                                            {{category}}
+                                            <DeleteIcon
+                                                class="pl-2"
+                                            ></DeleteIcon>
+                                        </div>
+                                    </div>
+                                    <CategoryDropdown
+                                        class="block"
+                                        :userCategories="$attrs.categories.data"
+                                        :recipeCategories="form.categories"
+                                        @added:category="addCategory"
+                                        @removed:category="removeCategory"
+                                    ></CategoryDropdown>
+                                </div>
+                            </div>
 
                             <!-- Ingredients -->
                             <div>

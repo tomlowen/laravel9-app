@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\existingCategory;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreRecipeRequest extends FormRequest
@@ -24,6 +25,11 @@ class StoreRecipeRequest extends FormRequest
     public function rules()
     {
         return [
+            'recipeId' => [
+                'sometimes',
+                'nullable',
+                'integer',
+            ],
             'name' => [
                 'required',
                 'string',
@@ -74,6 +80,13 @@ class StoreRecipeRequest extends FormRequest
                 'sometimes',
                 'nullable',
                 'max:255',
+            ],
+            'categories' => [
+                'required',
+                'array',
+            ],
+            'categories.*' => [
+                new existingCategory($this->user()),
             ],
             'ingredients' => [
                 'required',

@@ -38,7 +38,6 @@
     }
 
     function toggleModal() {
-        console.log('togglemodalcalledinparent')
         modalVisible.value = !modalVisible.value;
     }
 
