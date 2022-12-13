@@ -54,7 +54,7 @@ class ImportRecipeService
                 'cookTime' => isset($recipe['cookTime']) ? self::formatTime($recipe['cookTime']) : null,
                 'rating' => self::getRating($recipe),
                 'calories' => isset($recipe['nutrition']) ? $recipe['nutrition']['calories'] : null,
-                'ingredients' => $recipe['recipeIngredient'] ?? null,
+                'ingredients' => self::getIngredients($recipe),
                 'imageUrl' => self::getImage($recipe),
             ]
         ];
@@ -181,5 +181,25 @@ class ImportRecipeService
         }
 
         return (int) filter_var($recipe['recipeYield'], FILTER_SANITIZE_NUMBER_INT);
+    }
+
+    /**
+     * Format the ingredients
+     *
+     * @param  array  $ingredient
+     * @return array
+     */
+    public function getIngredients(array $recipe)
+    {
+        if (!isset($recipe['recipeIngredient'])) {
+            return null;
+        }
+
+        return Arr::map($recipe['recipeIngredient'], function ($value) {
+            return [
+                'ingredient' => $value,
+                'parse' => true,
+            ];
+        });
     }
 }

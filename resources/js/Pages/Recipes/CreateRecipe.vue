@@ -24,7 +24,13 @@
         cookTime: attrs.recipe ? attrs.recipe.data.cookTime : 0,
         rating: attrs.recipe ? attrs.recipe.data.rating : '',
         calories: attrs.recipe ? attrs.recipe.data.calories : '',
-        ingredients: attrs.recipe ? attrs.recipe.data.ingredients : [],
+        ingredients: attrs.recipe ? attrs.recipe.data.ingredients.map((i) => {
+                return {
+                        'id': null,
+                        'ingredient': i.ingredient,
+                        'parse': i.parse
+                    }
+                }) : [],
         categories: attrs.recipe && attrs.recipe.data.categories ? attrs.recipe.data.categories.map((c) => c.slug) : [],
         image: null,
         imageUrl: attrs.recipe ? attrs.recipe.data.imageUrl : placeholderImage
@@ -34,7 +40,14 @@
         const existingRecipe = attrs.recipe ? attrs.recipe.data.id : null;
 
         if (existingRecipe) {
-            form.ingredients = attrs.recipe.data.ingredients.map((i) => `${i.quantity} ${i.unit} ${i.name}${i.notes ? ', ' + i.notes : ''}`)
+            form.ingredients = attrs.recipe.data.ingredients.map((i) => {
+                return {
+                        'id': i.id,
+                        'ingredient': `${i.quantity} ${i.unit} ${i.name}${i.notes ? ', ' + i.notes : ''}`,
+                        'parse': false
+                    }
+                }
+            )
             form.imageUrl = attrs.recipe.data.images ? '/storage/' + attrs.recipe.data.images[0].filename : placeholderImage
         }
     });
@@ -52,8 +65,18 @@
     };
 
     function addIngredient() {
-        form.ingredients.push('');
+        form.ingredients.push(
+            {
+                'id': null,
+                'ingredient': '',
+                'parse': true
+            }
+        );
     };
+
+    function flagParse(index) {
+        form.ingredients[index].parse = true;
+    }
 
     function removeStep(index) {
         form.steps.splice(index, 1)
@@ -382,7 +405,8 @@
                                 >
                                     <input
                                         :id="'recipe-ingredient-' + index"
-                                        v-model="form.ingredients[index]"
+                                        v-model="form.ingredients[index].ingredient"
+                                        @change="flagParse(index)"
                                         type="text"
                                         class="block w-full text-md my-2 text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
                                     >

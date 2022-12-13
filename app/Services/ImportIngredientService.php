@@ -13,7 +13,7 @@ class ImportIngredientService
      *
      * @param  string[]  $ingredientsList
      * @param  mixed  $ingredientable The ingredientable (recipe, cupboard) to add the ingredients to
-     * @return int
+     * @return void
      */
     public function importIngredients($ingredientsList, $ingredientable)
     {

@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Http\Requests\StoreRecipeRequest;
 use App\Models\Category;
 use App\Models\Recipe;
+use App\Models\RecipeIngredient;
 use App\Models\User;
 use Exception;
 use Illuminate\Support\Facades\Log;
@@ -41,7 +42,8 @@ class RecipeService
                 $recipe->categories()->attach($category);
             }
 
-            app(ImportIngredientService::class)->importIngredients($request['ingredients'], $recipe);
+            $ingredients = array_map(function($i) { return $i['ingredient']; }, $request['ingredients']);
+            app(ImportIngredientService::class)->importIngredients($ingredients, $recipe);
 
             app(ImageService::class)->storeImage($request['imageUrl'], $recipe, $request['image']);
 
@@ -107,8 +109,10 @@ class RecipeService
             $recipe->categories()->attach($category);
         }
 
+        app(IngredientService::class)->updateIngredients($request['ingredients'], $recipe);
+
         return $recipe;
 
-        // Update ingredients (this needs to call the spoonacular api if its a new one) and images;
+        // Update images.
     }
 }
