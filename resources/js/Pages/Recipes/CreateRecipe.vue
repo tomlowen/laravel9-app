@@ -93,7 +93,16 @@
     function removeCategory(category) {
         const index = form.categories.indexOf(category);
         form.categories.splice(index, 1);
-    }
+    };
+
+    function changeImage(e) {
+        if (e.target.files[0]) {
+            form.image = e.target.files[0];
+            form.imageUrl = URL.createObjectURL(form.image);
+        } else {
+            form.imageUrl = placeholderImage;
+        }
+    };
 </script>
 
 <template>
@@ -125,13 +134,24 @@
                             :disabled="form.processing"
                         >
 
-                            <div class="md:flex flex-row-reverse justify-center align-middle">
-                                <div
-                                    class="rounded-full w-60 h-60 bg-center m-auto md:m-0"
-                                    :style="{ backgroundImage: `url(${form.imageUrl})` }"
-                                ></div>
+                            <div class="md:flex flex-row-reverse justify-between align-middle">
+                                <!-- Image -->
+                                <div class="overflow-hidden relative m-auto md:m-0">
+                                    <div
+                                        class="rounded-full w-60 h-60 bg-center m-auto md:m-0"
+                                        :style="{ backgroundImage: `url(${form.imageUrl})` }"
+                                    >
+                                        <input
+                                            class="h-full cursor-pointer absolute block py-2 px-4 w-full opacity-0 pin-r pin-t"
+                                            type="file"
+                                            name="documents[]"
+                                            accept="image/*"
+                                            @change="changeImage"
+                                        >
+                                    </div>
+                                </div>
 
-                                <div class="w-full md:w-3/4 md:mr-5">
+                                <div class="w-full md:w-2/3 md:mr-5">
                                     <!-- name -->
                                     <label
                                         for="recipe-name"
@@ -365,13 +385,13 @@
                                         Categories
                                     </label>
                                 </div>
-                                <div class="">
+                                <div class="flex flex-wrap">
                                     <div
                                         v-for="(category, index) in form.categories"
                                         v-bind:key="index"
                                     >
                                         <div
-                                            class="text-xs inline-flex items-center font-bold leading-sm uppercase px-3 my-1 bg-blue-100 hover:bg-gray-300 rounded-full"
+                                            class="mr-2 text-xs inline-flex items-center font-bold leading-sm uppercase px-3 my-1 bg-blue-100 hover:bg-gray-300 rounded-full"
                                             @click="removeCategory(category)"
                                         >
                                             {{category}}
@@ -380,14 +400,14 @@
                                             ></DeleteIcon>
                                         </div>
                                     </div>
-                                    <CategoryDropdown
-                                        class="block"
-                                        :userCategories="$attrs.categories.data"
-                                        :recipeCategories="form.categories"
-                                        @added:category="addCategory"
-                                        @removed:category="removeCategory"
-                                    ></CategoryDropdown>
                                 </div>
+                                <CategoryDropdown
+                                    class="block"
+                                    :userCategories="$attrs.categories.data"
+                                    :recipeCategories="form.categories"
+                                    @added:category="addCategory"
+                                    @removed:category="removeCategory"
+                                ></CategoryDropdown>
                             </div>
 
                             <!-- Ingredients -->
@@ -477,9 +497,18 @@
                                 </div>
                             </div>
 
-                            <Button>
-                                {{$attrs.recipe && $attrs.recipe.data.id ? 'Update' : 'Save'}}
-                            </Button>
+                            <div class="flex justify-between">
+                                <Link href="/recipes">
+                                    <Button
+                                        type="reset"
+                                    >
+                                        Cancel
+                                    </Button>
+                                </Link>
+                                <Button>
+                                    {{$attrs.recipe && $attrs.recipe.data.id ? 'Update' : 'Save'}}
+                                </Button>
+                            </div>
                         </form>
                     </div>
                 </div>

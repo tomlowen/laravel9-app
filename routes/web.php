@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\RecipeController;
+use App\Http\Controllers\SettingsController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -46,6 +47,11 @@ Route::prefix('categories')->name('categories.')->middleware(['auth', 'verified'
     Route::post('/store', [CategoryController::class, 'store'])->name('store');
     Route::put('/{category}/update', [CategoryController::class, 'update'])->name('update');
     Route::delete('/{category}', [CategoryController::class, 'destroy'])->name('destroy');
+});
+
+
+Route::prefix('settings')->name('settings.')->middleware(['auth', 'verified'])->group(function () {
+    Route::get('/', [SettingsController::class, 'index'])->name('index');
 });
 
 require __DIR__.'/auth.php';
