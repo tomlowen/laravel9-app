@@ -54,6 +54,16 @@ class User extends Authenticatable
     }
 
     /**
+     * Get all of the shopping list ingredients for the User.
+     *
+     * @return Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function shoppingListIngredients(): HasMany
+    {
+        return $this->hasMany(ShoppingListIngredient::class);
+    }
+
+    /**
      * Get all of the categories for the User.
      *
      * @return Illuminate\Database\Eloquent\Relations\HasMany

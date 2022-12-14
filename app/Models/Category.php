@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 class Category extends Model
@@ -47,12 +48,13 @@ class Category extends Model
     /**
      * Get all of the category's shoppingListIngredients.
      *
-     * @return Illuminate\Database\Eloquent\Relations\MorphToMany
+     * @return Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function shoppingListIngredients(): MorphToMany
+    public function shoppingListIngredients(): HasMany
     {
-        return $this->morphedByMany(shoppingListIngredient::class, 'categorizable');
+        return $this->hasMany(ShoppingListIngredient::class);
     }
+
     /**
      * Get the User for the recipe.
      *

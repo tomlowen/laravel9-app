@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\Recipe;
+use App\Models\ShoppingListIngredient;
 use Illuminate\Database\Seeder;
 
-class RecipeSeeder extends Seeder
+class ShoppingListIngredientSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,9 +14,6 @@ class RecipeSeeder extends Seeder
      */
     public function run()
     {
-        Recipe::factory(10)
-            ->hasRecipeIngredients(5)
-            ->hasImages(1)
-            ->create();
+        ShoppingListIngredient::factory(50)->create();
     }
 }
