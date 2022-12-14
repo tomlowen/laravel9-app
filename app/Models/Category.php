@@ -31,7 +31,7 @@ class Category extends Model
      */
     public function recipes(): MorphToMany
     {
-        return $this->morphedByMany(Recipe::class, 'ingredientable');
+        return $this->morphedByMany(Recipe::class, 'categorizable');
     }
 
     /**
@@ -41,9 +41,18 @@ class Category extends Model
      */
     public function images(): MorphToMany
     {
-        return $this->morphedByMany(Image::class, 'imageable');
+        return $this->morphedByMany(Image::class, 'categorizable');
     }
 
+    /**
+     * Get all of the category's shoppingListIngredients.
+     *
+     * @return Illuminate\Database\Eloquent\Relations\MorphToMany
+     */
+    public function shoppingListIngredients(): MorphToMany
+    {
+        return $this->morphedByMany(shoppingListIngredient::class, 'categorizable');
+    }
     /**
      * Get the User for the recipe.
      *
