@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 class ShoppingListIngredient extends Model
 {
@@ -20,6 +19,7 @@ class ShoppingListIngredient extends Model
         'name',
         'unit',
         'quantity',
+        'bought',
         'user_id',
         'category_id',
         'notes',
@@ -32,6 +32,7 @@ class ShoppingListIngredient extends Model
      */
     protected $casts = [
         'optional' => 'bool',
+        'bought' => 'bool',
         'quantity' => 'int',
         'user_id' => 'int',
         'category_id' => 'int',

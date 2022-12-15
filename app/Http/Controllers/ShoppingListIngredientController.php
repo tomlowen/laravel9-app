@@ -3,11 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreShoppingListIngredientRequest;
-use App\Http\Requests\UpdateShoppingListIngredientRequest;
 use App\Http\Resources\ShoppingListIngredientResource;
 use App\Models\ShoppingListIngredient;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
 
 class ShoppingListIngredientController extends Controller
@@ -47,23 +46,73 @@ class ShoppingListIngredientController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateShoppingListIngredientRequest  $request
+     * @param  \App\Http\Requests\StoreShoppingListIngredientRequest  $request
      * @param  \App\Models\ShoppingListIngredient  $shoppingListIngredient
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateShoppingListIngredientRequest $request, ShoppingListIngredient $shoppingListIngredient)
+    public function update(StoreShoppingListIngredientRequest $request, ShoppingListIngredient $shoppingListIngredient)
     {
-        //
+        $user = $request->user();
+
+        if (!$user) {
+            return Redirect::route('login');
+        }
+
+        if($user->id != $shoppingListIngredient->user_id) {
+            abort(404);
+        }
+
+        $shoppingListIngredient->update([
+            'bought' => $request['shoppingListIngredient']['bought']
+        ]);
+
+        return Redirect::route(
+            'shopping-list.index',
+            [],
+            303
+        );
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\ShoppingListIngredient  $shoppingListIngredient
+     * @param  \App\Http\Requests\Request  $request
+     * @param  \App\Models\ShoppingListIngredient  $ingredient
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ShoppingListIngredient $shoppingListIngredient)
+    public function destroy(Request $request, ShoppingListIngredient $shoppingListIngredient)
     {
-        //
+        if($request->user()->id != $shoppingListIngredient->user_id) {
+            abort(404);
+        }
+
+        $shoppingListIngredient->delete();
+
+        return Redirect::route(
+            'shopping-list.index',
+            [],
+            303
+        );
+    }
+
+    /**
+     * Delete all ShoppingListIngredients.
+     *
+     * @param  \App\Http\Requests\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function deleteAll(Request $request)
+    {
+        if (!$request->user()) {
+            abort(404);
+        }
+
+        $request->user()->shoppingListIngredients()->delete();
+
+        return Redirect::route(
+            'shopping-list.index',
+            [],
+            303
+        );
     }
 }

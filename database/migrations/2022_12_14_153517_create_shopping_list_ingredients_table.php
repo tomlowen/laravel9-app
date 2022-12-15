@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('name', 100);
             $table->smallInteger('quantity')->nullable();
             $table->tinyText('unit')->nullable();
+            $table->boolean('bought')->default(false);
             $table->foreignIdFor(User::class)->cascadeOnDelete();
             $table->foreignIdFor(Category::class);
             $table->text('notes')->nullable();

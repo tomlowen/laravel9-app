@@ -10,7 +10,7 @@
     import DeleteIcon from '../../Components/Icons/Delete.vue'
     import ShareIcon from '../../Components/Icons/Share.vue'
     import Dropdown from '../../Components/Dropdown.vue'
-    import DeleteRecipeModal from '../../Components/DeleteRecipeModal.vue'
+    import DeleteRecipeModal from '../../Components/DeleteModal.vue'
     import DropdownLink from '../../Components/DropdownLink.vue'
 
     const attrs = useAttrs();
@@ -47,10 +47,11 @@
     <Head :title="$attrs.recipe.data.name" />
 
     <DeleteRecipeModal
-        :modalVisible="modalVisible"
-        :recipeId="$attrs.recipe.data.id"
+        :visible="modalVisible"
+        :modelId="$attrs.recipe.data.id"
+        model="recipe"
         @toggleModal="toggleModal"
-    ></DeleteRecipeModal>+
+    ></DeleteRecipeModal>
 
     <div
         class="absolute w-full"

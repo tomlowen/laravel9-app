@@ -13,7 +13,7 @@ class StoreShoppingListIngredientRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,24 @@ class StoreShoppingListIngredientRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'shoppingListIngredient' => [
+                'required',
+                'array',
+            ],
+            'shoppingListIngredient.id' => [
+                'required',
+                'integer',
+                'exists:shopping_list_ingredients,id'
+            ],
+            'shoppingListIngredient.bought' => [
+                'required',
+                'boolean',
+            ],
+            'shoppingListIngredient.name' => [
+                'required',
+                'string',
+                'max:255',
+            ],
         ];
     }
 }

@@ -18,9 +18,10 @@ class ShoppingListIngredientResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'unit' => $this->unit,
+            'bought' => $this->bought,
             'quantity' => $this->quantity,
             'notes' => $this->notes,
-            'category' => new CategoryResource($this->category()),
+            'category' => new CategoryResource($this->category),
         ];
     }
 }

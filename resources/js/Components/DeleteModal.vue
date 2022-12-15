@@ -2,14 +2,18 @@
     import { Link } from '@inertiajs/inertia-vue3';
 
     defineProps({
-        modalVisible: {
+        visible: {
             type: Boolean,
             required: true,
             default: '',
         },
-        recipeId: {
-            type: Number,
+        model: {
+            type: String,
             required: true,
+        },
+        modelId: {
+            type: Number,
+            required: false,
         },
     });
 
@@ -22,7 +26,7 @@
 </script>
 
 <template>
-    <div class="relative z-50" aria-labelledby="modal-title" role="dialog" aria-modal="true" :hidden="!modalVisible">
+    <div class="relative z-50" aria-labelledby="modal-title" role="dialog" aria-modal="true" :hidden="!visible">
         <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity">
             <div class="fixed inset-0 z-50 overflow-y-auto">
                 <div class="flex min-h-full items-end justify-center p-4 text-center items-center sm:p-0">
@@ -35,9 +39,9 @@
                                     </svg>
                                 </div>
                                 <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                                    <h3 class="text-lg font-medium leading-6 text-gray-900" id="modal-title">Delete recipe</h3>
+                                    <h3 class="text-lg font-medium leading-6 text-gray-900" id="modal-title">{{`Delete ${model}`}}</h3>
                                     <div class="mt-2">
-                                        <p class="text-sm text-gray-500">Are you sure you want to delete this recipe? This action cannot be undone.</p>
+                                        <p class="text-sm text-gray-500">{{`Are you sure you want to delete this ${model}? This action cannot be undone.`}}</p>
                                     </div>
                                 </div>
                             </div>
@@ -45,9 +49,11 @@
                         <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                             <Link
                                 class="inline-flex w-full justify-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm"
-                                :href="`/recipes/${recipeId}`"
+                                :href="`/${model}s/${modelId ?? ''}`"
                                 method="delete"
                                 as="button"
+                                :preserveState="false"
+                                :preserveScroll="true"
                             >
                                 Delete
                             </Link>

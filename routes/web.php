@@ -3,6 +3,7 @@
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\ShoppingListIngredientController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -49,6 +50,16 @@ Route::prefix('categories')->name('categories.')->middleware(['auth', 'verified'
     Route::delete('/{category}', [CategoryController::class, 'destroy'])->name('destroy');
 });
 
+
+Route::prefix('shopping-list')->name('shopping-list.')->middleware(['auth', 'verified'])->group(function () {
+    Route::get('/', [ShoppingListIngredientController::class, 'index'])->name('index');
+    Route::put('/{shoppingListIngredient}/update', [ShoppingListIngredientController::class, 'update'])->name('update');
+    Route::delete('/{shoppingListIngredient}', [ShoppingListIngredientController::class, 'destroy'])->name('destroy');
+});
+
+Route::prefix('lists')->name('lists.')->middleware(['auth', 'verified'])->group(function () {
+    Route::delete('/', [ShoppingListIngredientController::class, 'deleteAll'])->name('delete-all');
+});
 
 Route::prefix('settings')->name('settings.')->middleware(['auth', 'verified'])->group(function () {
     Route::get('/', [SettingsController::class, 'index'])->name('index');
