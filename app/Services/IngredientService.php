@@ -2,8 +2,10 @@
 
 namespace App\Services;
 
+use App\Http\Resources\ShoppingListIngredientResource;
 use App\Models\Recipe;
 use App\Models\RecipeIngredient;
+use App\Models\ShoppingListIngredient;
 
 class IngredientService
 {
@@ -31,5 +33,33 @@ class IngredientService
         };
 
         app(ImportIngredientService::class)->importIngredients($newIngredients, $recipe);
+    }
+
+    /**
+     * Handle the conversion of recipe ingredients to shopping list ingredients
+     *
+     * @param mixed $ingredients
+     *
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
+    public function convertIngredients(mixed $ingredients)
+    {
+        $shoppingListIngredients = [];
+
+        foreach ($ingredients as $ingredient) {
+            $i = RecipeIngredient::find($ingredient['id']);
+
+            $shoppingListIngredients[] = ShoppingListIngredient::create([
+                'name' => $i->name,
+                'unit' => $i->unit,
+                'quantity' => $i->quantity,
+                'bought' => false,
+                'user_id' => $i->recipe->user_id,
+                'category_id' => $i->category_id,
+                'notes' => $i->notes,
+            ]);
+        };
+
+        return ShoppingListIngredientResource::collection($shoppingListIngredients);
     }
 }

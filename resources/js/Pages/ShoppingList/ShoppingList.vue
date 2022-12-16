@@ -14,17 +14,17 @@
     import DropdownLink from '../../Components/DropdownLink.vue';
     import Chevron from '../../Components/Icons/ChevronLeft.vue';
     import DeleteListModal from '../../Components/DeleteModal.vue'
+    import Toast from '../../Components/Toast.vue'
 
     const attrs = useAttrs();
     const isEditing = ref(false);
     const modalVisible = ref(false);
 
-    const categories = computed(() => attrs.ingredients
-        ? [...new Map(attrs.ingredients.data.map(item => [item['category']['slug'], item['category']])).values()]
-        : []);
-
-    const visibleDropdowns = reactive(categories ? categories.value.map(c => c.id) : []);
     const ingredients = reactive(computed(() => attrs.ingredients ? attrs.ingredients.data : []));
+
+    const categories = computed(() => [...new Map(ingredients.value.map(item => [item['category']['slug'], item['category']])).values()]);
+
+    const visibleDropdowns = reactive(categories.value.map(c => c.id));
 
     function toggleDropdown(categoryId) {
         if (visibleDropdowns.includes(categoryId)) {
@@ -35,20 +35,28 @@
     };
 
     function deleteIngredient(id) {
-        Inertia.delete(`shopping-list/${id}`, {
-            preserveState: true,
-            preserveScroll: true,
-            only: ['ingredients'],
-        });
+        Inertia.delete(
+            `shopping-list/${id}`,
+            {
+                preserveState: true,
+                preserveScroll: true,
+                only: ['ingredients'],
+            }
+        );
     }
 
     function updateIngredient(ingredient) {
-        Inertia.put(`shopping-list/${ingredient.id}/update`, {
-            shoppingListIngredient: ingredient,
-            preserveState: true,
-            preserveScroll: true,
-            only: ['ingredients'],
-        });
+        Inertia.put(
+            `shopping-list/${ingredient.id}/update`,
+            {
+                shoppingListIngredient: ingredient
+            },
+            {
+                preserveState: true,
+                preserveScroll: true,
+                only: ['ingredients'],
+            }
+        );
     }
 
     function toggleEditingMode() {
@@ -84,8 +92,9 @@
         <div
             class="py-12"
         >
-        <!-- Top buttons -->
+            <!-- Top buttons -->
             <div
+                v-if="ingredients.length > 0"
                 class="max-w-7xl mx-auto sm:px-6 lg:px-8 h-10 z-50 rounded-full sticky right-3 top-3 mb-3 flex justify-between"
             >
                 <div></div>
@@ -137,6 +146,21 @@
                 </Dropdown>
             </div>
 
+            <!-- No list items banner -->
+            <div
+                v-if="ingredients.length === 0"
+                class="py-6"
+            >
+                <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                    <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                        <div class="p-6 bg-white border-b border-gray-200">
+                            You do not have any items in your shopping list.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Shopping list items -->
             <div
                 class="max-w-7xl mx-auto sm:px-6 lg:px-8"
             >
@@ -156,7 +180,7 @@
                                 :class="visibleDropdowns.includes(category.id) ? 'rotate-270' : 'rotate-180'"
                             ></Chevron>
                             <div
-                                class="my-2"
+                                class="my-2 font-bold"
                             >
                                 {{ category.name }}
                             </div>

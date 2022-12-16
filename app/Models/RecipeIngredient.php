@@ -20,6 +20,7 @@ class RecipeIngredient extends Model
         'unit',
         'quantity',
         'recipe_id',
+        'category_id',
         'notes',
         'optional',
     ];
@@ -33,6 +34,7 @@ class RecipeIngredient extends Model
         'optional' => 'bool',
         'quantity' => 'int',
         'recipe_id' => 'int',
+        'category_id' => 'int',
     ];
 
     /**
@@ -43,6 +45,16 @@ class RecipeIngredient extends Model
     public function recipe(): BelongsTo
     {
         return $this->belongsTo(Recipe::class);
+    }
+
+    /**
+     * Get the category for the recipe ingredient.
+     *
+     * @return Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(Category::class);
     }
 
     /**

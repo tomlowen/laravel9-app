@@ -103,6 +103,10 @@
             form.imageUrl = placeholderImage;
         }
     };
+
+    function updateForm(field, value) {
+        form[field] = value;
+    }
 </script>
 
 <template>
@@ -182,7 +186,7 @@
                                         Description
                                     </label>
 
-                                    <TextArea :modelValue="form.description"></TextArea>
+                                    <TextArea :field="form.description" @updated:content="updateForm($event, 'description')"></TextArea>
 
                                     <div
                                         v-if="form.errors.description"
@@ -470,7 +474,8 @@
                                 >
                                     <TextArea
                                         :id="'recipe-step-' + index"
-                                        :modelValue="form.steps[index]"
+                                        :field="form.steps[index]"
+                                        @updated:content="updateForm($event, 'steps')"
                                     ></TextArea>
 
                                     <div

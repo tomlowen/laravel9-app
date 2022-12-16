@@ -36,6 +36,7 @@ class RecipeController extends Controller
 
         foreach ($collection as $recipe) {
             $recipe->load([
+                'recipeIngredients',
                 'categories',
                 'images',
             ]);

@@ -11,11 +11,28 @@ use Illuminate\Support\Str;
 class CategorySeeder extends Seeder
 {
     const INGREDIENT_CATEGORIES = [
+        'Bakery',
+        'Baking',
+        'Cans & Jars',
+        'Cereal',
+        'Condiments',
+        'Confectionary',
+        'Dairy',
+        'Drinks',
+        'Ethnic Foods',
+        'Fridge',
+        'Frozen',
+        'Gluten Free',
+        'Gourmet',
+        'Health Foods',
         'Meat & Fish',
-        'Fruit',
-        'Vegetables',
-        'Herbs & Spices',
-        'Food Cupboard'
+        'Miscellaneous',
+        'Pasta & Rice',
+        'Produce',
+        'Snacks',
+        'Spices',
+        'Spreads',
+        'Tea & Coffee',
     ];
 
     /**

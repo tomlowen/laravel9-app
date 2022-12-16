@@ -21,7 +21,7 @@ class RecipeIngredientResource extends JsonResource
             'quantity' => $this->quantity,
             'notes' => $this->notes,
             'optional' => $this->optional,
-            'categories' => new CategoryResource($this->whenLoaded('categories')),
+            'category' => new CategoryResource($this->category),
         ];
     }
 }

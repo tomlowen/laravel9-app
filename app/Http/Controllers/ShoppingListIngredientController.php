@@ -5,12 +5,16 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreShoppingListIngredientRequest;
 use App\Http\Resources\ShoppingListIngredientResource;
 use App\Models\ShoppingListIngredient;
+use App\Services\IngredientService;
+use App\Traits\AddsToast;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 class ShoppingListIngredientController extends Controller
 {
+    use AddsToast;
+
     /**
      * Display a listing of the resource.
      *
@@ -114,5 +118,30 @@ class ShoppingListIngredientController extends Controller
             [],
             303
         );
+    }
+
+    /**
+     * Convert the recipe ingredients to ShoppingListIngredients.
+     *
+     * @param  \App\Http\Requests\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function convertRecipeIngredients(Request $request)
+    {
+        if (!$request->user()) {
+            abort(404);
+        }
+
+        app(IngredientService::class)->convertIngredients($request['recipe']['ingredients']);
+
+        // $this->addToast('success', 'Ingredients added successfully.');
+
+        return Redirect::back()->with([
+            'toast' => [
+                'time' => now(),
+                'status' => 'success',
+                'message' => 'Ingredients added successfully.',
+            ]
+        ]);
     }
 }

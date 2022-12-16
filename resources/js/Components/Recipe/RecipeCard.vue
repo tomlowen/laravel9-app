@@ -1,13 +1,14 @@
 <script setup>
 import { Link } from '@inertiajs/inertia-vue3';
 import {computed} from "vue";
-import { formatTime } from '../../util/helpers'
+import { formatTime } from '../../util/helpers';
+import AddToShoppingListButton from '../ShopplingList/AddToShoppingListButton.vue';
 
 const props = defineProps({
   recipe: Object,
 })
 
-const imageSrc = computed(()=>props.recipe.images[0].filename)
+const imageSrc = computed(()=>props.recipe.images[0].filename);
 
 </script>
 
@@ -33,6 +34,9 @@ const imageSrc = computed(()=>props.recipe.images[0].filename)
                     >
                         {{ formatTime(recipe.totalTime) }} | EASY
                     </p>
+                    <AddToShoppingListButton
+                        :recipe="recipe"
+                    ></AddToShoppingListButton>
                 <div/>
             </div>
         </div>

@@ -54,6 +54,7 @@ Route::prefix('categories')->name('categories.')->middleware(['auth', 'verified'
 Route::prefix('shopping-list')->name('shopping-list.')->middleware(['auth', 'verified'])->group(function () {
     Route::get('/', [ShoppingListIngredientController::class, 'index'])->name('index');
     Route::put('/{shoppingListIngredient}/update', [ShoppingListIngredientController::class, 'update'])->name('update');
+    Route::post('/add-ingredients', [ShoppingListIngredientController::class, 'convertRecipeIngredients'])->name('add-ingredients');
     Route::delete('/{shoppingListIngredient}', [ShoppingListIngredientController::class, 'destroy'])->name('destroy');
 });
 

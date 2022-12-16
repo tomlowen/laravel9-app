@@ -1,17 +1,19 @@
 <script setup>
     import BreezeAuthenticatedLayout from '@/Layouts/Authenticated.vue';
-    import { ref, reactive, computed, useAttrs } from 'vue';
+    import { ref, reactive, computed, useAttrs, watch } from 'vue';
     import { Inertia } from '@inertiajs/inertia';
     import { Head, Link } from '@inertiajs/inertia-vue3';
     import Button from '../../Components/Button.vue';
     import RecipeCard from '../../Components/Recipe/RecipeCard.vue';
     import CategorySelector from '../../Components/Category/CategorySelector.vue';
-    import AddRecipeTool from '../../Components/Recipe/AddRecipeTool.vue'
+    import AddRecipeTool from '../../Components/Recipe/AddRecipeTool.vue';
+    // import Toast from '../../Components/Toast.vue';
 
     const attrs = useAttrs();
 
     const state = reactive({
         selectedCategories: [],
+        // toasts: [],
     })
 
     const recipes = computed(() => {
@@ -33,12 +35,23 @@
         const i = state.selectedCategories.indexOf(slug);
         state.selectedCategories.splice(i, 1);
     }
+
+    // watch(attrs.toast, () => {
+    //     console.log('updated');
+    //     state.toasts.push('test');
+    // })
 </script>
 
 <template>
     <Head
         title="All Recipes"
     />
+
+    <!--
+    <Toast
+        v-for="(toast, index) in state.toasts"
+        v-bind:key="index"
+    ></Toast> -->
 
     <BreezeAuthenticatedLayout>
         <AddRecipeTool></AddRecipeTool>

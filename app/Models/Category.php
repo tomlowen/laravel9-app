@@ -14,6 +14,41 @@ class Category extends Model
 
     const MORPH_KEY = 'category';
 
+    const INGREDIENT_MAP = [
+        'Baking' => 'Baking',
+        'Health Foods' => 'Health Foods',
+        'Spices and Seasonings' => 'Spices',
+        'Pasta and Rice' => 'Pasta & Rice',
+        'Bakery/Bread' => 'Bakery',
+        'Refrigerated' => 'Fridge',
+        'Canned and Jarred' => 'Cans & Jars',
+        'Frozen' => 'Frozen',
+        'Nut butters, Jams, and Honey' => 'Spreads',
+        'Oil, Vinegar, Salad Dressing' => 'Condiments',
+        'Condiments' => 'Condiments',
+        'Savory Snacks' => 'Snacks',
+        'Milk, Eggs, Other Dairy' => 'Dairy',
+        'Ethnic Foods' => 'Ethnic Foods',
+        'Tea and Coffee' => 'Tea & Coffee',
+        'Meat' => 'Meat & Fish',
+        'Gourmet' => 'Gourmet',
+        'Sweet Snacks' => 'Confectionary',
+        'Gluten Free' => 'Gluten Free',
+        'Alcoholic Beverages' => 'Drinks',
+        'Cereal' => 'Cereal',
+        'Nuts' => 'Baking',
+        'Beverages' => 'Drinks',
+        'Produce' => 'Produce',
+        'Not in Grocery Store/Homemade' => 'Miscellaneous',
+        'Seafood' => 'Meat & Fish',
+        'Cheese' => 'Dairy',
+        'Dried Fruits' => 'Baking',
+        'Online' => 'Miscellaneous',
+        'Grilling Supplies' => 'Miscellaneous',
+        'Bread' => 'Bakery',
+        'Unknown' => 'Unknown'
+    ];
+
     /**
      * The attributes that are mass assignable.
      *
@@ -53,6 +88,16 @@ class Category extends Model
     public function shoppingListIngredients(): HasMany
     {
         return $this->hasMany(ShoppingListIngredient::class);
+    }
+
+    /**
+     * Get all of the category's recipeIngredients.
+     *
+     * @return Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function recipeIngredients(): HasMany
+    {
+        return $this->hasMany(RecipeIngredient::class);
     }
 
     /**
