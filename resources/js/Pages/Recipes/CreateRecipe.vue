@@ -110,8 +110,6 @@
 </script>
 
 <template>
-    <Head title="Create a recipe" />
-
     <BreezeAuthenticatedLayout>
         <template #header>
             <h2
@@ -412,6 +410,12 @@
                                     @added:category="addCategory"
                                     @removed:category="removeCategory"
                                 ></CategoryDropdown>
+                                <div
+                                    v-if="form.errors.categories"
+                                    class="text-sm text-red-400 mt-2"
+                                >
+                                    Recipes should have at least 1 category
+                                </div>
                             </div>
 
                             <!-- Ingredients -->

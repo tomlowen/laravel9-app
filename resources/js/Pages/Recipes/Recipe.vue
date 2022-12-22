@@ -12,6 +12,7 @@
     import DeleteRecipeModal from '../../Components/DeleteModal.vue';
     import DropdownLink from '../../Components/DropdownLink.vue';
     import AddToShoppingListButton from '../../Components/ShopplingList/AddToShoppingListButton.vue';
+    import BreezeAuthenticatedLayout from '@/Layouts/Authenticated.vue';
 
     const attrs = useAttrs();
     const quantity = ref(attrs.recipe.data.yield);
@@ -45,13 +46,13 @@
 
 <template>
     <Head :title="$attrs.recipe.data.name" />
-
-    <DeleteRecipeModal
-        :visible="modalVisible"
-        :modelId="$attrs.recipe.data.id"
-        model="recipe"
-        @toggleModal="toggleModal"
-    ></DeleteRecipeModal>
+    <BreezeAuthenticatedLayout>
+        <DeleteRecipeModal
+            :visible="modalVisible"
+            :modelId="$attrs.recipe.data.id"
+            model="recipe"
+            @toggleModal="toggleModal"
+        ></DeleteRecipeModal>
 
         <div
             class="absolute w-full"
@@ -60,7 +61,7 @@
                 class="w-full"
             >
                 <!-- Top buttons -->
-                <div
+                <!-- <div
                     class="h-80 flex justify-between w-full relative m-auto max-w-7xl mx-auto sm:px-6 lg:px-8"
                 >
                     <Link
@@ -75,73 +76,78 @@
                     <div
                         class="h-10 w-10 z-40 rounded-full sticky right-3 top-3 mb-3"
                     >
-                        <Dropdown
-                            align="right"
-                            width="48"
-                        >
-                            <template #trigger>
-                                <span
-                                    class="inline-flex rounded-md"
-                                >
-                                    <button
-                                        type="button"
-                                        class="inline-flex items-center opacity-90 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
-                                    >
-                                        <OptionsIcon></OptionsIcon>
-                                    </button>
-                                </span>
-                            </template>
-
-                            <template #content>
-                                <DropdownLink
-                                    class="flex align-middle"
-                                    :href="'/recipes/' + $attrs.recipe.data.id"
-                                    as="button"
-                                >
-                                    <ShareIcon class="mr-1"></ShareIcon>
-                                    <p class="m-1">Share</p>
-                                </DropdownLink>
-
-                                <DropdownLink
-                                    class="flex align-center"
-                                    :href="`/recipes/${$attrs.recipe.data.id}/edit/`"
-                                    as="button"
-                                >
-                                    <EditIcon class="mr-1"></EditIcon>
-                                    <p class="m-1">Edit</p>
-                                </DropdownLink>
-
-                                <button
-                                    class="w-full px-4 py-2 flex align-center text-red-400 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
-                                    as="button"
-                                    @click="toggleModal"
-                                >
-                                    <DeleteIcon class="mr-1"></DeleteIcon>
-                                    <p class="m-1">Delete</p>
-                                </button>
-                            </template>
-                        </Dropdown>
                     </div>
-                </div>
+                </div> -->
 
-                <div class="z-20">
+                <div>
                     <img
                         :src="'/storage/' + $attrs.recipe.data.images[0].filename"
                         :alt="$attrs.recipe.data.name"
-                        class="w-full fixed top-0"
+                        class="w-full fixed top-[60]"
                     />
                 </div>
             </div>
 
             <div
-                class="z-30 m-auto relative max-w-7xl mx-auto sm:px-6 lg:px-8 "
+                class="m-auto relative max-w-7xl mx-auto sm:px-6 lg:px-8 mt-72"
             >
                 <div
                     class="bg-gradient-to-tr bg-white overflow-hidden shadow-sm rounded-3xl"
                 >
                     <div
-                        class="p-6 border-b border-neutral-200 flex flex-col items-center"
+                        class="p-4 border-b border-neutral-200 flex flex-col items-center"
                     >
+                        <div
+                            class="w-full flex flex-row-reverse"
+                        >
+                            <Dropdown
+                                align="right"
+                                width="48"
+                            >
+                                <template #trigger>
+                                    <span
+                                        class="inline-flex rounded-md"
+                                    >
+                                        <button
+                                            type="button"
+                                            class="inline-flex items-center opacity-90 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
+                                        >
+                                            <OptionsIcon></OptionsIcon>
+                                        </button>
+                                    </span>
+                                </template>
+
+                                <template #content>
+                                    <DropdownLink
+                                        class="flex align-middle"
+                                        :href="'/recipes/' + $attrs.recipe.data.id"
+                                        as="button"
+                                    >
+                                        <ShareIcon class="mr-1"></ShareIcon>
+                                        <p class="m-1">Share</p>
+                                    </DropdownLink>
+
+                                    <DropdownLink
+                                        class="flex align-center"
+                                        :href="`/recipes/${$attrs.recipe.data.id}/edit/`"
+                                        as="button"
+                                    >
+                                        <EditIcon class="mr-1"></EditIcon>
+                                        <p class="m-1">Edit</p>
+                                    </DropdownLink>
+
+                                    <button
+                                        class="w-full px-4 py-2 flex align-center text-red-400 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
+                                        as="button"
+                                        @click="toggleModal"
+                                    >
+                                        <DeleteIcon class="mr-1"></DeleteIcon>
+                                        <p class="m-1">Delete</p>
+                                    </button>
+                                </template>
+                            </Dropdown>
+                        </div>
+
                         <h1
                             class="w-3/4 uppercase font-serif font-extrabold text-2xl text-center"
                         >
@@ -290,4 +296,5 @@
                 </div>
             </div>
         </div>
+    </BreezeAuthenticatedLayout>
 </template>

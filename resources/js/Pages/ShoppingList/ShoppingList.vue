@@ -67,11 +67,11 @@
     }
 
     function share() {
-        // console.log(navigator.share);
-        // navigator.share({
-        //     title: 'WebShare API Demo',
-        //     url: 'https://codepen.io/ayoisaiah/pen/YbNazJ'
-        // })
+        console.log(navigator.share);
+        navigator.share({
+            title: 'WebShare API Demo',
+            url: 'https://codepen.io/ayoisaiah/pen/YbNazJ'
+        })
     }
 
 </script>
