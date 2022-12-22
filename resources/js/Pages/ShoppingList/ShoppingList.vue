@@ -14,7 +14,6 @@
     import DropdownLink from '../../Components/DropdownLink.vue';
     import Chevron from '../../Components/Icons/ChevronLeft.vue';
     import DeleteListModal from '../../Components/DeleteModal.vue'
-    import Toast from '../../Components/Toast.vue'
 
     const attrs = useAttrs();
     const isEditing = ref(false);

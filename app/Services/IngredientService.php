@@ -6,6 +6,7 @@ use App\Http\Resources\ShoppingListIngredientResource;
 use App\Models\Recipe;
 use App\Models\RecipeIngredient;
 use App\Models\ShoppingListIngredient;
+use Exception;
 
 class IngredientService
 {

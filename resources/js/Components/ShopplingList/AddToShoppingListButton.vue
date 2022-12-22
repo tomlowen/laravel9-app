@@ -3,7 +3,6 @@
     import Checkbox from '../../Components/Checkbox.vue';
     import CartIcon from '../Icons/CartIcon.vue';
     import { Inertia } from '@inertiajs/inertia';
-    import Toast from '../../Components/Toast.vue'
 
     const props = defineProps({
         recipe: {
@@ -41,6 +40,5 @@
                 ></CartIcon>
             </div>
         </Button>
-        <Toast v-if="$page.props.toast"></Toast>
     </div>
 </template>

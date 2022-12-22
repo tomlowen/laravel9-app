@@ -7,6 +7,8 @@ use App\Http\Resources\ShoppingListIngredientResource;
 use App\Models\ShoppingListIngredient;
 use App\Services\IngredientService;
 use App\Traits\AddsToast;
+use COM;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
@@ -132,16 +134,26 @@ class ShoppingListIngredientController extends Controller
             abort(404);
         }
 
-        app(IngredientService::class)->convertIngredients($request['recipe']['ingredients']);
+        try {
+            app(IngredientService::class)->convertIngredients($request['recipe']['ingredients']);
 
-        // $this->addToast('success', 'Ingredients added successfully.');
-
-        return Redirect::back()->with([
-            'toast' => [
-                'time' => now(),
+            $message = [
+                'id' => $request['recipe']['id'],
                 'status' => 'success',
-                'message' => 'Ingredients added successfully.',
-            ]
-        ]);
+                'description' => 'Ingredients added successfully'
+            ];
+        } catch (Exception $e) {
+            info($e);
+
+            $message = [
+                'id' => $request['recipe']['id'],
+                'status' => 'error',
+                'description' => 'There was a problem adding these ingredients'
+            ];
+        }
+
+        return Redirect::back()->with(
+            'messages', [$message]
+        );
     }
 }

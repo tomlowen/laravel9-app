@@ -1,58 +1,51 @@
 <script setup>
-    import { onMounted, ref, watch } from 'vue';
+    import ErrorIcon from './Icons/Error.vue';
+    import WarningIcon from './Icons/Warning.vue';
+    import CheckIcon from './Icons/Check.vue';
+    import { onMounted, ref } from 'vue';
 
-    const visible = ref(false);
+    const props = defineProps({
+        message: {
+            type: Object,
+            required: true,
+        },
+    })
 
-    onMounted(() => {
-        show();
-    });
+    const visible = ref(true);
 
-    function show() {
-        visible.value = true;
-        setTimeout(() => {
-            visible.value = false;
-        }, 3000);
+    function hide() {
+        visible.value = false;
     }
+
+    onMounted(() => setTimeout(() => hide(), 2000));
+
 </script>
 
 <template>
     <div
         v-if="visible"
-        id="toast-success"
-        class="bottom-2 ml-auto mr-auto left-0 right-0 flex items-center p-4 mb-4 w-full max-w-xs text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800 sticky"
+        :id="`toast-${message.id}`"
+        class="flex items-center p-4 mb-4 w-full max-w-xs text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800"
         role="alert"
     >
-        <div
-            class="inline-flex flex-shrink-0 justify-center items-center w-8 h-8 text-green-500 bg-green-100 rounded-lg dark:bg-green-800 dark:text-green-200"
-        >
-            <svg
-                aria-hidden="true"
-                class="w-5 h-5"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-            >
-                <path
-                    fill-rule="evenodd"
-                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                    clip-rule="evenodd"
-                ></path>
-            </svg>
-            <span
-                class="sr-only"
-            >
-                Check icon
-            </span>
-        </div>
+        <CheckIcon
+            v-if="message.status === 'success'"
+        ></CheckIcon>
+        <ErrorIcon
+            v-if="message.status === 'error'"
+        ></ErrorIcon>
+        <WarningIcon
+            v-if="message.status === 'warning'"
+        ></WarningIcon>
         <div
             class="ml-3 text-sm font-normal"
         >
-            Ingredients added successfully.
+            {{ message.description }}
         </div>
         <button
             type="button"
             class="ml-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700"
-            data-dismiss-target="#toast-success"
+            @click="hide"
             aria-label="Close"
         >
             <span
