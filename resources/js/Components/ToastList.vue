@@ -11,7 +11,7 @@
     const allMessages = reactive(props.messages);
 
     watch(currentPageMessage, (newValue, oldValue) => {
-        allMessages.push(...newValue);
+        allMessages.unshift(...newValue);
     }, {deep: true});
 
 </script>
