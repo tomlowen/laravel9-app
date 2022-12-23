@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use Inertia\Inertia;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Tightenco\Ziggy\Ziggy;

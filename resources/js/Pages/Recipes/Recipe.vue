@@ -46,6 +46,19 @@
 
 <template>
     <Head :title="$attrs.recipe.data.name" />
+
+        <div
+            class="absolute w-full"
+        >
+            <div>
+                <img
+                    :src="'/storage/' + $attrs.recipe.data.images[0].filename"
+                    :alt="$attrs.recipe.data.name"
+                    class="w-full fixed top-[60]"
+                />
+            </div>
+        </div>
+
     <BreezeAuthenticatedLayout>
         <DeleteRecipeModal
             :visible="modalVisible"
@@ -54,40 +67,10 @@
             @toggleModal="toggleModal"
         ></DeleteRecipeModal>
 
+
         <div
             class="absolute w-full"
         >
-            <div
-                class="w-full"
-            >
-                <!-- Top buttons -->
-                <!-- <div
-                    class="h-80 flex justify-between w-full relative m-auto max-w-7xl mx-auto sm:px-6 lg:px-8"
-                >
-                    <Link
-                        href="/recipes"
-                        class="h-10 w-10 z-30 sticky left-3 top-3 mb-3"
-                    >
-                        <ChevronLeft
-                            class="leading-4 rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
-                        ></ChevronLeft>
-                    </Link>
-
-                    <div
-                        class="h-10 w-10 z-40 rounded-full sticky right-3 top-3 mb-3"
-                    >
-                    </div>
-                </div> -->
-
-                <div>
-                    <img
-                        :src="'/storage/' + $attrs.recipe.data.images[0].filename"
-                        :alt="$attrs.recipe.data.name"
-                        class="w-full fixed top-[60]"
-                    />
-                </div>
-            </div>
-
             <div
                 class="m-auto relative max-w-7xl mx-auto sm:px-6 lg:px-8 mt-72"
             >

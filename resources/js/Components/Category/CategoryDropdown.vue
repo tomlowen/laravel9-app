@@ -8,6 +8,7 @@
     import Input from '../Input.vue';
     import Label from '../Label.vue';
     import PlusIcon from '../Icons/Plus.vue';
+    import ChevronLeft from '../Icons/ChevronLeft.vue';
     import { useForm } from '@inertiajs/inertia-vue3';
     import { ref, reactive } from 'vue';
 
