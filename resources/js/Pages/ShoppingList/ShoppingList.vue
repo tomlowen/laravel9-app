@@ -18,18 +18,27 @@
     const attrs = useAttrs();
     const isEditing = ref(false);
     const modalVisible = ref(false);
+    const i = attrs.ingredients ? attrs.ingredients.data : [];
 
-    const ingredients = reactive(computed(() => attrs.ingredients ? attrs.ingredients.data : []));
+    const categories = computed(() => {
+        const result = i.reduce(function (r, a) {
+            r[a.category.name] = r[a.category.name] || [];
+            r[a.category.name].push(a);
+            return r;
+        }, Object.create(null));
 
-    const categories = computed(() => [...new Map(ingredients.value.map(item => [item['category']['slug'], item['category']])).values()]);
+        return result;
+    });
 
-    const visibleDropdowns = reactive(categories.value.map(c => c.id));
+    const cats = computed(() => [...new Map(i.map(item => [item['category']['slug'], item['category']])).values()]);
 
-    function toggleDropdown(categoryId) {
-        if (visibleDropdowns.includes(categoryId)) {
-            visibleDropdowns.splice(visibleDropdowns.indexOf(categoryId), 1)
+    const visibleDropdowns = reactive([0,1,2]);
+
+    function toggleDropdown(name) {
+        if (visibleDropdowns.includes(name)) {
+            visibleDropdowns.splice(name, 1)
         } else {
-            visibleDropdowns.push(categoryId);
+            visibleDropdowns.push(name);
         }
     };
 
@@ -93,7 +102,7 @@
         >
             <!-- Top buttons -->
             <div
-                v-if="ingredients.length > 0"
+                v-if="i.length > 0"
                 class="max-w-7xl mx-auto sm:px-6 lg:px-8 h-10 z-50 rounded-full sticky right-3 top-3 mb-3 flex justify-between"
             >
                 <div></div>
@@ -147,7 +156,7 @@
 
             <!-- No list items banner -->
             <div
-                v-if="ingredients.length === 0"
+                v-if="i.length === 0"
                 class="py-6"
             >
                 <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -167,26 +176,26 @@
                     class="bg-white overflow-hidden shadow-sm sm:rounded-lg"
                 >
                     <div
-                        v-for="category in categories"
-                        v-bind:key="category.id"
+                        v-for="(category, name) in categories"
+                        v-bind:key="name"
                         class="p-4 bg-white border-b border-gray-200 sm:flex-wrap sm:flex-row grow align-middle"
                     >
                         <div
                             class="dropdown-banner flex"
-                            @click="toggleDropdown(category.id)"
+                            @click="toggleDropdown(name)"
                         >
                             <Chevron
-                                :class="visibleDropdowns.includes(category.id) ? 'rotate-270' : 'rotate-180'"
+                                :class="visibleDropdowns.includes(name) ? 'rotate-270' : 'rotate-180'"
                             ></Chevron>
                             <div
                                 class="my-2 font-bold"
                             >
-                                {{ category.name }}
+                                {{ name }}
                             </div>
                         </div>
-                        <div v-if="visibleDropdowns.includes(category.id)" class="dropdown-content">
+                        <div v-if="visibleDropdowns.includes(name)" class="dropdown-content">
                             <div
-                                v-for="(ingredient, index) in ingredients.filter(i => i.category.id === category.id)"
+                                v-for="(ingredient, index) in category"
                                 v-bind:key="index"
                                 class="flex content-center"
                             >
@@ -219,7 +228,7 @@
                                         </Button>
                                     </div>
                                     <hr
-                                        v-if="index + 1 != ingredients.filter(i => i.category.id === category.id).length"
+                                        v-if="index + 1 != category.length"
                                         class="mt-2"
                                     />
                                 </div>
