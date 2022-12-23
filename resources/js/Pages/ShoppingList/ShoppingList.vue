@@ -32,7 +32,7 @@
 
     const cats = computed(() => [...new Map(i.map(item => [item['category']['slug'], item['category']])).values()]);
 
-    const visibleDropdowns = reactive([0,1,2]);
+    const visibleDropdowns = reactive(Object.keys(categories.value));
 
     function toggleDropdown(name) {
         if (visibleDropdowns.includes(name)) {
@@ -78,7 +78,7 @@
     function share() {
         console.log(navigator.share);
         navigator.share({
-            title: 'WebShare API Demo',
+            title: 'My shopping list',
             url: 'https://codepen.io/ayoisaiah/pen/YbNazJ'
         })
     }
