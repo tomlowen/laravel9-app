@@ -67,7 +67,6 @@
             @toggleModal="toggleModal"
         ></DeleteRecipeModal>
 
-
         <div
             class="absolute w-full"
         >
